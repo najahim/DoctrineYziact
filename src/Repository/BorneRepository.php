@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Borne;
+use App\Entity\BorneSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -11,6 +12,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Borne|null findOneBy(array $criteria, array $orderBy = null)
  * @method Borne[]    findAll()
  * @method Borne[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method borne[]    getBornes()
  */
 class BorneRepository extends ServiceEntityRepository
 {
@@ -19,6 +21,35 @@ class BorneRepository extends ServiceEntityRepository
         parent::__construct($registry, Borne::class);
     }
 
+    /**
+     * @return Borne[] Returns an array of Borne objects
+     */
+
+    public function getBornes()
+    {
+        return $this->createQueryBuilder('b')
+            ->andWhere('b.etat = :val')
+            ->setParameter('val', '1')
+
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllVisible(BorneSearch $search)
+    {
+        $query = $this->createQueryBuilder('b');
+        if ($search->getId()){
+            $query=$query->where('b.id = :valid');
+            $query=$query->setParameter('valid',$search->getId());
+        }
+        if ($search->getAdresseMac()){
+            $query=$query->andWhere('b.adresse_mac = :valadr');
+            $query=$query->setParameter('valadr',$search->getAdresseMac());
+        }
+        return $query->getQuery()
+        ->getResult();
+    }
     // /**
     //  * @return Borne[] Returns an array of Borne objects
     //  */

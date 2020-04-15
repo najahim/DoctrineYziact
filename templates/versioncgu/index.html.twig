@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello VersionCGUController!{% endblock %}
+
+{% block body %}
+
+
+<div class="example-wrapper">
+
+{% for v in version %}
+    <ul>
+        <li>{{ v.id }}</li>
+        <li>{{ v.versionCGU }}</li>
+        <li>{{ v.descriptionCGU }}</li>
+        <li>{{ v.dateActivation | date }}</li>
+        <li>{{ v.active  }}</li>
+    </ul>
+    {% endfor %}
+</div>
+{% endblock %}

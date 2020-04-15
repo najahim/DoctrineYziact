@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Utilisateur;
+use App\Entity\UtilisateurSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 
@@ -19,6 +20,25 @@ class UtilisateurRepository extends ServiceEntityRepository
         parent::__construct($registry, Utilisateur::class);
     }
 
+
+    public function findAllVisible(UtilisateurSearch $search)
+    {
+        $query = $this->createQueryBuilder('u');
+        if ($search->getEmail()){
+            $query=$query->where('u.email = :valemail');
+            $query=$query->setParameter('valemail',$search->getEmail());
+        }
+        if ($search->getDate()){
+            $query=$query->andWhere("SUBSTRING(CONCAT(u.date_creation,''),1,11) = :valdate");
+            $query=$query->setParameter('valdate',$search->getDate());
+        }
+        if ($search->getValidation()){
+            $query=$query->andWhere('u.validation = :valvalide');
+            $query=$query->setParameter('valvalide',$search->getValidation());
+        }
+        return $query->getQuery()
+            ->getResult();
+    }
     // /**
     //  * @return Utilisateur[] Returns an array of Utilisateur objects
     //  */

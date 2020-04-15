@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello langue!{% endblock %}
+
+{% block body %}
+
+
+    <div class="example-wrapper">
+
+        {% for l in langues %}
+            <ul>
+                <li>{{ l.id }}</li>
+                <li>{{ v.description }}</li>
+            </ul>
+        {% endfor %}
+    </div>
+{% endblock %}
+

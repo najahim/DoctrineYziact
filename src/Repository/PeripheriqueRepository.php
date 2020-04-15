@@ -19,6 +19,18 @@ class PeripheriqueRepository extends ServiceEntityRepository
         parent::__construct($registry, Peripherique::class);
     }
 
+/*
+    public function findBynbUsers($sessions){
+        return $this->createQueryBuilder('p')
+            ->select('count(p.utilisateur)')
+            ->andWhere('p.sessions in (:val)')
+            ->setParameter('val', $sessions)
+            ->getQuery()
+            ->getResult();
+
+    }*/
+
+
     // /**
     //  * @return Peripherique[] Returns an array of Peripherique objects
     //  */

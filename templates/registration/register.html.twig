@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.plainPassword) }}
+        {{ form_row(registrationForm.agreeTerms) }}
+
+        <button class="btn">Register</button>
+    {{ form_end(registrationForm) }}
+
+    <button class="btn"><a href="https://127.0.0.1:8000/connect/google">Google</a>  </button>
+    <button class="btn"><a href="https://127.0.0.1:8000/connect/facebook">Facebook</a>  </button>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello GoogleController!{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <h1>Hello {{ borne.id }} ✅</h1>
+        <h1>Mac : {{ borne.adresseMac }} ✅</h1>
+        <h1>nbDevices : {{ nbDevice }}</h1>
+        <h1>nbUsers: {{ users }}</h1>
+        {% for mac in adresseMacs %}
+            <h1>macIC : {{ mac.id }} ✅</h1>
+        {% endfor %}
+
+
+        <h1>Day</h1>
+        {% for d in nbDeviceDay %}
+            <h1>day : {{ d.day }} ✅</h1>
+            <h1>count : {{ d.count }}</h1>
+        {% endfor %}
+        <h1>Month</h1>
+        {% for m in nbDeviceMonth %}
+            <h1>Month : {{ m.month }} ✅</h1>
+            <h1>count : {{ m.count }}</h1>
+        {% endfor %}
+        <h1>Day</h1>
+        {% for y in nbDeviceYear %}
+            <h1>year : {{ y.year }} ✅</h1>
+            <h1>count : {{ y.count }}</h1>
+        {% endfor %}
+        This friendly message is coming from:
+        <ul>
+            <li>Your controller at <code><a href="{{ 'C:/Users/najahim/Documents/dev/ProjetYziact/src/Controller/GoogleController.php'|file_link(0) }}">src/Controller/GoogleController.php</a></code></li>
+            <li>Your template at <code><a href="{{ 'C:/Users/najahim/Documents/dev/ProjetYziact/templates/google/index.html.twig'|file_link(0) }}">templates/google/index.html.twig</a></code></li>
+        </ul>
+    </div>
+{% endblock %}

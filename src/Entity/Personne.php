@@ -5,13 +5,15 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\DiscriminatorColumn;
 use Doctrine\ORM\Mapping\DiscriminatorMap;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PersonneRepository")
  * @ORM\InheritanceType("JOINED")
  * @DiscriminatorColumn(name="discr", type="string")
- * @DiscriminatorMap({"personne" = "personne", "manager" = "manager", "utilisateur" = "utilisateur"})
+ * @DiscriminatorMap({"Personne" = "Personne", "Manager" = "Manager", "Utilisateur" = "Utilisateur", "Admin" = "Admin"})
+ * @UniqueEntity(fields={"email"}, message="There is already an account with this email")
  */
 class Personne implements UserInterface
 {
@@ -35,7 +37,7 @@ class Personne implements UserInterface
 
     /**
      * @var string The hashed password
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", nullable=true)
      */
     protected $password;
 
