@@ -2,57 +2,55 @@
 
 namespace App\Controller;
 
-use App\Entity\Flotte;
-use App\Entity\Manager;
-use App\Form\FlotteType;
-use App\Form\ManagerRegistrationType;
+use App\Entity\TypeNouveaute;
+use App\Entity\TypeOrganisation;
+use App\Form\TypeNouveauteType;
+use App\Form\TypeOrganisationType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class FlotteController extends AbstractController
+class TypeNouveauteController extends AbstractController
 {
     /**
-     * @Route("/flotte", name="flotte")
+     * @Route("/type/nouveaute", name="type_nouveaute")
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
-        $data=$this->getDoctrine()->getRepository('App:Flotte')
+        $data=$this->getDoctrine()->getRepository('App:TypeNouveaute')
             ->findAll();
         $data = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),
             2
         );
-        return $this->render('flotte/index.html.twig', [
-            'controller_name' => 'FlotteController',
-            'data'=>$data,
+        return $this->render('type_nouveaute/index.html.twig', [
+            'controller_name' => 'TypeNouveauteController',
+            'data'=>$data
         ]);
     }
 
     /**
-     * @Route ("/flotte/ajouter",name="flotte.ajouter")
+     * @Route("/type/nouveaute/ajouter", name="type_nouveaute.ajouter")
      */
-    public function ajouterFlotte(Request $request):Response
+    public function ajouterType(Request $request):Response
     {
-        $flotte= new Flotte();
-        $form=$this->createForm(FlotteType::class,$flotte);
+        $type= new TypeNouveaute();
+        $form=$this->createForm(TypeNouveauteType::class,$type);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($flotte);
+            $entityManager->persist($type);
             $entityManager->flush();
 
         }
 
-
-        return $this->render('flotte/ajouter.html.twig', [
-            'flotte' => $flotte,
+        return $this->render('type_nouveaute/ajouter.html.twig', [
+            'type' => $type,
             'form'=>$form->createView(),
         ]);
     }

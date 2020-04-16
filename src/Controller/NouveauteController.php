@@ -3,56 +3,54 @@
 namespace App\Controller;
 
 use App\Entity\Flotte;
-use App\Entity\Manager;
+use App\Entity\Nouveaute;
 use App\Form\FlotteType;
-use App\Form\ManagerRegistrationType;
+use App\Form\NouveauteType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class FlotteController extends AbstractController
+class NouveauteController extends AbstractController
 {
     /**
-     * @Route("/flotte", name="flotte")
+     * @Route("/nouveaute", name="nouveaute")
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
-        $data=$this->getDoctrine()->getRepository('App:Flotte')
+        $data=$this->getDoctrine()->getRepository('App:Nouveaute')
             ->findAll();
         $data = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),
             2
         );
-        return $this->render('flotte/index.html.twig', [
-            'controller_name' => 'FlotteController',
-            'data'=>$data,
+        return $this->render('nouveaute/index.html.twig', [
+            'controller_name' => 'NouveauteController',
+            'data'=> $data,
         ]);
     }
 
     /**
-     * @Route ("/flotte/ajouter",name="flotte.ajouter")
+     * @Route ("/nouveaute/ajouter",name="nouveaute.ajouter")
      */
-    public function ajouterFlotte(Request $request):Response
+    public function ajouterNouveaute(Request $request):Response
     {
-        $flotte= new Flotte();
-        $form=$this->createForm(FlotteType::class,$flotte);
+        $nouveaute= new Nouveaute();
+        $form=$this->createForm(NouveauteType::class,$nouveaute);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-
+            $nouveaute->setDateNouveaute(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($flotte);
+            $entityManager->persist($nouveaute);
             $entityManager->flush();
 
         }
 
-
-        return $this->render('flotte/ajouter.html.twig', [
-            'flotte' => $flotte,
+        return $this->render('nouveaute/ajouter.html.twig', [
+            'nouveaute' => $nouveaute,
             'form'=>$form->createView(),
         ]);
     }

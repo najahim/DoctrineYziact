@@ -2,57 +2,56 @@
 
 namespace App\Controller;
 
-use App\Entity\Flotte;
-use App\Entity\Manager;
-use App\Form\FlotteType;
-use App\Form\ManagerRegistrationType;
+use App\Entity\Contact;
+use App\Entity\TypeNouveaute;
+use App\Form\ContactBorneType;
+use App\Form\ContactType;
+use App\Form\TypeNouveauteType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class FlotteController extends AbstractController
+class ContactBorneController extends AbstractController
 {
     /**
-     * @Route("/flotte", name="flotte")
+     * @Route("/contact/borne", name="contact_borne")
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
-        $data=$this->getDoctrine()->getRepository('App:Flotte')
+        $data=$this->getDoctrine()->getRepository('App:Contact')
             ->findAll();
         $data = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),
             2
         );
-        return $this->render('flotte/index.html.twig', [
-            'controller_name' => 'FlotteController',
+        return $this->render('contact_borne/index.html.twig', [
+            'controller_name' => 'ContactBorneController',
             'data'=>$data,
         ]);
     }
 
     /**
-     * @Route ("/flotte/ajouter",name="flotte.ajouter")
+     * @Route("/contact/borne/ajouter", name="contact_borne.ajouter")
      */
-    public function ajouterFlotte(Request $request):Response
+    public function ajouterContact(Request $request):Response
     {
-        $flotte= new Flotte();
-        $form=$this->createForm(FlotteType::class,$flotte);
+        $contact= new Contact();
+        $form=$this->createForm(ContactBorneType::class,$contact);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($flotte);
+            $entityManager->persist($contact);
             $entityManager->flush();
 
         }
 
-
-        return $this->render('flotte/ajouter.html.twig', [
-            'flotte' => $flotte,
+        return $this->render('contact_borne/ajouter.html.twig', [
+            'contact' => $contact,
             'form'=>$form->createView(),
         ]);
     }

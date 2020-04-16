@@ -40,7 +40,7 @@ class Emplacement
     private $description;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Adresse", inversedBy="emplacements")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Adresse", inversedBy="emplacements",cascade={"persist"})
      */
     private $adresse;
 

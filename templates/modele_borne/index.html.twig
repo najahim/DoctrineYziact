@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TypeOrganisationController!{% endblock %}
+
+{% block body %}
+    <style>
+
+    </style>
+
+    <div class="example-wrapper">
+        {% for d in data %}
+            <h1>{{ d.id }}</h1>
+            <h1>
+                {{ d.nom }}
+            </h1>
+            <h1>
+                {{ d.lanInterface}}
+            </h1>
+            <h1>
+                {{ d.wanInterface }}
+            </h1>
+            <h1>
+                {{ d.cheminLedStatus }}
+            </h1>
+            <h1>
+            {{ d.cheminLedOk }}
+            </h1>
+            <h1>
+                {{ d.cheminLedErreur }}
+            </h1>
+            <h1>
+                {{ d.gainAntenne }}
+            </h1>
+            <h1>
+                {{ d.radioDev }}
+            </h1>
+            <h1>
+                {{ d.htCapab }}
+            </h1>
+        {% endfor %}
+        {{ knp_pagination_render(data) }}
+    </div>
+{% endblock %}

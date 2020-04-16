@@ -2,57 +2,55 @@
 
 namespace App\Controller;
 
-use App\Entity\Flotte;
-use App\Entity\Manager;
-use App\Form\FlotteType;
-use App\Form\ManagerRegistrationType;
+use App\Entity\Nouveaute;
+use App\Entity\Serveur;
+use App\Form\NouveauteType;
+use App\Form\ServeurType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class FlotteController extends AbstractController
+class ServeurController extends AbstractController
 {
     /**
-     * @Route("/flotte", name="flotte")
+     * @Route("/serveur", name="serveur")
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
-        $data=$this->getDoctrine()->getRepository('App:Flotte')
+        $data=$this->getDoctrine()->getRepository('App:Serveur')
             ->findAll();
         $data = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),
             2
         );
-        return $this->render('flotte/index.html.twig', [
-            'controller_name' => 'FlotteController',
-            'data'=>$data,
+        return $this->render('serveur/index.html.twig', [
+            'controller_name' => 'ServeurController',
+            'data'=>$data
         ]);
     }
 
     /**
-     * @Route ("/flotte/ajouter",name="flotte.ajouter")
+     * @Route ("/serveur/ajouter",name="serveur.ajouter")
      */
-    public function ajouterFlotte(Request $request):Response
+    public function ajouterServeur(Request $request):Response
     {
-        $flotte= new Flotte();
-        $form=$this->createForm(FlotteType::class,$flotte);
+        $serveur= new Serveur();
+        $form=$this->createForm(ServeurType::class,$serveur);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-
+            $serveur->setDerniereMAJ(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($flotte);
+            $entityManager->persist($serveur);
             $entityManager->flush();
 
         }
 
-
-        return $this->render('flotte/ajouter.html.twig', [
-            'flotte' => $flotte,
+        return $this->render('serveur/ajouter.html.twig', [
+            'serveur' => $serveur,
             'form'=>$form->createView(),
         ]);
     }

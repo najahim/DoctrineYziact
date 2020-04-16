@@ -2,57 +2,55 @@
 
 namespace App\Controller;
 
-use App\Entity\Flotte;
-use App\Entity\Manager;
-use App\Form\FlotteType;
-use App\Form\ManagerRegistrationType;
+use App\Entity\Organisation;
+use App\Entity\TypeOrganisation;
+use App\Form\OrganisationType;
+use App\Form\TypeOrganisationType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
-class FlotteController extends AbstractController
+class OrganisationController extends AbstractController
 {
     /**
-     * @Route("/flotte", name="flotte")
+     * @Route("/organisation", name="organisation")
      */
     public function index(Request $request, PaginatorInterface $paginator)
     {
-        $data=$this->getDoctrine()->getRepository('App:Flotte')
+        $data=$this->getDoctrine()->getRepository('App:Organisation')
             ->findAll();
         $data = $paginator->paginate(
             $data,
             $request->query->getInt('page',1),
             2
         );
-        return $this->render('flotte/index.html.twig', [
-            'controller_name' => 'FlotteController',
+        return $this->render('organisation/index.html.twig', [
+            'controller_name' => 'OrganisationController',
             'data'=>$data,
         ]);
     }
 
     /**
-     * @Route ("/flotte/ajouter",name="flotte.ajouter")
+     * @Route("/organisation/ajouter", name="organisation.ajouter")
      */
-    public function ajouterFlotte(Request $request):Response
+    public function ajouterOrganisation(Request $request):Response
     {
-        $flotte= new Flotte();
-        $form=$this->createForm(FlotteType::class,$flotte);
+        $organisation= new Organisation();
+        $form=$this->createForm(OrganisationType::class,$organisation);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
 
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($flotte);
+            $entityManager->persist($organisation);
             $entityManager->flush();
 
         }
 
-
-        return $this->render('flotte/ajouter.html.twig', [
-            'flotte' => $flotte,
+        return $this->render('organisation/ajouter.html.twig', [
+            'organisation' => $organisation,
             'form'=>$form->createView(),
         ]);
     }

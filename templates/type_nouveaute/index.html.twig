@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TypeOrganisationController!{% endblock %}
+
+{% block body %}
+    <style>
+
+    </style>
+
+    <div class="example-wrapper">
+        {% for d in data %}
+            <h1>{{ d.id }}</h1>
+            <h1>
+                {{ d.typeNouveaute }}
+            </h1>
+        {% endfor %}
+        {{ knp_pagination_render(data) }}
+    </div>
+{% endblock %}
