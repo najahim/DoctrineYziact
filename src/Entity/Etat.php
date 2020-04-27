@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -33,10 +34,16 @@ class Etat
      */
     private $serveurs;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Activation", mappedBy="type")
+     */
+    private $activations;
+
     public function __construct()
     {
         $this->bornes = new ArrayCollection();
         $this->serveurs= new ArrayCollection();
+        $this->activations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -52,6 +59,37 @@ class Etat
     public function setEtat(string $etat): self
     {
         $this->etat = $etat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Activation[]
+     */
+    public function getActivations(): Collection
+    {
+        return $this->activations;
+    }
+
+    public function addActivation(Activation $activation): self
+    {
+        if (!$this->activations->contains($activation)) {
+            $this->activations[] = $activation;
+            $activation->setType($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivation(Activation $activation): self
+    {
+        if ($this->activations->contains($activation)) {
+            $this->activations->removeElement($activation);
+            // set the owning side to null (unless already changed)
+            if ($activation->getType() === $this) {
+                $activation->setType(null);
+            }
+        }
 
         return $this;
     }

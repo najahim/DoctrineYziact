@@ -20,102 +20,102 @@ class Borne
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50, nullable=true)
      */
     private $adresse_mac;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50,nullable=true)
      */
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50 , nullable=true)
      */
     private $hostname;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime" ,nullable=true)
      */
     private $derniere_emission;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $ssid;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $Prog_wifi;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $channel;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",nullable=true)
      */
     private $affichage_map;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",nullable=true)
      */
     private $partage_stats;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $quota_user_duree;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $quota_user_max_bytes;
 
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean",nullable=true)
      */
     private $filtrage;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $portail_url;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $upload_rate;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $download_rate;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer",nullable=true)
      */
     private $txpower;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $ip_adress_vpn_admin;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $date_mise_en_service;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $date_expiration_test;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255,nullable=true)
      */
     private $commentaire;
 
@@ -168,6 +168,11 @@ class Borne
     private $sessionWifis;
 
     /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Activation", mappedBy="borne")
+     */
+    private $activations;
+
+    /**
      * @return mixed
      */
     public function getNouveautes()
@@ -207,6 +212,7 @@ class Borne
         $this->flottes = new ArrayCollection();
         $this->nouveautes = new ArrayCollection();
         $this->sessionWifis = new ArrayCollection();
+        $this->activations = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -570,6 +576,37 @@ class Borne
             // set the owning side to null (unless already changed)
             if ($sessionWifi->getBorne() === $this) {
                 $sessionWifi->setBorne(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Activation[]
+     */
+    public function getActivations(): Collection
+    {
+        return $this->activations;
+    }
+
+    public function addActivation(Activation $activation): self
+    {
+        if (!$this->activations->contains($activation)) {
+            $this->activations[] = $activation;
+            $activation->setBorne($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActivation(Activation $activation): self
+    {
+        if ($this->activations->contains($activation)) {
+            $this->activations->removeElement($activation);
+            // set the owning side to null (unless already changed)
+            if ($activation->getBorne() === $this) {
+                $activation->setBorne(null);
             }
         }
 

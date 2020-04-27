@@ -42,7 +42,7 @@ class EmplacementController extends AbstractController
         $emplacement= new Emplacement();
         $form=$this->createForm(EmplacementType::class,$emplacement);
         $form->handleRequest($request);
-        
+
         if ( $form->isSubmitted()  && $form->isValid()  ) {
 
             $entityManager = $this->getDoctrine()->getManager();
