@@ -54,6 +54,7 @@
                 </div>
             </div>
         </div>
+        <a href='{{ path('bornes.historique',{id : active.borne.id}) }}'> historique</a>
 
         <h1>status : {{ active.type.etat }}</h1>
         {% if active.type.etat == 'Inactive' %}
