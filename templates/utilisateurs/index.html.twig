@@ -4,20 +4,7 @@
 
 {% block body %}
     <div>
-        <div class="container">
-            {{ form_start(form) }}
-            <div class="form-row">
-                <div class="col">
-                    {{ form_row(form.email) }}
-                </div>
 
-
-                <div class="col">
-                    <button class="btn btn-primary"> rechercher</button>
-                </div>
-            </div>
-            {{ form_end(form) }}
-        </div>
 
 
         <div>
@@ -30,8 +17,6 @@
                 <h2>ajouter les auters attributs</h2>
 
             {% endfor %}
-            {{ knp_pagination_render(data) }}
-        </div>>
+        </div>
     </div>
-</div>
 {% endblock %}
