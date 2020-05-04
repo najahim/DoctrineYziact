@@ -6,7 +6,6 @@ use App\Entity\ModeleBorne;
 use App\Entity\Serveur;
 use App\Form\ModeleBorneType;
 use App\Form\ServeurType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +16,11 @@ class ModeleBorneController extends AbstractController
     /**
      * @Route("/modele/borne", name="modele_borne")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:ModeleBorne')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('modele_borne/index.html.twig', [
             'controller_name' => 'ModeleBorneController',
             'data'=>$data

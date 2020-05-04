@@ -17,15 +17,11 @@ class TypeNouveauteController extends AbstractController
     /**
      * @Route("/type/nouveaute", name="type_nouveaute")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:TypeNouveaute')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('type_nouveaute/index.html.twig', [
             'controller_name' => 'TypeNouveauteController',
             'data'=>$data

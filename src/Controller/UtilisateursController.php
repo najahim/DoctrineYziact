@@ -20,23 +20,16 @@ class UtilisateursController extends AbstractController
     /**
      * @Route("/utilisateurs", name="utilisateurs")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
-        $search =new UtilisateurSearch();
-        $form=$this->createForm(UtilisateurSearchType::class,$search);
-        $form->handleRequest($request);
 
-        $datas = $this->getDoctrine()->getRepository('App:Utilisateur')->findAllVisible($search);
 
-        $data = $paginator->paginate(
-            $datas,
-            $request->query->getInt('page',1),
-            2
-        );
+        $data = $this->getDoctrine()->getRepository('App:Utilisateur')->findAll();
+
+
         return $this->render('utilisateurs/index.html.twig', [
             'controller_name' => 'UtilisateursController',
             'data'=>$data,
-            'form'=>$form->createView()
         ]);
     }
 

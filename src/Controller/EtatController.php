@@ -6,7 +6,6 @@ use App\Entity\Etat;
 use App\Entity\TypeOrganisation;
 use App\Form\EtatType;
 use App\Form\TypeOrganisationType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +16,11 @@ class EtatController extends AbstractController
     /**
      * @Route("/etat", name="etat")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:Etat')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('etat/index.html.twig', [
             'controller_name' => 'EtatController',
             'data'=> $data,

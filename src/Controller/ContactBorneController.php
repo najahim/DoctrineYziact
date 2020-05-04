@@ -7,7 +7,6 @@ use App\Entity\TypeNouveaute;
 use App\Form\ContactBorneType;
 use App\Form\ContactType;
 use App\Form\TypeNouveauteType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,15 +17,11 @@ class ContactBorneController extends AbstractController
     /**
      * @Route("/contact/borne", name="contact_borne")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:Contact')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('contact_borne/index.html.twig', [
             'controller_name' => 'ContactBorneController',
             'data'=>$data,

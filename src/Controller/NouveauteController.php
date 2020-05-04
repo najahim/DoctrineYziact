@@ -6,7 +6,6 @@ use App\Entity\Flotte;
 use App\Entity\Nouveaute;
 use App\Form\FlotteType;
 use App\Form\NouveauteType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +16,11 @@ class NouveauteController extends AbstractController
     /**
      * @Route("/nouveaute", name="nouveaute")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:Nouveaute')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('nouveaute/index.html.twig', [
             'controller_name' => 'NouveauteController',
             'data'=> $data,

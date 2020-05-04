@@ -13,7 +13,6 @@ use App\Form\AjouterBorneType;
 use App\Form\BorneSearchType;
 use App\Form\EtatType;
 use App\Form\TestType;
-use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\Array_;
 use phpDocumentor\Reflection\Types\Integer;
@@ -28,7 +27,7 @@ class BornesController extends AbstractController
     /**
      * @Route("/bornes", name="bornes")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $search =new BorneSearch();
         $form=$this->createForm(BorneSearchType::class,$search);

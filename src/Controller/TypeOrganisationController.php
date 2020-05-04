@@ -15,15 +15,11 @@ class TypeOrganisationController extends AbstractController
     /**
      * @Route("/type/organisation", name="type_organisation")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:TypeOrganisation')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('type_organisation/index.html.twig', [
             'controller_name' => 'TypeOrganisationController',
             'data'=>$data,

@@ -6,7 +6,6 @@ use App\Entity\Flotte;
 use App\Entity\Manager;
 use App\Form\FlotteType;
 use App\Form\ManagerRegistrationType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,15 +17,11 @@ class FlotteController extends AbstractController
     /**
      * @Route("/flotte", name="flotte")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:Flotte')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('flotte/index.html.twig', [
             'controller_name' => 'FlotteController',
             'data'=>$data,

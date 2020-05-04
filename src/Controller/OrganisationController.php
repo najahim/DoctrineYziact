@@ -6,7 +6,6 @@ use App\Entity\Organisation;
 use App\Entity\TypeOrganisation;
 use App\Form\OrganisationType;
 use App\Form\TypeOrganisationType;
-use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,15 +16,11 @@ class OrganisationController extends AbstractController
     /**
      * @Route("/organisation", name="organisation")
      */
-    public function index(Request $request, PaginatorInterface $paginator)
+    public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:Organisation')
             ->findAll();
-        $data = $paginator->paginate(
-            $data,
-            $request->query->getInt('page',1),
-            2
-        );
+
         return $this->render('organisation/index.html.twig', [
             'controller_name' => 'OrganisationController',
             'data'=>$data,
