@@ -1,3 +1,4 @@
+{% extends 'base.html.twig' %}
 
 {% block title %}{% endblock %}
 
@@ -70,13 +71,13 @@
             {% for b in bornes %}
             <a href='{{ path('bornes.modifier',{id : b.id}) }}'>
                 <tr>
-                    <td>{{ b.nom_organisation }}</td>
+                    {# <td>{{ b.nom_organisation }}</td> #}
                     <td>{{ b.nom }}</td>
                     {# <td><a href='{{ path('bornes.stat',{id : b.id}) }}'>details</a></td> #}
-                    <td>{{ b.adresse }}</td>
-                    <td>{{ b.MAC }}</td>
+                    <td>{{ b.emplacement.adresse.ville }}</td>
+                    <td>{{ b.adresseMac }}</td>
 
-                    {% if b.statut %}
+                    {% if b.etat.etat == "Active" %}
                         <td><span class="button button-yes etat">Active</span></td>
                     {% else %}
                         <td><span class="button button-no etat">Inactive</span></td>

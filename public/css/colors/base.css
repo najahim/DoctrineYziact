@@ -16,7 +16,7 @@
 	--input-placeholder: rgba(255,255,255,0.8);
 	--input-background: rgba(0,0,0,0);
 	--input-background-focus: #ffffff;
-	--input-text-focus: #111111;
+	--input-text-focus: rgba(255,255,255,0.9);
 	--input-text-focus-placeholder: #999999;
 
 	--button-text: #ffffff;

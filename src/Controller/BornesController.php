@@ -42,7 +42,7 @@ class BornesController extends AbstractController
         //);
         return $this->render('bornes/index.html.twig', [
             'controller_name' => 'BornesController',
-            'data'=>$datas,
+            'bornes'=>$datas,
             //'form'=>$form->createView()
         ]);
     }
