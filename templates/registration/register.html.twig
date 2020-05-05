@@ -32,13 +32,28 @@
             </p>
     		<span class="hr">ou</span>
             {{ form_start(registrationForm) }}
-                {{ form_row(registrationForm.email) }}
-                {{ form_row(registrationForm.plainPassword) }}
-                {{ form_row(registrationForm.agreeTerms) }}
+                {{ form_widget(registrationForm.email, { 'attr': {'placeholder': 'Email'} }) }}
+                {{ form_widget(registrationForm.plainPassword, { 'attr': {'placeholder': 'Mot de passe'} }) }}
 
-                <button class="button button-ok">
-                    Valider<i class="fas fa-check"></i>
-                </button>
+                <div class="checkbox">
+                    {{ form_widget(registrationForm.agreeTerms) }}
+                    <label for="{{ registrationForm.agreeTerms.vars.id }}">
+                        J'ai lu et j'accepte les <a href='/cgu'>conditions d'utilisations</a>
+                    </label>
+                </div>
+
+                {# Newsletter
+                    <div class="checkbox">
+
+                    </div>
+                #}
+
+                <div class="validate">
+                    <button class="button button-ok">
+                        Valider<i class="fas fa-check"></i>
+                    </button>
+                </div>
+
             {{ form_end(registrationForm) }}
         </div>
     </article>
