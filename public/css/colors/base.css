@@ -1,0 +1,27 @@
+/* Colors */
+:root {
+	--bg-top: #f7ba15;
+	--bg-bot: #f85321;
+	--text-shadow-light: rgba(0,0,0,0.15);
+	--text-shadow-dark: rgba(255,255,255,0.07);
+	--article-text: #ffffff;
+	--article-top: rgba(255, 255, 255, 0.2);
+	--article-bot: rgba(255, 255, 255, 0.02);
+	--article-shadow: rgba(0,0,0,0.07);
+	--p-important: #f11212;
+	--a: #f8e0c1;
+
+	--input-border: #ffffff;
+	--input-text: #ffffff;
+	--input-placeholder: rgba(255,255,255,0.8);
+	--input-background: rgba(0,0,0,0);
+
+	--button-text: #ffffff;
+	--button-shadow: 0 1px 4px rgba(0 ,0,0,0.2);
+	--button-ok-top: #8d9462;
+	--button-ok-bot: #578262;
+	--button-no-top: #cf1a1a;
+	--button-no-bot: #7d2222;
+	--button-alt-top: #f77d44;
+	--button-alt-bot: #e67a47;
+}

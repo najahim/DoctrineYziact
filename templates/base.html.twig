@@ -1,12 +1,64 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
+    {% block head %}
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+
+        <title>{% block title %}{% endblock %}</title>
+
+    	<!-- Icon and viewport -->
+    	<meta name="viewport" content="width=device-width, initial-scale=1">
+    	<LINK REL="SHORTCUT ICON" HREF="/images/favicon.png"/>
+
+    	<!-- Fonts -->
+    	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,700%7CRoboto+Slab:300,400,700&display=swap&subset=latin-ext" rel="stylesheet"/>
+    	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.9.0/css/all.css" integrity="sha384-i1LQnF23gykqWXg6jxC2ZbCbUMxyw5gLZY6UiUS98LYV5unm8GWmfkIS6jqJfb4E" crossorigin="anonymous"/>
+    	<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;800&display=swap" rel="stylesheet">
+
+        {% block colors %}
+            <link rel="stylesheet" type="text/css" href="/css/colors/{{ colorSet | default('base') }}.css" />
+        {% endblock %}
+
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="/css/admin.css" />
+            <link rel="stylesheet" type="text/css" href="/css/forms.css" />
+        {% endblock %}
+
+    	{% block javascripts %}
+            <!-- Compatibility polifills -->
+            <!--[if gte IE 10]><!-->
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js" charset="utf-8" defer></script>
+                <script src="https://cdn.polyfill.io/v2/polyfill.min.js" defer></script>
+            <!--<![endif]-->
+
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        {% endblock %}
+    {% endblock %}
+</head>
+<body>
+
+    <header>
+    {% block header %}
+        <div class="tag"></div>
+        <a href="admin-home.html" class="title">
+            <h1>Cigale</h1>
+            <span>Panneau d'administration</span>
+        </a>
+        <div class="compte">
+            <a href="admin-clients2.html" class="button button-alt">
+                Admin Yziact <i class="fas fa-cog"></i>
+            </a>
+        </div>
+    {% endblock %}
+    </header>
+
+    {% block main %}
+    {% endblock %}
+
+    <footer>
+    {% block footer %}
+        <a href="/cgu"><i class="fas fa-balance-scale"></i> Conditions d'utilisations</a> - ©Cigale 2020 par <a href="http://yziact.fr/">Yziact</a>
+    {% endblock %}
+    </footer>
+</body>
 </html>

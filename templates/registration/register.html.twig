@@ -1,18 +1,84 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Register{% endblock %}
+{% block title %}{{ title | default('Cigale - Portail') }}{% endblock %}
 
-{% block body %}
-    <h1>Register</h1>
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="./css/portail.css" />
+    <link rel="stylesheet" type="text/css" href="./css/forms.css" />
+{% endblock %}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+{% block header %}
+    <img src="images/{{logo | default('Logo-Cigale') }}.png" alt="Logo Cigale">
+    <h1>{{ h1 | default('Cigale') }}</h1>
+    <span>{{ desc | default('Solution de HotSpot Wifi Public') }}</span>
+{% endblock %}
 
-        <button class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+{% block main %}
+<main class="accueil">
+    <article class="info">
+    	<p class="important">
+    		Vous disposez de 15 minutes pour vous enregistrer et valider votre mail.
+    	</p>
+    	<p class="info">
+    		Une fois authentifié vous pourrez profiter d'un accès à internet gratuit. Si vous possédez déjà un compte d'accès au wifi Cigale, vous pouvez associer cet appareil en vous connectant.
+    	</p>
+    	<a class="button button-alt showform" href="#">
+    		Se connecter<i class="fas fa-key"></i>
+    	</a>
+        <div class="form">
+    		<p>
+                <a href="/connect/google" class="google-button"><i class="fab fa-google-plus-square"></i>Google</a>
+                <a href="/connect/facebook" class="facebook-button"><i class="fab fa-facebook-square"></i>Facebook</a>
+            </p>
+    		<span class="hr">ou</span>
+            {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.plainPassword) }}
+                {{ form_row(registrationForm.agreeTerms) }}
 
-    <button class="btn"><a href="https://127.0.0.1:8000/connect/google">Google</a>  </button>
-    <button class="btn"><a href="https://127.0.0.1:8000/connect/facebook">Facebook</a>  </button>
+                <button class="button button-ok">
+                    Valider<i class="fas fa-check"></i>
+                </button>
+            {{ form_end(registrationForm) }}
+        </div>
+    </article>
+
+    {% if nouveautes is defined and nouveautes[0] is defined %}
+        <article class="actus">
+    		<h2>Dernières actualités</h2>
+            {% for n in nouveautes %}
+                <div class="actu">
+                    <div class="img" style="background: no-repeat center center url('{{n.image}}'); background-size: cover;">
+                    </div>
+                    <div class="content">
+                        <h3>{{ n.titre }}</h3>
+                        <span class="date"><i class="fas fa-clock"></i> {{ n.dateNouveaute | date }}</span>
+                        <p>{{ n.contenu }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+    	</article>
+    {% endif %}
+
+    <article class="map">
+    	<h2>Carte du réseau cigale</h2>
+    	<iframe src="https://map.cigale-hotspot.fr/" frameborder="0"></iframe>
+    </article>
+</main>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script defer>
+         $(document).ready(function(){
+            $('.form').hide();
+
+            $('.showform').click(function(){
+                $(this).hide();
+                $('.form').show();
+                return false;
+            });
+        });
+    </script>
 {% endblock %}

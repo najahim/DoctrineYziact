@@ -1,0 +1,168 @@
+/***** Inputs *****/
+form {
+	display: flex;
+	justify-content: space-around;
+	flex-wrap: wrap;
+}
+
+input[type="text"], input[type="search"], input[type="number"], input[type="time"], select, input[type="file"], input[type="mail"], input[type="password"], input[type="date"], textarea {
+	display: flex;
+	margin: 10px 0;
+	padding: 10px;
+	width: 100%;
+	border-radius: 4px;
+	box-shadow: none;
+	border: 1px solid var(--input-border);
+	background: var(--input-background);
+	color: var(--input-text);
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+input[type="text"]::placeholder, input[type="search"]::placeholder, input[type="number"]::placeholder, input[type="time"]::placeholder, select, input[type="file"]::placeholder, input[type="mail"]::placeholder, input[type="password"]::placeholder, input[type="date"]::placeholder, textarea::placeholder {
+	color: var(--input-text);
+}
+
+option {
+	color: black;
+}
+
+input[type="submit"] {
+	border: none;
+	background: inherit;
+	font: inherit;
+}
+
+input::placeholder {
+	color: var(--input-placeholder);
+}
+
+label, .label {
+	font-weight: 400;
+	user-select: none;
+}
+
+hr {
+	margin: 20px 0;
+	border: none;
+	border-top: 1px solid;
+}
+
+.hr {
+	display: flex;
+	align-items: center;
+	text-align: center;
+	margin: 20px 0;
+}
+
+.hr::before, .hr::after {
+	border-top: 1px solid;
+	content: "";
+	flex: 1;
+	margin: 10px;
+}
+
+/****** Buttons ****/
+
+button {
+    display: inline-block;
+    border: none;
+    padding: 1rem 2rem;
+    margin: 0;
+    text-decoration: none;
+    background: #0069ed;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.button, a.button, a:visited.button, input[type="submit"].button {
+	display: inline-block;
+	padding: 6px 10px;
+	margin: 10px 0;
+	justify-content: flex-start;
+	text-align: left;
+	border-radius: 4px;
+	color: var(--button-text);
+	cursor: pointer;
+	font-weight: 300;
+}
+
+.button-no, input[type="submit"].button-no {
+	background: var(--button-no-top);
+	box-shadow: 0 3px var(--button-no-bot), var(--button-shadow);
+}
+
+.button-ok, input[type="submit"].button-ok {
+	background: var(--button-ok-top);
+	box-shadow: 0 3px var(--button-ok-bot), var(--button-shadow);
+}
+
+.button-alt, input[type="submit"].button-alt {
+	background: var(--button-alt-top);
+	box-shadow: 0 3px var(--button-alt-bot), var(--button-shadow);
+}
+
+.button i {
+	margin: 0 0 0 6px;
+	font-size: 0.9em;
+}
+
+.button:hover, a.google-button:hover, a.facebook-button:hover, a.twitter-button:hover {
+	filter: brightness(110%);
+	font-weight: 300;
+}
+
+a.google-button, a.facebook-button, a.twitter-button {
+	display: block;
+	justify-content: center;
+	margin: 10px 0px;
+	padding: 10px;
+	width: 100%;
+	text-align: center;
+	font-size: 1.1em;
+	border-radius: 4px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 14px;
+	font-weight: 300;
+	color: #ffffff;
+	box-shadow: var(--button-shadow);
+}
+
+a.google-button i, a.facebook-button i, a.twitter-button i  {
+	float: left;
+	margin: 0 -100% 0 0;
+	font-size: 20px;
+}
+
+a.google-button {
+	background: linear-gradient(#f54040, #d63636);
+}
+
+a.facebook-button {
+	background: linear-gradient(#2359cf, #1c459e);
+}
+
+a.twitter-button {
+	background: linear-gradient(#43b9e8, #3390b5);
+}
+
+.contact form {
+	display: block;
+	text-align: left;
+}
+
+.contact input {
+	display: inline-block;
+	max-width: 300px;
+	margin: 15px 15px 15px 0;
+}
+
+.contact textarea {
+	height: 300px
+}
