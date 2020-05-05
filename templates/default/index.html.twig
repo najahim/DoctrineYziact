@@ -2,6 +2,19 @@
 
 {% block title %}Hello DefaultController!{% endblock %}
 
+{% block header %}
+    <div class="tag"></div>
+    <div class="title">
+        <h1>{{ h1 | default('Cigale') }}</h1>
+        <span>Panneau d'administration</span>
+    </div>
+    <div class="compte">
+        <a href="/user" class="button button-alt">
+            Admin Yziact <i class="fas fa-cog"></i>
+        </a>
+    </div>
+{% endblock %}
+
 {% block main %}
 <main class="accueil">
 <nav class="menu">

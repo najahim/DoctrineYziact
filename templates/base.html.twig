@@ -39,13 +39,15 @@
 
     <header>
     {% block header %}
-        <div class="tag"></div>
-        <a href="admin-home.html" class="title">
+        <a href="/" class="img">
+            <i class="fas fa-home"></i>
+        </a>
+        <a href="/" class="title">
             <h1>{{ h1 | default('Cigale') }}</h1>
             <span>Panneau d'administration</span>
         </a>
         <div class="compte">
-            <a href="admin-clients2.html" class="button button-alt">
+            <a href="/user" class="button button-alt">
                 Admin Yziact <i class="fas fa-cog"></i>
             </a>
         </div>
