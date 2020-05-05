@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Borne;
 use App\Entity\Personne;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
 use App\Repository\UtilisateurRepository;
 use App\Security\CustomAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -66,10 +68,76 @@ class RegistrationController extends AbstractController
             )?: new RedirectResponse('/bornes');
         }
 
+
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+            //'test'=> $test,
+            //'emplacement'=>$locBorne,
+
         ]);
     }
+
+
+    /**
+     * @Route("/register/{idBorne}", name="app_registerId")
+     */
+    public function registerBorne($idBorne,Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, CustomAuthenticator $authenticator,\Swift_Mailer $mailer): Response
+    {
+        $user = new Utilisateur();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $user->setValidation(false);
+            $user->setActivationToken(md5(uniqid()));
+            $user->setDateCreation(new \DateTime('now'));
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            $message = (new \Swift_Message('Nouveau compte'))
+                // On attribue l'expéditeur
+                ->setFrom('testyziact@gmail.com')
+                // On attribue le destinataire
+                ->setTo($user->getEmail())
+                // On crée le texte avec la vue
+                ->setBody(
+
+                    $this->renderView(
+                        'email/activation.html.twig', ['token' => $user->getActivationToken()]
+                    ),
+                    'text/html'
+                )
+            ;
+            $mailer->send($message);
+
+            return $guardHandler->authenticateUserAndHandleSuccess(
+                $user,
+                $request,
+                $authenticator,
+                'main' // firewall name in security.yaml
+            )?: new RedirectResponse('/bornes');
+        }
+
+        $test = $this->jsonLocalisation();
+        $borne=new Borne();
+        $borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
+        $locBorne=$borne->getEmplacement();
+        return $this->render('registration/registerId.html.twig', [
+            'registrationForm' => $form->createView(),
+            'test'=> $test,
+            'emplacement'=>$locBorne,
+
+        ]);
+    }
+
 
     /**
      * @Route("/activation/{token}", name="activation")
@@ -104,5 +172,37 @@ class RegistrationController extends AbstractController
         $this->addFlash('message', 'lien a expiré');
         // On retourne à l'accueil
         return $this->redirect('https://127.0.0.1:8000/logout');
+    }
+    public function jsonLocalisation(){
+        $Locs = [];
+        $taille= 0;
+        // $matrice=[];
+        $jsonData = '{';
+        $borne = new Borne();
+        $bornes = $this->getDoctrine()->getManager()
+            ->getRepository('App:Borne')
+            ->findAll();
+        //var_dump($bornes);
+        foreach ($bornes as $borne){
+            $taille=$taille+1;
+            //$matrices=[];
+            $jsonData=$jsonData . $taille. ': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' },';
+            //array_push($matrices,$taille);
+            // array_push($matrices,$borne->getEmplacement()->getLatitude());
+            // array_push($matrices,$borne->getEmplacement()->getLongitude());
+            // array_push($matrice,$matrices);
+        }
+        $jsonData =$jsonData .'}';
+        if ($Locs === 0)
+            return null;
+        else
+        {
+            $Locs = JsonResponse::fromJsonString($jsonData)->getContent();
+            //return $matrice;
+            //$Locs=$jsonData;
+            return $Locs;
+        }
+
+
     }
 }
