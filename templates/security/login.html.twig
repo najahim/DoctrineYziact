@@ -7,6 +7,13 @@
     <link rel="stylesheet" type="text/css" href="./css/forms.css" />
 {% endblock %}
 
+{% block header %}
+    <div class="title">
+        <h1>{{ h1 | default('Cigale') }}</h1>
+        <span>Panneau d'administration</span>
+    </div>
+{% endblock %}
+
 {% block main %}
 <main class="login">
     <article class="info">
@@ -23,8 +30,8 @@
             <a class="button button-no" href="{{ path('app_logout') }}">Se déconnecter <i class="fas fa-sign-out-alt"></i></a>
         {% else %}
             <form method="post" action="{# redirection #}">
-                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-                <input type="password" name="password" id="inputPassword" class="form-control" required>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Identifiant" required autofocus>
+                <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
                 {# remember_me
                 <div class="checkbox">
                     <input type="checkbox" name="_remember_me" id="remember_me">
@@ -41,6 +48,4 @@
         {% endif %}
     </article>
 </main>
-
-<a href="https://127.0.0.1:8000/register"> Registration </a>
 {% endblock %}
