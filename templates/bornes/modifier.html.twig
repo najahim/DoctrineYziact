@@ -1,4 +1,136 @@
-<div>
-    <h1>Ajouter Borne</h1>
-    {{ form(form) }}
-</div>
+{% extends 'base.html.twig' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+                       app.request.attributes.get('_route_params')) %}
+
+{% block main %}
+<section class="parametres">
+    <article>
+        <h2>Modifier une borne</h2>
+        <form action="." class="infos-borne">
+				<div class="identification">
+					<div class="champ">
+                        {{ form_label(form.nom, 'Nom de la borne :') }}
+						{{ form_widget(form.nom) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.adresse_mac, 'MAC :') }}
+						{{ form_widget(form.adresse_mac) }}
+					</div>
+                    {# <div class="champ">
+                        {{ form_label(form.proprietaire, 'Proprietaire :') }}
+						{{ form_widget(form.proprietaire) }}
+					</div> #}
+					<div class="champ">
+                        {{ form_label(form.modeleborne, 'Modèle :') }}
+						{{ form_widget(form.modeleborne) }}
+					</div>
+				</div>
+				<div class="adresse">
+                    {# <div class="champ">
+                        {{ form_label(form.addresse.num, 'Numero de rue :') }}
+						{{ form_widget(form.addresse.num) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.addresse.rue, 'Rue :') }}
+						{{ form_widget(form.addresse.rue) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.addresse.ville, 'Ville :') }}
+						{{ form_widget(form.addresse.ville) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.addresse.cp, 'CP :') }}
+						{{ form_widget(form.addresse.cp) }}
+					</div> #}
+				</div>
+				<div class="submit">
+					<input type="submit" name="" class="button button-ok" value="Valider">
+					<a href="{{ currentPath }}" class="button button-no">Annuler</a>
+				</div>
+			</form>
+    </article>
+
+    {###################   Reste a faire   #####################}
+
+    <article>
+		<h2>Personalisation du portail</h2>
+		<form action="." class="infos-borne">
+			<div class="portail">
+				<div class="champ">
+					<label for="nom">Nom du portail :</label>
+					<input type="text" name="nom" value="Cigale">
+				</div>
+				<div class="champ">
+					<label for="description">Description :</label>
+					<input type="text" name="description" value="Solution de HotSpot Wifi Public">
+				</div>
+				<div class="champ">
+					<label for="mac">Logo (Format PNG ou JPG) :</label>
+					<input type="file">
+				</div>
+				<div class="champ">
+					<label for="sit">Redirection après connection :</label>
+					<input type="text" name="site" value="mon-site.com">
+				</div>
+			</div>
+			<div class="submit">
+				<input type="submit" name="" class="button button-ok" value="Valider">
+				<input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes">
+				<a href="." class="button button-no">Annuler</a>
+			</div>
+		</form>
+	</article>
+
+	<article>
+		<h2>Fonctionnement de la borne</h2>
+		<form action="." class="fonctionnement-borne">
+				<div class="champ">
+					<label for="time-limit">Temps de connexion maximum par jour :</label>
+					<input type="text" name="time-limit" value="24:00:00">
+				</div>
+				<div class="champ">
+					<label for="debit-limit">Débit maximal par utilisateur (Mb/s) :</label>
+					<input type="text" name="debit-limit" value="1500">
+				</div>
+			<div class="horaires">
+				<div class="champ">
+					<span>La borne </span>
+					<select name="fonctionne">
+						<option value="oui">fonctionne</option>
+						<option value="non">ne fonctionne pas</option>
+					</select>
+					<select name="jour">
+						<option value="semaine">toute la semaine</option>
+						<option value="lundi">le lundi</option>
+						<option value="mardi">le mardi</option>
+						<option value="mercredi">le mercredi</option>
+						<option value="jeudi">le jeudi</option>
+						<option value="vendredi">le vendredi</option>
+						<option value="samedi">le samedi</option>
+						<option value="dimanche">le dimanche</option>
+					</select>
+					<span>entre</span>
+					<input type="time" name="start" value="08:00">
+					<span>et</span>
+					<input type="time" name="end" value="18:00">
+					<span class="enlever-regle button button-no">Supprimer <i class="fas fa-trash-alt"></i></span>
+				</div>
+				<span href="." class="ajouter-regle button button-alt">Ajouter une regle</span><br>
+				<span>Par défaut la brone fonctinne 24/24h 7/7j. Les règles sont rangées par ordre de priorité croissant (par exemple, la règle 2 outrepasse la règle 1)</span><br><br>
+			</div>
+			<div class="submit">
+				<input type="submit" name="" class="button button-ok" value="Valider">
+				<input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes">
+				<a href="." class="button button-no">Annuler</a>
+			</div>
+		</form>
+	</article>
+
+	<article>
+		<a href="." class="button button-alt">Redémarrer la borne <i class="fas fa-power-off"></i></a>
+		<a href="." class="button button-no">Bloquer la borne <i class="fas fa-ban"></i></a>
+		<a href="." class="button button-no">Supprimer la borne <i class="fas fa-trash-alt"></i></a>
+	</article>
+</section>
+{% endblock %}
