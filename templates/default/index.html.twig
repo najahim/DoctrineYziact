@@ -2,19 +2,81 @@
 
 {% block title %}Hello DefaultController!{% endblock %}
 
-{% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
-
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/najahim/Documents/dev/ProjetYziact/src/Controller/DefaultController.php'|file_link(0) }}">src/Controller/DefaultController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/najahim/Documents/dev/ProjetYziact/templates/default/index.html.twig'|file_link(0) }}">templates/default/index.html.twig</a></code></li>
-    </ul>
-</div>
+{% block main %}
+<main class="accueil">
+<nav class="menu">
+    <a href="/bornes">
+        <div class="menu-item">
+            <i class="fas fa-satellite-dish"></i>
+            <h3>Paramètres des bornes</h3>
+        </div>
+    </a>
+    <a href="/clients">
+        <div class="menu-item">
+            <i class="fas fa-user-shield"></i>
+            <h3>Comptes clients</h3>
+        </div>
+    </a>
+    <a href="/utilisateurs">
+        <div class="menu-item">
+            <i class="fas fa-mobile-alt"></i>
+            <h3>Comptes utilisateurs</h3>
+        </div>
+    </a>
+    <a href="/nouveaute">
+        <div class="menu-item">
+            <i class="fas fa-newspaper"></i>
+            <h3>Actualités du portail</h3>
+        </div>
+    </a>
+    <a href="/nouveaute">
+        <div class="menu-item">
+            <i class="far fa-newspaper"></i>
+            <h3>Actualités de Cigale</h3>
+        </div>
+    </a>
+    <a href="/stats">
+        <div class="menu-item">
+            <i class="fas fa-chart-line"></i>
+            <h3>Statistiques par bornes</h3>
+        </div>
+    </a>
+    <a href="/help">
+        <div class="menu-item">
+            <i class="fas fa-question-circle"></i>
+            <h3>Aide</h3>
+        </div>
+    </a>
+    <a href="/contact">
+        <div class="menu-item">
+            <i class="fas fa-envelope"></i>
+            <h3>Contacter Yziact</h3>
+        </div>
+    </a>
+    <a href="/newsletter">
+        <div class="menu-item">
+            <i class="fas fa-address-book"></i>
+            <h3>Abonnés newsletter</h3>
+        </div>
+    </a>
+</nav>
+<section>
+    {% if nouveautes is defined and nouveautes[0] is defined %}
+        <article class="actus">
+    		<h2>Dernières actualités</h2>
+            {% for n in nouveautes %}
+                <div class="actu">
+                    <div class="img" style="background: no-repeat center center url('{{n.image}}'); background-size: cover;">
+                    </div>
+                    <div class="content">
+                        <h3>{{ n.titre }}</h3>
+                        <span class="date"><i class="fas fa-clock"></i> {{ n.dateNouveaute | date }}</span>
+                        <p>{{ n.contenu }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+    	</article>
+    {% endif %}
+</section>
+</main>
 {% endblock %}
