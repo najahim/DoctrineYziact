@@ -1,44 +1,46 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Log in!{% endblock %}
+{% block title %}Log in{% endblock %}
 
-{% block body %}
-<form method="post">
-    {% if error %}
-        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-    {% endif %}
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="./css/portail.css" />
+    <link rel="stylesheet" type="text/css" href="./css/forms.css" />
+{% endblock %}
 
-    {% if app.user %}
-        <div class="mb-3">
-            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-        </div>
-    {% endif %}
+{% block main %}
+<main class="login">
+    <article class="info">
+        {% if error %}
+        	<p class="important">
+        		{{ error.messageKey|trans(error.messageData, 'security') }}
+        	</p>
+        {% endif %}
 
-    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-    <label for="inputEmail">Email</label>
-    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
-    <label for="inputPassword">Password</label>
-    <input type="password" name="password" id="inputPassword" class="form-control" required>
+        {% if app.user %}
+            <p>
+                Vous êtes connecté en tant que {{ app.user.username }}.
+            </p>
+            <a class="button button-no" href="{{ path('app_logout') }}">Se déconnecter <i class="fas fa-sign-out-alt"></i></a>
+        {% else %}
+            <form method="post" action="{# redirection #}">
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" required autofocus>
+                <input type="password" name="password" id="inputPassword" class="form-control" required>
+                {# remember_me
+                <div class="checkbox">
+                    <input type="checkbox" name="_remember_me" id="remember_me">
+                    <label for="remember_me">
+                        Rester connecté
+                    </label>
+                </div>
+                #}
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+                <button class="button button-ok" type="submit">Se connecter <i class="fas fa-key"></i></button>
+            </form>
+        {% endif %}
+    </article>
+</main>
 
-    <input type="hidden" name="_csrf_token"
-           value="{{ csrf_token('authenticate') }}"
-    >
-
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
-
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
-        </div>
-    #}
-
-    <button class="btn btn-lg btn-primary" type="submit">
-        Sign in
-    </button>
-</form>
-
-    <a href="https://127.0.0.1:8000/register"> Registration </a>
+<a href="https://127.0.0.1:8000/register"> Registration </a>
 {% endblock %}

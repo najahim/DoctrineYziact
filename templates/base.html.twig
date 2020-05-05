@@ -4,7 +4,7 @@
     {% block head %}
         <meta charset="UTF-8">
 
-        <title>{% block title %}{% endblock %}</title>
+        <title>{% block title %}{% endblock %} - {{ h1 | default('Cigale') }}</title>
 
     	<!-- Icon and viewport -->
     	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -41,7 +41,7 @@
     {% block header %}
         <div class="tag"></div>
         <a href="admin-home.html" class="title">
-            <h1>Cigale</h1>
+            <h1>{{ h1 | default('Cigale') }}</h1>
             <span>Panneau d'administration</span>
         </a>
         <div class="compte">
