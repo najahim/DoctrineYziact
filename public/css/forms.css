@@ -24,15 +24,6 @@ input[type="text"]::placeholder, input[type="search"]::placeholder, input[type="
 	color: var(--input-text);
 }
 
-input[type="text"]:focus, input[type="search"]:focus, input[type="number"]:focus, input[type="time"]:focus, select, input[type="file"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="date"]:focus, textarea:focus {
-	background: var(--input-background-focus);
-	color: var(--input-text-focus);
-}
-
-input[type="text"]:focus::placeholder, input[type="search"]:focus::placeholder, input[type="number"]:focus::placeholder, input[type="time"]:focus::placeholder, select, input[type="file"]:focus::placeholder, input[type="email"]:focus::placeholder, input[type="password"]:focus::placeholder, input[type="date"]:focus::placeholder, textarea:focus::placeholder {
-	color: var(--input-text-focus-placeholder);
-}
-
 option {
 	color: black;
 }
