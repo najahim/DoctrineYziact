@@ -67,12 +67,14 @@ class RegistrationController extends AbstractController
                 'main' // firewall name in security.yaml
             )?: new RedirectResponse('/bornes');
         }
+        $nouveautes=$this->getDoctrine()->getRepository('App:Nouveaute')
+            ->findAll();
 
-
+        $test = $this->jsonLocalisation();
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form->createView(),
-            //'test'=> $test,
-            //'emplacement'=>$locBorne,
+            'test'=> $test,
+            'nouveautes'=>$nouveautes,
 
         ]);
     }
@@ -130,11 +132,13 @@ class RegistrationController extends AbstractController
         $borne=new Borne();
         $borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
         $locBorne=$borne->getEmplacement();
+        $nouveautes=$borne->getNouveautes();
+        //var_dump($nouveautes[0]->getId());
         return $this->render('registration/registerId.html.twig', [
             'registrationForm' => $form->createView(),
             'test'=> $test,
             'emplacement'=>$locBorne,
-
+            'nouveautes'=>$nouveautes,
         ]);
     }
 
