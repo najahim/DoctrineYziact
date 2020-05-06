@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class AjouterBorneType extends AbstractType
 {
@@ -55,7 +56,29 @@ class AjouterBorneType extends AbstractType
             ->add('commentaire')
             ->add('nom_portail')
             ->add('desc_portail')
-            ->add('img_portail',FileType::class)
+            ->add('img_portail',FileType::class, [
+                'label' => 'Logo du portail',
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '200k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => "Merci d'utiliser un JPEG ou un PNG",
+                    ])
+                ],
+            ])
             ->add('modeleborne', EntityType::class,[
                 'required' => false,
                 'class'=>ModeleBorne::class,

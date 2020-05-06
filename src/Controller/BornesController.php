@@ -78,6 +78,13 @@ class BornesController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            /** @var UploadedFile $imgFile */
+            $imgFile = $form['img_portail']->getData();
+            if ($imgFile) {
+                $imgURL = $fileUploader->upload($imgFile);
+                $borne->setImgPortail("//images//" . $imgFileName);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($borne);
             $entityManager->flush();
