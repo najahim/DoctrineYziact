@@ -25,8 +25,18 @@
                         {{ form_label(form.modeleborne, 'Modèle :') }}
 						{{ form_widget(form.modeleborne) }}
 					</div>
+                    <div class="champ">
+                        {{ form_label(form.ssid, 'SSID :') }}
+						{{ form_widget(form.ssid) }}
+					</div>
 				</div>
 				<div class="adresse">
+                    <div class="champ">
+                        {{ form_label(form.emplacement, 'Choisir une adresse :') }}
+						{{ form_widget(form.emplacement) }}
+					</div>
+                    <span class="hr">ou</span>
+                    <a href="{{ path('emplacement.ajouter') }}" class="button button-alt">Ajouter un emplacement <i class="fas fa-map-marked-alt"></i></a>
                     {# <div class="champ">
                         {{ form_label(form.addresse.num, 'Numero de rue :') }}
 						{{ form_widget(form.addresse.num) }}
@@ -51,86 +61,183 @@
 			</form>
     </article>
 
-    {###################   Reste a faire   #####################}
-
     <article>
 		<h2>Personalisation du portail</h2>
 		<form action="." class="infos-borne">
 			<div class="portail">
-				<div class="champ">
-					<label for="nom">Nom du portail :</label>
-					<input type="text" name="nom" value="Cigale">
-				</div>
-				<div class="champ">
-					<label for="description">Description :</label>
-					<input type="text" name="description" value="Solution de HotSpot Wifi Public">
-				</div>
-				<div class="champ">
-					<label for="mac">Logo (Format PNG ou JPG) :</label>
-					<input type="file">
-				</div>
-				<div class="champ">
-					<label for="sit">Redirection après connection :</label>
-					<input type="text" name="site" value="mon-site.com">
-				</div>
+                <div class="champ">
+                    {{ form_label(form.nom_portail, 'Nom du portail :') }}
+                    {{ form_widget(form.nom_portail) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.img_portail, 'Logo du portail (100ko max) :') }}
+                    {{ form_widget(form.img_portail) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.desc_portail, 'Description portail (sous-titre) :') }}
+                    {{ form_widget(form.desc_portail) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.portail_url, 'Redirection après connexion :') }}
+                    {{ form_widget(form.portail_url) }}
+                </div>
 			</div>
-			<div class="submit">
-				<input type="submit" name="" class="button button-ok" value="Valider">
-				<input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes">
-				<a href="." class="button button-no">Annuler</a>
-			</div>
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
+                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+            </div>
 		</form>
 	</article>
 
 	<article>
 		<h2>Fonctionnement de la borne</h2>
 		<form action="." class="fonctionnement-borne">
-				<div class="champ">
-					<label for="time-limit">Temps de connexion maximum par jour :</label>
-					<input type="text" name="time-limit" value="24:00:00">
-				</div>
-				<div class="champ">
-					<label for="debit-limit">Débit maximal par utilisateur (Mb/s) :</label>
-					<input type="text" name="debit-limit" value="1500">
-				</div>
+            <div class="champ">
+                {{ form_label(form.quota_user_duree, 'Temps de connexion maximum par jour :') }}
+                {{ form_widget(form.quota_user_duree) }}
+            </div>
+            <div class="champ">
+                {{ form_label(form.quota_user_max_bytes, 'Débit maximal par utilisateur (Mb/s) :') }}
+                {{ form_widget(form.quota_user_max_bytes) }}
+            </div>
 			<div class="horaires">
-				<div class="champ">
-					<span>La borne </span>
-					<select name="fonctionne">
-						<option value="oui">fonctionne</option>
-						<option value="non">ne fonctionne pas</option>
-					</select>
-					<select name="jour">
-						<option value="semaine">toute la semaine</option>
-						<option value="lundi">le lundi</option>
-						<option value="mardi">le mardi</option>
-						<option value="mercredi">le mercredi</option>
-						<option value="jeudi">le jeudi</option>
-						<option value="vendredi">le vendredi</option>
-						<option value="samedi">le samedi</option>
-						<option value="dimanche">le dimanche</option>
-					</select>
-					<span>entre</span>
-					<input type="time" name="start" value="08:00">
-					<span>et</span>
-					<input type="time" name="end" value="18:00">
-					<span class="enlever-regle button button-no">Supprimer <i class="fas fa-trash-alt"></i></span>
-				</div>
+                {{ form_widget(form.Prog_wifi, {'attr': {'class': 'prog_wifi', 'style': 'display:none;'}}) }}
 				<span href="." class="ajouter-regle button button-alt">Ajouter une regle</span><br>
-				<span>Par défaut la brone fonctinne 24/24h 7/7j. Les règles sont rangées par ordre de priorité croissant (par exemple, la règle 2 outrepasse la règle 1)</span><br><br>
+				<span>
+                    Par défaut la borne fonctionne 24/24h 7/7j. <br>
+                    Vous pouvez choisir de ne pas diffuser de wifi entre 00:00 et 23:59 tous les jours de la semaine
+                </span>
 			</div>
-			<div class="submit">
-				<input type="submit" name="" class="button button-ok" value="Valider">
-				<input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes">
-				<a href="." class="button button-no">Annuler</a>
-			</div>
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
+                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+            </div>
 		</form>
 	</article>
 
+    {###################   Reste a faire   #####################}
+    {# appliquer a toutes mes bornes #}
+{#
 	<article>
 		<a href="." class="button button-alt">Redémarrer la borne <i class="fas fa-power-off"></i></a>
 		<a href="." class="button button-no">Bloquer la borne <i class="fas fa-ban"></i></a>
 		<a href="." class="button button-no">Supprimer la borne <i class="fas fa-trash-alt"></i></a>
 	</article>
+#}
 </section>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+
+$(document).ready(function(){
+
+    //Gestion du formulaire des horaires
+
+    // On recupere les horaires pour generer le formulaire
+    try {
+        let baseHoraires = $('.prog_wifi').val();
+        let regle;
+        baseHoraires = baseHoraires.split(';').trim();
+
+        for (var i = 0; i < baseHoraires.length; i++) {
+            regleOff = baseHoraires[i].split(" ");
+            regleOn = baseHoraires[i + 1].split(" ");
+            if (regleOff[-1] === "off") {
+                ajouterRegle(regleOff[4], regleOff[1] + regleOff[0], regleOn[1] + regleOn[0]);
+            }
+            else {
+                continue;
+            }
+        }
+    } catch(e) {
+        console.log(e);
+    }
+
+    // Rajoute une regle si on clique sur ajouter une regle
+	$(".horaires .ajouter-regle").on("click", function() {
+        ajouterRegle();
+        updateHoraires();
+    });
+
+    // Enleve une regle
+    $(".horaires").on("click", '.enlever-regle', function() {
+        $(this).parent('.champ').remove();
+        updateHoraires();
+    });
+
+    // Change une regle
+    $(".horaires").on("change", 'input, select', function() {
+        updateHoraires();
+    });
+
+    function updateHoraires() {
+        let horaires = "";
+        let champ;
+        let on;
+        let off;
+        try {
+            for (var i = 0; i < $('.horaires .champ').length; i++) {
+                champ = $($('.horaires .champ')[i]);
+
+                off =    champ.children('.debut').val().split(':')[1] + " " +
+                        champ.children('.debut').val().split(':')[0] + " " +
+                        "* *" + " " +
+                        champ.children('.jour').val();
+
+                on =   champ.children('.fin').val().split(':')[1] + " " +
+                        champ.children('.fin').val().split(':')[0] + " " +
+                        "* *" + " " +
+                        champ.children('.jour').val();
+                horaires += off + " off ; " + on + " on ; ";
+            }
+
+            // Cas des horaires incompatibles
+            if((champ.children('.debut').val().split(':')[1] * 60 + champ.children('.debut').val().split(':')[0]) >= (champ.children('.fin').val().split(':')[1] * 60 + champ.children('.fin').val().split(':')[0])) {
+                champ.children('.fin').val('23:59');
+            }
+
+            // On réécrit le champ
+            $('.prog_wifi').val(horaires.trim());
+            console.log($('.prog_wifi').val());
+        } catch (e) {
+            alert('Erreur dans la saisie de la programmation horaire');
+            console.log(e);
+        }
+    }
+
+    function ajouterRegle(jour, debut, fin) {
+        let jour_val = jour || "1";
+        let debut_val = debut || "18:00";
+        let fin_val = fin || "23:59";
+        let selected = [];
+        selected[jour] = "selected";
+
+        $(".horaires").append($(`
+            <div class="champ">
+                <span>La borne est éteinte</span>
+                <select name="jour" class="jour">
+                    <option value="1-7" ${selected["1-7"] || ""}>toute la semaine</option>
+                    <option value="1" ${selected["1"] || ""}>le lundi</option>
+                    <option value="2" ${selected["2"] || ""}>le mardi</option>
+                    <option value="3" ${selected["3"] || ""}>le mercredi</option>
+                    <option value="4" ${selected["4"] || ""}>le jeudi</option>
+                    <option value="5" ${selected["5"] || ""}>le vendredi</option>
+                    <option value="6" ${selected["6"] || ""}>le samedi</option>
+                    <option value="7" ${selected["7"] || ""}>le dimanche</option>
+                </select>
+                <span>entre</span>
+                <input type="time" name="start" value="${debut_val}" class="debut">
+                <span>et</span>
+                <input type="time" name="end" value="${fin_val}"  class="fin">
+                <span class="enlever-regle button button-no">Supprimer <i class="fas fa-trash-alt"></i></span>
+            </div>
+        `));
+    }
+
+});
+</script>
 {% endblock %}
