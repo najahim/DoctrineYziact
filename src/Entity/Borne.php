@@ -172,6 +172,71 @@ class Borne
      */
     private $activations;
 
+
+
+    /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $nom_portail;
+
+
+    /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $desc_portail;
+    /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $img_portail;
+
+    /**
+     * @return mixed
+     */
+    public function getNomPortail()
+    {
+        return $this->nom_portail;
+    }
+
+    /**
+     * @param mixed $nom_portail
+     */
+    public function setNomPortail($nom_portail): void
+    {
+        $this->nom_portail = $nom_portail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDescPortail()
+    {
+        return $this->desc_portail;
+    }
+
+    /**
+     * @param mixed $desc_portail
+     */
+    public function setDescPortail($desc_portail): void
+    {
+        $this->desc_portail = $desc_portail;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImgPortail()
+    {
+        return $this->img_portail;
+    }
+
+    /**
+     * @param mixed $img_portail
+     */
+    public function setImgPortail($img_portail): void
+    {
+        $this->img_portail = $img_portail;
+    }
+
     /**
      * @return mixed
      */
