@@ -9,6 +9,10 @@
         <h2>Modifier une borne</h2>
         <form action="." class="infos-borne">
 				<div class="identification">
+                    <div class="champ">
+                        {{ form_label(form.emplacement.nom_etablissement, "Nom de l'établissement :") }}
+						{{ form_widget(form.emplacement.nom_etablissement) }}
+					</div>
 					<div class="champ">
                         {{ form_label(form.nom, 'Nom de la borne :') }}
 						{{ form_widget(form.nom) }}
@@ -17,10 +21,6 @@
                         {{ form_label(form.adresse_mac, 'MAC :') }}
 						{{ form_widget(form.adresse_mac) }}
 					</div>
-                    {# <div class="champ">
-                        {{ form_label(form.proprietaire, 'Proprietaire :') }}
-						{{ form_widget(form.proprietaire) }}
-					</div> #}
 					<div class="champ">
                         {{ form_label(form.modeleborne, 'Modèle :') }}
 						{{ form_widget(form.modeleborne) }}
@@ -32,27 +32,35 @@
 				</div>
 				<div class="adresse">
                     <div class="champ">
-                        {{ form_label(form.emplacement, 'Choisir une adresse :') }}
-						{{ form_widget(form.emplacement) }}
-					</div>
-                    <span class="hr">ou</span>
-                    <a href="{{ path('emplacement.ajouter') }}" class="button button-alt">Ajouter un emplacement <i class="fas fa-map-marked-alt"></i></a>
-                    {# <div class="champ">
-                        {{ form_label(form.addresse.num, 'Numero de rue :') }}
-						{{ form_widget(form.addresse.num) }}
+                        {{ form_label(form.emplacement.adresse.numero_rue, 'Numero de rue :') }}
+						{{ form_widget(form.emplacement.adresse.numero_rue, {'attr': {'class': 'numero_rue'}}) }}
 					</div>
                     <div class="champ">
-                        {{ form_label(form.addresse.rue, 'Rue :') }}
-						{{ form_widget(form.addresse.rue) }}
+                        {{ form_label(form.emplacement.adresse.rue, 'Rue :') }}
+						{{ form_widget(form.emplacement.adresse.rue, {'attr': {'class': 'rue'}}) }}
 					</div>
                     <div class="champ">
-                        {{ form_label(form.addresse.ville, 'Ville :') }}
-						{{ form_widget(form.addresse.ville) }}
+                        {{ form_label(form.emplacement.adresse.code_postal, 'CP :') }}
+						{{ form_widget(form.emplacement.adresse.code_postal, {'attr': {'class': 'code_postal'}}) }}
 					</div>
                     <div class="champ">
-                        {{ form_label(form.addresse.cp, 'CP :') }}
-						{{ form_widget(form.addresse.cp) }}
-					</div> #}
+                        {{ form_label(form.emplacement.adresse.ville, 'Ville :') }}
+						{{ form_widget(form.emplacement.adresse.ville, {'attr': {'class': 'ville'}}) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.emplacement.description, 'Commentaire adresse :') }}
+						{{ form_widget(form.emplacement.description) }}
+					</div>
+                    <span class="button button-alt calculerEmplacement">Calculer l'emplacement <i class="fas fa-map-marked-alt"></i></span>
+                    <div class="champ">
+                        {{ form_label(form.emplacement.latitude, 'Latitude :') }}
+						{{ form_widget(form.emplacement.latitude, {'attr': {'class': 'latitude'}}) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.emplacement.longitude, 'Longitude :') }}
+						{{ form_widget(form.emplacement.longitude, {'attr': {'class': 'longitude'}}) }}
+					</div>
+					{{ form_widget(form.emplacement.adresse.code_postal, {'attr': {'hidden': '', 'value' : 'France','class': 'pays'}}) }}
 				</div>
 				<div class="submit">
 					<input type="submit" name="" class="button button-ok" value="Valider">
@@ -141,7 +149,7 @@ $(document).ready(function(){
     try {
         let baseHoraires = $('.prog_wifi').val();
         let regle;
-        baseHoraires = baseHoraires.split(';').trim();
+        baseHoraires = baseHoraires.split(';');
 
         for (var i = 0; i < baseHoraires.length; i++) {
             regleOff = baseHoraires[i].split(" ");
@@ -237,6 +245,24 @@ $(document).ready(function(){
             </div>
         `));
     }
+
+
+    // Calcul de la longitude et de la latitude
+    $('.calculerEmplacement').on('click', function() {
+        var address =   $(".numero_rue").val() + " " +
+                        $(".rue").val() + " " +
+                        $(".ville").val() + " " +
+                        "&postcode=" + $(".code_postal").val();
+        $.getJSON(encodeURI("https://api-adresse.data.gouv.fr/search/?q=" + address + "&limit=1"), function(results) {
+            if (results.features[0]) {
+                $('.longitude').val(results.features[0].geometry.coordinates[0]);
+                $('.latitude').val(results.features[0].geometry.coordinates[1]);
+            } else {
+                alert("Les coordonnées n'ont pas pus être calculés");
+            }
+
+        });
+    });
 
 });
 </script>
