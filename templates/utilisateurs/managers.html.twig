@@ -1,0 +1,16 @@
+
+
+{% block title %}Hello UtilisateursController!{% endblock %}
+
+{% block body %}
+    <div>
+
+
+
+        <div>
+            {% for d in data %}
+                <h2>{{ d.email }}</h2>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

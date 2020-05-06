@@ -93,4 +93,21 @@ class UtilisateursController extends AbstractController
             'form'=>$form->createView(),
         ]);
     }
+
+    /**
+     * @Route("/managers", name="utilisateurs.managers")
+     */
+    public function indexManager(Request $request)
+    {
+
+
+        $data = $this->getDoctrine()->getRepository('App:Manager')->findAll();
+
+
+        return $this->render('utilisateurs/managers.html.twig', [
+            'controller_name' => 'UtilisateursController',
+            'data'=>$data,
+        ]);
+    }
+
 }
