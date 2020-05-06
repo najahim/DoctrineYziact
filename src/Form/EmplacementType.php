@@ -32,7 +32,7 @@ class EmplacementType extends AbstractType
             ->add('adresse',AdresseType::class)
            // ->add('envoyer', SubmitType::class)
             //->add('adresse-rue')
-            ->add('envoyer', SubmitType::class)
+           // ->add('envoyer', SubmitType::class)
 
         ;
     }

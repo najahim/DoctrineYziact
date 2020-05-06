@@ -93,7 +93,7 @@ class AjouterBorneType extends AbstractType
                 'placeholder' => 'Choisir contact'
 
             ])
-            ->add('emplacement', EntityType::class,[
+            /*->add('emplacement', EntityType::class,[
                 'required' => false,
                 'class'=>Emplacement::class,
                 'query_builder' => function (EmplacementRepository $er) {
@@ -107,7 +107,8 @@ class AjouterBorneType extends AbstractType
                 'placeholder' => 'Choisir emplacement',
 
 
-            ])
+            ])*/
+
             ->add('flottes', EntityType::class,[
                 'required' => false,
                 'class'=>Flotte::class,
@@ -126,6 +127,7 @@ class AjouterBorneType extends AbstractType
                 'placeholder' => 'Choisir flotte'
 
             ])
+            ->add('emplacement', EmplacementType::class)
             ->add('envoyer', SubmitType::class)
         ;
     }
