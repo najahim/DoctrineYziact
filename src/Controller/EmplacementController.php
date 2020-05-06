@@ -35,6 +35,7 @@ class EmplacementController extends AbstractController
     public function ajouterEmplacement(Request $request):Response
     {
         $emplacement= new Emplacement();
+
         $form=$this->createForm(EmplacementType::class,$emplacement);
         $form->handleRequest($request);
 

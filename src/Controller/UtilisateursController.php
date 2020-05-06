@@ -7,6 +7,7 @@ use App\Entity\Manager;
 use App\Entity\UtilisateurSearch;
 use App\Form\AdminRegistrationType;
 use App\Form\ManagerRegistrationType;
+use App\Form\ModifierManagerType;
 use App\Form\UtilisateurSearchType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,7 +36,7 @@ class UtilisateursController extends AbstractController
 
 
     /**
-     * @Route ("/utilisateurs/ajouterAdmin",name="utilisateurs.ajouterAdmin")
+     * @Route ("/ajouterAdmin",name="utilisateurs.ajouterAdmin")
      */
     public function ajouterAdmin(UserPasswordEncoderInterface $passwordEncoder,Request $request):Response
     {
@@ -65,7 +66,7 @@ class UtilisateursController extends AbstractController
     }
 
     /**
-     * @Route ("/utilisateurs/ajouterManager",name="utilisateurs.ajouterManager")
+     * @Route ("/ajouterManager",name="utilisateurs.ajouterManager")
      */
     public function ajouterManager(UserPasswordEncoderInterface $passwordEncoder,Request $request):Response
     {
@@ -110,4 +111,31 @@ class UtilisateursController extends AbstractController
         ]);
     }
 
+
+
+    /**
+     * @Route ("/modifierManager/{id}",name="utilisateurs.modifierManager")
+     */
+    public function modifierManager($id,Request $request):Response
+    {
+        $manager= new Manager();
+        $manager=$this->getDoctrine()->getRepository('App:Manager')
+            ->find($id);
+        $form=$this->createForm(ModifierManagerType::class,$manager);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            //$admin=$form->getData();
+            //$manager->setRoles($roles);
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($manager);
+            $entityManager->flush();
+
+        }
+        return $this->render('utilisateurs/modifierManager.html.twig', [
+            'manager' => $manager,
+            'form'=>$form->createView(),
+        ]);
+    }
 }

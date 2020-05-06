@@ -18,7 +18,7 @@ class AdresseType extends AbstractType
             ->add('ville')
             ->add('code_postal')
             ->add('pays')
-            ->add('envoyer', SubmitType::class)
+            //->add('envoyer', SubmitType::class)
 
         ;
     }
