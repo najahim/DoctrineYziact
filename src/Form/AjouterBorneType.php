@@ -10,11 +10,13 @@ use App\Entity\Flotte;
 use App\Entity\ModeleBorne;
 use App\Entity\Nouveaute;
 use App\Entity\Serveur;
+use App\Repository\EmplacementRepository;
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,13 +53,16 @@ class AjouterBorneType extends AbstractType
             ->add('date_mise_en_service',DateTimeType::class)
             ->add('date_expiration_test',DateTimeType::class)
             ->add('commentaire')
+            ->add('nom_portail')
+            ->add('desc_portail')
+            ->add('img_portail',FileType::class)
             ->add('modeleborne', EntityType::class,[
                 'required' => false,
                 'class'=>ModeleBorne::class,
                 'choice_label' => function(ModeleBorne $modeleBorne) {
                     return sprintf('(%d) %s', $modeleBorne->getId(), $modeleBorne->getNom());
                 },
-                'placeholder' => 'Choisir etat'
+                'placeholder' => 'Choisir modele'
 
             ])
             ->add('etat', EntityType::class,[
@@ -66,7 +71,8 @@ class AjouterBorneType extends AbstractType
                 'choice_label' => function(Etat $etat) {
                     return sprintf('(%d) %s', $etat->getId(), $etat->getEtat());
                 },
-                'placeholder' => 'Choisir etat'
+
+                'placeholder' => 'Choisir etat',
 
             ])
             ->add('serveur', EntityType::class,[
@@ -90,10 +96,16 @@ class AjouterBorneType extends AbstractType
             ->add('emplacement', EntityType::class,[
                 'required' => false,
                 'class'=>Emplacement::class,
+                'query_builder' => function (EmplacementRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'DESC');
+                },
                 'choice_label' => function(Emplacement $emplacement) {
                     return sprintf('(%d) %s', $emplacement->getId(), $emplacement->getNomEtablissement());
                 },
-                'placeholder' => 'Choisir emplacement'
+               // 'choices'=> $this->g->findByOrder(),
+                'placeholder' => 'Choisir emplacement',
+
 
             ])
             ->add('flottes', EntityType::class,[
