@@ -18,16 +18,16 @@
 						{{ form_widget(form.nom) }}
 					</div>
                     <div class="champ">
-                        {{ form_label(form.adresse_mac, 'MAC :') }}
-						{{ form_widget(form.adresse_mac) }}
-					</div>
-					<div class="champ">
-                        {{ form_label(form.modeleborne, 'Modèle :') }}
-						{{ form_widget(form.modeleborne) }}
-					</div>
-                    <div class="champ">
                         {{ form_label(form.ssid, 'SSID :') }}
 						{{ form_widget(form.ssid) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.commentaire, 'Commentaire :') }}
+						{{ form_widget(form.commentaire) }}
+					</div>
+                    <div class="champ">
+                        {{ form_label(form.contact, 'Contact :') }}
+						{{ form_widget(form.contact) }}
 					</div>
 				</div>
 				<div class="adresse">
@@ -68,7 +68,40 @@
 				</div>
 			</form>
     </article>
-
+    <article>
+		<h2>Paramètres de la borne</h2>
+		<form action="." class="parametres-borne">
+            <div>
+                <div class="champ">
+                    {{ form_label(form.adresse_mac, 'MAC :') }}
+                    {{ form_widget(form.adresse_mac) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.modeleborne, 'Modèle :') }}
+                    {{ form_widget(form.modeleborne) }}
+                </div>
+                <div class="champ-checkbox">
+                    {{ form_widget(form.filtrage) }}
+                    {{ form_label(form.filtrage, 'Filtrage') }}
+                </div>
+            </div>
+            <div>
+                <div class="champ">
+                    {{ form_label(form.channel, 'Channel wifi :') }}
+                    {{ form_widget(form.channel) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.txpower, "Puissance d'émission :") }}
+                    {{ form_widget(form.txpower) }}
+                </div>
+            </div>
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
+                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+            </div>
+		</form>
+	</article>
     <article>
 		<h2>Personalisation du portail</h2>
 		<form action="." class="infos-borne">
@@ -89,6 +122,10 @@
                     {{ form_label(form.portail_url, 'Redirection après connexion :') }}
                     {{ form_widget(form.portail_url) }}
                 </div>
+                <div class="">
+                    {{ form_widget(form.affichage_map) }}
+                    {{ form_label(form.affichage_map, 'Afficher la carte des bornes Cigale') }}
+                </div>
 			</div>
             <div class="submit">
                 <input type="submit" name="" class="button button-ok" value="Valider">
@@ -102,12 +139,20 @@
 		<h2>Fonctionnement de la borne</h2>
 		<form action="." class="fonctionnement-borne">
             <div class="champ">
-                {{ form_label(form.quota_user_duree, 'Temps de connexion maximum par jour :') }}
+                {{ form_label(form.quota_user_duree, 'Temps de connexion maximum par jour (en minutes):') }}
                 {{ form_widget(form.quota_user_duree) }}
             </div>
             <div class="champ">
-                {{ form_label(form.quota_user_max_bytes, 'Débit maximal par utilisateur (Mb/s) :') }}
+                {{ form_label(form.quota_user_max_bytes, 'Débit maximal par utilisateur (en Mb/s) :') }}
                 {{ form_widget(form.quota_user_max_bytes) }}
+            </div>
+            <div class="champ">
+                {{ form_label(form.upload_rate, 'Quantité maximum de data uploadées (en Mb):') }}
+                {{ form_widget(form.upload_rate) }}
+            </div>
+            <div class="champ">
+                {{ form_label(form.download_rate, 'Quantité maximum de data téléchargées (en Mb):') }}
+                {{ form_widget(form.download_rate) }}
             </div>
 			<div class="horaires">
                 {{ form_widget(form.Prog_wifi, {'attr': {'class': 'prog_wifi', 'style': 'display:none;'}}) }}
@@ -248,6 +293,8 @@ $(document).ready(function(){
 
 
     // Calcul de la longitude et de la latitude
+    // On utilise l'api du gouvernement
+
     $('.calculerEmplacement').on('click', function() {
         var address =   $(".numero_rue").val() + " " +
                         $(".rue").val() + " " +

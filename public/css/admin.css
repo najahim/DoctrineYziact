@@ -179,39 +179,6 @@ footer a, footer a:visited, footer a:hover {
 	color: var(--a);
 }
 
-.search-item {
-	display: flex;
-	flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: center;
-	margin: 20px 0;
-	padding: 15px;
-	border-radius: 4px;
-	background: linear-gradient(var(--article-top), var(--article-bot));
-	box-shadow: 0 1px 1px var(--article-shadow);
-	transition: all .1s ease-in-out;
-	font-weight: 600;
-}
-
-.search-item:hover {
-	transform: scale(1.01);
-	font-weight: 600;
-}
-
-.search-item span {
-	flex: 1;
-	text-align: left;
-	padding: 0 15px;
-}
-
-.search-item .etat {
-	flex: 0;
-	min-width: 75px;
-	max-width: 75px;
-	padding: 10px;
-	text-align: center;
-}
-
 .parametres .champ {
 	display: flex;
 	align-items: center;
@@ -228,6 +195,10 @@ footer a, footer a:visited, footer a:hover {
 .parametres .champ input, .parametres .champ select {
 	flex: 0;
 	width: 250px;
+}
+
+.parametres .champ input[type="checkbox"] {
+	flex: 1;
 }
 
 .parametres .submit {

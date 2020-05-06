@@ -29,17 +29,17 @@ class AjouterBorneType extends AbstractType
         $builder
             ->add('adresse_mac')
             ->add('nom')
-            ->add('hostname')
-            ->add('derniere_emission',DateTimeType::class)
+            // ->add('hostname')
+            // ->add('derniere_emission',DateTimeType::class)
             ->add('ssid')
             ->add('Prog_wifi')
             ->add('channel', IntegerType::class)
             ->add('affichage_map', CheckboxType::class, [
                 'required' => false
             ])
-            ->add('partage_stats', CheckboxType::class, [
-                'required' => false
-            ])
+            // ->add('partage_stats', CheckboxType::class, [
+            //     'required' => false
+            // ])
             ->add('quota_user_duree',IntegerType::class)
             ->add('quota_user_max_bytes',IntegerType::class)
             ->add('filtrage',CheckboxType::class, [
@@ -49,9 +49,9 @@ class AjouterBorneType extends AbstractType
             ->add('upload_rate')
             ->add('download_rate')
             ->add('txpower',IntegerType::class)
-            ->add('ip_adress_vpn_admin')
-            ->add('date_mise_en_service',DateTimeType::class)
-            ->add('date_expiration_test',DateTimeType::class)
+            // ->add('ip_adress_vpn_admin')
+            // ->add('date_mise_en_service',DateTimeType::class)
+            // ->add('date_expiration_test',DateTimeType::class)
             ->add('commentaire')
             ->add('nom_portail')
             ->add('desc_portail')
@@ -60,37 +60,36 @@ class AjouterBorneType extends AbstractType
                 'required' => false,
                 'class'=>ModeleBorne::class,
                 'choice_label' => function(ModeleBorne $modeleBorne) {
-                    return sprintf('(%d) %s', $modeleBorne->getId(), $modeleBorne->getNom());
+                    return sprintf('%s', $modeleBorne->getNom());
                 },
                 'placeholder' => 'Choisir modele'
 
             ])
-            ->add('etat', EntityType::class,[
-                'required' => false,
-                'class'=>Etat::class,
-                'choice_label' => function(Etat $etat) {
-                    return sprintf('(%d) %s', $etat->getId(), $etat->getEtat());
-                },
-
-                'placeholder' => 'Choisir etat',
-
-            ])
-            ->add('serveur', EntityType::class,[
-                'required' => false,
-                'class'=>Serveur::class,
-                'choice_label' => function(Serveur $serveur) {
-                    return sprintf('(%d) %s', $serveur->getId(), $serveur->getReseaux());
-                },
-                'placeholder' => 'Choisir serveur'
-
-            ])
+            // ->add('etat', EntityType::class,[
+            //     'required' => false,
+            //     'class'=>Etat::class,
+            //     'choice_label' => function(Etat $etat) {
+            //         return sprintf('(%d) %s', $etat->getId(), $etat->getEtat());
+            //     },
+            //
+            //     'placeholder' => 'Choisir etat',
+            //
+            // ])
+            // ->add('serveur', EntityType::class,[
+            //     'required' => false,
+            //     'class'=>Serveur::class,
+            //     'choice_label' => function(Serveur $serveur) {
+            //         return sprintf('(%d) %s', $serveur->getId(), $serveur->getReseaux());
+            //     },
+            //     'placeholder' => 'Choisir serveur'
+            //
+            // ])
             ->add('contact', EntityType::class,[
-                'required' => false,
                 'class'=>Contact::class,
                 'choice_label' => function(Contact $contact) {
-                    return sprintf('(%d) %s', $contact->getId(), $contact->getNomDuContact());
+                    return sprintf('%s', $contact->getEmail());
                 },
-                'placeholder' => 'Choisir contact'
+                'placeholder' => 'Selectionner un contact'
 
             ])
             /*->add('emplacement', EntityType::class,[
@@ -109,24 +108,24 @@ class AjouterBorneType extends AbstractType
 
             ])*/
 
-            ->add('flottes', EntityType::class,[
-                'required' => false,
-                'class'=>Flotte::class,
-                'choice_label' => function(Flotte $flotte) {
-                    return sprintf('(%d) %s', $flotte->getId(), $flotte->getManager()->getEmail());
-                },
-                'placeholder' => 'Choisir flotte'
-
-            ])
-            ->add('nouveautes', EntityType::class,[
-                'required' => false,
-                'class'=>Nouveaute::class,
-                'choice_label' => function(Nouveaute $nouveaute) {
-                    return sprintf('(%d) %s', $nouveaute->getId(), $nouveaute->getContenu());
-                },
-                'placeholder' => 'Choisir flotte'
-
-            ])
+            // ->add('flottes', EntityType::class,[
+            //     'required' => false,
+            //     'class'=>Flotte::class,
+            //     'choice_label' => function(Flotte $flotte) {
+            //         return sprintf('(%d) %s', $flotte->getId(), $flotte->getManager()->getEmail());
+            //     },
+            //     'placeholder' => 'Choisir flotte'
+            //
+            // ])
+            // ->add('nouveautes', EntityType::class,[
+            //     'required' => false,
+            //     'class'=>Nouveaute::class,
+            //     'choice_label' => function(Nouveaute $nouveaute) {
+            //         return sprintf('(%d) %s', $nouveaute->getId(), $nouveaute->getContenu());
+            //     },
+            //     'placeholder' => 'Choisir flotte'
+            //
+            // ])
             ->add('emplacement', EmplacementType::class)
             ->add('envoyer', SubmitType::class)
         ;
