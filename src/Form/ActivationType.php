@@ -18,7 +18,7 @@ class ActivationType extends AbstractType
            // ->add('borne')
             //->add('type')
             //->add('admin')
-           ->add('envoyer', SubmitType::class)
+           //->add('envoyer', SubmitType::class)
         ;
     }
 

@@ -29,7 +29,11 @@
                 {% for b in borne %}
                     <tr>
                         <td>{{ b.id }}</td>
-                        <td>{{ b.type.etat }}</td>
+                        <td>
+                            {%  if b.type.etat is defined  %}
+                            {{ b.type.etat }}
+                            {% endif %}
+                        </td>
                         <td>{{ b.raison }}</td>
                         <td>{{ b.date |date }}</td>
                     </tr>
