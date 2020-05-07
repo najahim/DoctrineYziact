@@ -1,4 +1,239 @@
-<div>
-    <h1>Ajouter Borne</h1>
-    {{ form(form) }}
-</div>
+{% extends 'base.html.twig' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+                       app.request.attributes.get('_route_params')) %}
+
+{% block main %}
+<section class="parametres">
+    {{ form_start(form) }}
+    <article>
+        <h2>Modifier une borne</h2>
+        <div class="form infos-bornes">
+			<div class="identification">
+                <div class="champ">
+                    {{ form_label(form.emplacement.nom_etablissement, "Nom de l'établissement :") }}
+					{{ form_widget(form.emplacement.nom_etablissement) }}
+				</div>
+				<div class="champ">
+                    {{ form_label(form.nom, 'Nom de la borne :') }}
+					{{ form_widget(form.nom) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.ssid, 'SSID :') }}
+					{{ form_widget(form.ssid) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.commentaire, 'Commentaire :') }}
+					{{ form_widget(form.commentaire) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.contact, 'Contact :') }}
+					{{ form_widget(form.contact) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.flottes, 'Manager :') }}
+					{{ form_widget(form.flottes) }}
+				</div>
+			</div>
+			<div class="adresse">
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.numero_rue, 'Numero de rue :') }}
+					{{ form_widget(form.emplacement.adresse.numero_rue, {'attr': {'class': 'numero_rue'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.rue, 'Rue :') }}
+					{{ form_widget(form.emplacement.adresse.rue, {'attr': {'class': 'rue'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.code_postal, 'CP :') }}
+					{{ form_widget(form.emplacement.adresse.code_postal, {'attr': {'class': 'code_postal'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.ville, 'Ville :') }}
+					{{ form_widget(form.emplacement.adresse.ville, {'attr': {'class': 'ville'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.description, 'Commentaire adresse :') }}
+					{{ form_widget(form.emplacement.description) }}
+				</div>
+                <span class="button button-alt calculerEmplacement">Calculer l'emplacement <i class="fas fa-map-marked-alt"></i></span>
+                <div class="champ">
+                    {{ form_label(form.emplacement.latitude, 'Latitude :') }}
+					{{ form_widget(form.emplacement.latitude, {'attr': {'class': 'latitude'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.longitude, 'Longitude :') }}
+					{{ form_widget(form.emplacement.longitude, {'attr': {'class': 'longitude'}}) }}
+				</div>
+				{{ form_widget(form.emplacement.adresse.pays, {'attr': {'style': 'display:none;', 'value' : 'France','class': 'pays'}}) }}
+			</div>
+            <div class="mise-en-service-bornes">
+                <div>
+                    {{ form_label(form.date_mise_en_service, "Mise en service :") }}
+                    {{ form_widget(form.date_mise_en_service) }}
+                </div>
+                <div>
+                    {{ form_label(form.date_expiration_test, 'Expiration des tests :') }}
+                    {{ form_widget(form.date_expiration_test) }}
+                </div>
+            </div>
+			<div class="submit">
+				<input type="submit" name="" class="button button-ok" value="Valider">
+				<a href="{{ currentPath }}" class="button button-no">Annuler</a>
+			</div>
+        </div>
+    </article>
+    <article>
+		<h2>Paramètres de la borne</h2>
+        <div class="form parametres-bornes">
+            <div>
+                <div class="champ">
+                    {{ form_label(form.adresse_mac, 'MAC :') }}
+                    {{ form_widget(form.adresse_mac) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.modeleborne, 'Modèle :') }}
+                    {{ form_widget(form.modeleborne) }}
+                </div>
+                <div class="champ-checkbox">
+                    {{ form_widget(form.filtrage) }}
+                    {{ form_label(form.filtrage, 'Filtrage') }}
+                </div>
+            </div>
+            <div>
+                <div class="champ">
+                    {{ form_label(form.channel, 'Channel wifi :') }}
+                    {{ form_widget(form.channel) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.txpower, "Puissance d'émission :") }}
+                    {{ form_widget(form.txpower) }}
+                </div>
+            </div>
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
+                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+            </div>
+        </div>
+	</article>
+    <article>
+		<h2>Personalisation du portail</h2>
+        <div class="form infos-bornes">
+			<div class="portail">
+                <div class="champ">
+                    {{ form_label(form.nom_portail, 'Nom du portail :') }}
+                    {{ form_widget(form.nom_portail) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.desc_portail, 'Description portail (sous-titre) :') }}
+                    {{ form_widget(form.desc_portail) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.portail_url, 'Redirection après connexion :') }}
+                    {{ form_widget(form.portail_url) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.img_portail, 'Logo du portail (100ko max) :') }}
+                    {{ form_widget(form.img_portail) }}
+                </div>
+                <div class="champ">
+                    <span>Image actuelle :</span>
+                    <img src="{{ borne.getImgPortail() }}" alt="Image du portail">
+                </div>
+                <div class="">
+                    {{ form_widget(form.affichage_map) }}
+                    {{ form_label(form.affichage_map, 'Afficher la carte des bornes Cigale') }}
+                </div>
+			</div>
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
+                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+            </div>
+        </div>
+	</article>
+
+	<article>
+		<h2>Fonctionnement de la borne</h2>
+        <div class="form fonctionnement-bornes">
+            <div class="champ">
+                {{ form_label(form.quota_user_duree, 'Temps de connexion maximum par jour (en minutes):') }}
+                {{ form_widget(form.quota_user_duree) }}
+            </div>
+            <div class="champ">
+                {{ form_label(form.quota_user_max_bytes, 'Débit maximal par utilisateur (en Mb/s) :') }}
+                {{ form_widget(form.quota_user_max_bytes) }}
+            </div>
+            <div class="champ">
+                {{ form_label(form.upload_rate, 'Quantité maximum de data uploadées (en Mb):') }}
+                {{ form_widget(form.upload_rate) }}
+            </div>
+            <div class="champ">
+                {{ form_label(form.download_rate, 'Quantité maximum de data téléchargées (en Mb):') }}
+                {{ form_widget(form.download_rate) }}
+            </div>
+			<div class="horaires">
+                {{ form_widget(form.Prog_wifi, {'attr': {'class': 'prog_wifi', 'style': 'display:none;'}}) }}
+				<span href="." class="ajouter-regle button button-alt">Ajouter une regle</span><br>
+				<span>
+                    Par défaut la borne fonctionne 24/24h 7/7j. <br>
+                    Vous pouvez choisir de ne pas diffuser de wifi entre 00:00 et 23:59 tous les jours de la semaine
+                </span>
+			</div>
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
+                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+            </div>
+        </div>
+	</article>
+    {{ form_end(form) }}
+
+    {###################   Reste a faire   #####################}
+    {# appliquer a toutes mes bornes #}
+{#
+	<article>
+		<a href="." class="button button-alt">Redémarrer la borne <i class="fas fa-power-off"></i></a>
+		<a href="." class="button button-no">Bloquer la borne <i class="fas fa-ban"></i></a>
+		<a href="." class="button button-no">Supprimer la borne <i class="fas fa-trash-alt"></i></a>
+	</article>
+#}
+</section>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+
+<script src="/js/bornes.js"></script>
+<script>
+
+$(document).ready(function(){
+
+    //Gestion du formulaire des horaires
+
+    // Rajoute une regle si on clique sur ajouter une regle
+	$(".horaires .ajouter-regle").on("click", function() {
+        ajouterRegle();
+        updateHoraires();
+    });
+
+    // Enleve une regle
+    $(".horaires").on("click", '.enlever-regle', function() {
+        $(this).parent('.champ').remove();
+        updateHoraires();
+    });
+
+    // Change une regle
+    $(".horaires").on("change", 'input, select', function() {
+        updateHoraires();
+    });
+
+    // Calcul de la longitude et de la latitude
+    $('.calculerEmplacement').on('click', function() {
+        calculerEmplacement();
+    });
+
+});
+</script>
+{% endblock %}

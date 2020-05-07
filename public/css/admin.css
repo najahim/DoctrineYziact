@@ -186,6 +186,10 @@ footer a, footer a:visited, footer a:hover {
 	margin: 15px 10px;
 }
 
+.parametres .champ-checkbox {
+	margin: 15px 10px;
+}
+
 .parametres .champ label {
 	margin: 0 10px 0 0;
 	max-width: 250px;
@@ -205,6 +209,22 @@ footer a, footer a:visited, footer a:hover {
 	height: 70px;
 }
 
+.parametres .mise-en-service-bornes {
+	width: 100%;
+	margin: 10px;
+}
+
+.parametres .mise-en-service-bornes div {
+	display: flex;
+	margin: 0 5px;
+	align-items: center;
+	justify-content: center;
+}
+
+.parametres .mise-en-service-bornes select {
+	margin: 10px 5px;
+	width: auto;
+}
 
 .parametres .submit {
 	width: 100%;

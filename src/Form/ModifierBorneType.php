@@ -5,6 +5,8 @@ namespace App\Form;
 use App\Entity\Borne;
 use App\Entity\Contact;
 use App\Entity\ModeleBorne;
+use App\Entity\Flotte;
+
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -13,6 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ModifierBorneType extends AbstractType
 {
@@ -44,7 +47,9 @@ class ModifierBorneType extends AbstractType
             // ->add('ip_adress_vpn_admin')
             // ->add('date_mise_en_service',DateTimeType::class)
             // ->add('date_expiration_test',DateTimeType::class)
-            ->add('commentaire')
+            ->add('commentaire', TextType::class, [
+                'required' => false
+            ])
             ->add('nom_portail')
             ->add('desc_portail')
             ->add('img_portail',FileType::class, [
@@ -98,7 +103,7 @@ class ModifierBorneType extends AbstractType
             //     'placeholder' => 'Choisir serveur'
             //
             // ])
-            ->add('contact', EntityType::class,[
+            ->add('contact', ContactBorneType::class,[
                 'class'=>Contact::class,
                 'choice_label' => function(Contact $contact) {
                     return sprintf('%s', $contact->getEmail());
@@ -122,15 +127,14 @@ class ModifierBorneType extends AbstractType
 
             ])*/
 
-            // ->add('flottes', EntityType::class,[
-            //     'required' => false,
-            //     'class'=>Flotte::class,
-            //     'choice_label' => function(Flotte $flotte) {
-            //         return sprintf('(%d) %s', $flotte->getId(), $flotte->getManager()->getEmail());
-            //     },
-            //     'placeholder' => 'Choisir flotte'
-            //
-            // ])
+            ->add('flottes', EntityType::class,[
+                'class'=>Flotte::class,
+                'choice_label' => function(Flotte $flotte) {
+                    return sprintf('%s', $flotte->getManager()->getEmail());
+                },
+                'placeholder' => 'Choisir proprietaire'
+
+            ])
             // ->add('nouveautes', EntityType::class,[
             //     'required' => false,
             //     'class'=>Nouveaute::class,

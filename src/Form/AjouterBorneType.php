@@ -22,6 +22,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AjouterBorneType extends AbstractType
 {
@@ -51,9 +52,15 @@ class AjouterBorneType extends AbstractType
             ->add('download_rate')
             ->add('txpower',IntegerType::class)
             // ->add('ip_adress_vpn_admin')
-            // ->add('date_mise_en_service',DateTimeType::class)
-            // ->add('date_expiration_test',DateTimeType::class)
-            ->add('commentaire')
+            ->add('date_mise_en_service',DateTimeType::class, [
+                'data' => new \DateTime()
+            ])
+            ->add('date_expiration_test',DateTimeType::class, [
+                'data' => new \DateTime()
+            ])
+            ->add('commentaire', TextType::class, [
+                'required' => false
+            ])
             ->add('nom_portail')
             ->add('desc_portail')
             ->add('img_portail',FileType::class, [
@@ -130,16 +137,14 @@ class AjouterBorneType extends AbstractType
 
 
             ])*/
+            ->add('flottes', EntityType::class,[
+                'class'=>Flotte::class,
+                'choice_label' => function(Flotte $flotte) {
+                    return sprintf('%s', $flotte->getManager()->getEmail());
+                },
+                'placeholder' => 'Choisir manager'
 
-            // ->add('flottes', EntityType::class,[
-            //     'required' => false,
-            //     'class'=>Flotte::class,
-            //     'choice_label' => function(Flotte $flotte) {
-            //         return sprintf('(%d) %s', $flotte->getId(), $flotte->getManager()->getEmail());
-            //     },
-            //     'placeholder' => 'Choisir flotte'
-            //
-            // ])
+            ])
             // ->add('nouveautes', EntityType::class,[
             //     'required' => false,
             //     'class'=>Nouveaute::class,
