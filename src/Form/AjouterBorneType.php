@@ -150,7 +150,7 @@ class AjouterBorneType extends AbstractType
             //
             // ])
             ->add('emplacement', EmplacementType::class)
-            ->add('envoyer', SubmitType::class)
+            // ->add('envoyer', SubmitType::class)
         ;
     }
 

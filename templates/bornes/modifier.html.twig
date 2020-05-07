@@ -5,72 +5,73 @@
 
 {% block main %}
 <section class="parametres">
+    {{ form_start(form) }}
     <article>
         <h2>Modifier une borne</h2>
-        <form action="." class="infos-borne">
-				<div class="identification">
-                    <div class="champ">
-                        {{ form_label(form.emplacement.nom_etablissement, "Nom de l'établissement :") }}
-						{{ form_widget(form.emplacement.nom_etablissement) }}
-					</div>
-					<div class="champ">
-                        {{ form_label(form.nom, 'Nom de la borne :') }}
-						{{ form_widget(form.nom) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.ssid, 'SSID :') }}
-						{{ form_widget(form.ssid) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.commentaire, 'Commentaire :') }}
-						{{ form_widget(form.commentaire) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.contact, 'Contact :') }}
-						{{ form_widget(form.contact) }}
-					</div>
+        <div class="form infos-bornes">
+			<div class="identification">
+                <div class="champ">
+                    {{ form_label(form.emplacement.nom_etablissement, "Nom de l'établissement :") }}
+					{{ form_widget(form.emplacement.nom_etablissement) }}
 				</div>
-				<div class="adresse">
-                    <div class="champ">
-                        {{ form_label(form.emplacement.adresse.numero_rue, 'Numero de rue :') }}
-						{{ form_widget(form.emplacement.adresse.numero_rue, {'attr': {'class': 'numero_rue'}}) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.emplacement.adresse.rue, 'Rue :') }}
-						{{ form_widget(form.emplacement.adresse.rue, {'attr': {'class': 'rue'}}) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.emplacement.adresse.code_postal, 'CP :') }}
-						{{ form_widget(form.emplacement.adresse.code_postal, {'attr': {'class': 'code_postal'}}) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.emplacement.adresse.ville, 'Ville :') }}
-						{{ form_widget(form.emplacement.adresse.ville, {'attr': {'class': 'ville'}}) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.emplacement.description, 'Commentaire adresse :') }}
-						{{ form_widget(form.emplacement.description) }}
-					</div>
-                    <span class="button button-alt calculerEmplacement">Calculer l'emplacement <i class="fas fa-map-marked-alt"></i></span>
-                    <div class="champ">
-                        {{ form_label(form.emplacement.latitude, 'Latitude :') }}
-						{{ form_widget(form.emplacement.latitude, {'attr': {'class': 'latitude'}}) }}
-					</div>
-                    <div class="champ">
-                        {{ form_label(form.emplacement.longitude, 'Longitude :') }}
-						{{ form_widget(form.emplacement.longitude, {'attr': {'class': 'longitude'}}) }}
-					</div>
-					{{ form_widget(form.emplacement.adresse.code_postal, {'attr': {'hidden': '', 'value' : 'France','class': 'pays'}}) }}
+				<div class="champ">
+                    {{ form_label(form.nom, 'Nom de la borne :') }}
+					{{ form_widget(form.nom) }}
 				</div>
-				<div class="submit">
-					<input type="submit" name="" class="button button-ok" value="Valider">
-					<a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                <div class="champ">
+                    {{ form_label(form.ssid, 'SSID :') }}
+					{{ form_widget(form.ssid) }}
 				</div>
-			</form>
+                <div class="champ">
+                    {{ form_label(form.commentaire, 'Commentaire :') }}
+					{{ form_widget(form.commentaire) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.contact, 'Contact :') }}
+					{{ form_widget(form.contact) }}
+				</div>
+			</div>
+			<div class="adresse">
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.numero_rue, 'Numero de rue :') }}
+					{{ form_widget(form.emplacement.adresse.numero_rue, {'attr': {'class': 'numero_rue'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.rue, 'Rue :') }}
+					{{ form_widget(form.emplacement.adresse.rue, {'attr': {'class': 'rue'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.code_postal, 'CP :') }}
+					{{ form_widget(form.emplacement.adresse.code_postal, {'attr': {'class': 'code_postal'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.adresse.ville, 'Ville :') }}
+					{{ form_widget(form.emplacement.adresse.ville, {'attr': {'class': 'ville'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.description, 'Commentaire adresse :') }}
+					{{ form_widget(form.emplacement.description) }}
+				</div>
+                <span class="button button-alt calculerEmplacement">Calculer l'emplacement <i class="fas fa-map-marked-alt"></i></span>
+                <div class="champ">
+                    {{ form_label(form.emplacement.latitude, 'Latitude :') }}
+					{{ form_widget(form.emplacement.latitude, {'attr': {'class': 'latitude'}}) }}
+				</div>
+                <div class="champ">
+                    {{ form_label(form.emplacement.longitude, 'Longitude :') }}
+					{{ form_widget(form.emplacement.longitude, {'attr': {'class': 'longitude'}}) }}
+				</div>
+				{{ form_widget(form.emplacement.adresse.pays, {'attr': {'style': 'display:none;', 'value' : 'France','class': 'pays'}}) }}
+			</div>
+			<div class="submit">
+				<input type="submit" name="" class="button button-ok" value="Valider">
+				<a href="{{ currentPath }}" class="button button-no">Annuler</a>
+			</div>
+        </div>
     </article>
     <article>
 		<h2>Paramètres de la borne</h2>
-		<form action="." class="parametres-borne">
+        <div class="form parametres-bornes">
             <div>
                 <div class="champ">
                     {{ form_label(form.adresse_mac, 'MAC :') }}
@@ -100,11 +101,11 @@
                 {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
                 <a href="{{ currentPath }}" class="button button-no">Annuler</a>
             </div>
-		</form>
+        </div>
 	</article>
     <article>
 		<h2>Personalisation du portail</h2>
-		<form action="." class="infos-borne">
+        <div class="form infos-bornes">
 			<div class="portail">
                 <div class="champ">
                     {{ form_label(form.nom_portail, 'Nom du portail :') }}
@@ -132,12 +133,12 @@
                 {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
                 <a href="{{ currentPath }}" class="button button-no">Annuler</a>
             </div>
-		</form>
+        </div>
 	</article>
 
 	<article>
 		<h2>Fonctionnement de la borne</h2>
-		<form action="." class="fonctionnement-borne">
+        <div class="form fonctionnement-bornes">
             <div class="champ">
                 {{ form_label(form.quota_user_duree, 'Temps de connexion maximum par jour (en minutes):') }}
                 {{ form_widget(form.quota_user_duree) }}
@@ -167,8 +168,9 @@
                 {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
                 <a href="{{ currentPath }}" class="button button-no">Annuler</a>
             </div>
-		</form>
+        </div>
 	</article>
+    {{ form_end(form) }}
 
     {###################   Reste a faire   #####################}
     {# appliquer a toutes mes bornes #}
@@ -196,11 +198,11 @@ $(document).ready(function(){
         let regle;
         baseHoraires = baseHoraires.split(';');
 
-        for (var i = 0; i < baseHoraires.length; i++) {
-            regleOff = baseHoraires[i].split(" ");
-            regleOn = baseHoraires[i + 1].split(" ");
-            if (regleOff[-1] === "off") {
-                ajouterRegle(regleOff[4], regleOff[1] + regleOff[0], regleOn[1] + regleOn[0]);
+        for (var i = 0; i < baseHoraires.length - 1; i++) {
+            regleOff = baseHoraires[i].trim().split(" ");
+            regleOn = baseHoraires[i + 1].trim().split(" ");
+            if (regleOff[5] === "off") {
+                ajouterRegle(regleOff[4], regleOff[1] + ":" + regleOff[0], regleOn[1] + ":" + regleOn[0]);
             }
             else {
                 continue;
@@ -248,14 +250,8 @@ $(document).ready(function(){
                 horaires += off + " off ; " + on + " on ; ";
             }
 
-            // Cas des horaires incompatibles
-            if((champ.children('.debut').val().split(':')[1] * 60 + champ.children('.debut').val().split(':')[0]) >= (champ.children('.fin').val().split(':')[1] * 60 + champ.children('.fin').val().split(':')[0])) {
-                champ.children('.fin').val('23:59');
-            }
-
             // On réécrit le champ
             $('.prog_wifi').val(horaires.trim());
-            console.log($('.prog_wifi').val());
         } catch (e) {
             alert('Erreur dans la saisie de la programmation horaire');
             console.log(e);
