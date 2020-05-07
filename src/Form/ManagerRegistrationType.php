@@ -38,7 +38,7 @@ class ManagerRegistrationType extends AbstractType
             ->add('nom_manager')
             ->add('prenom_manager')
             //->add('niveau_privilege')
-            ->add('envoyer', SubmitType::class)
+            //->add('envoyer', SubmitType::class)
         ;
     }
 
