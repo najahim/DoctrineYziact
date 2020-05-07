@@ -12,6 +12,7 @@ use App\Form\AdminRegistrationType;
 use App\Form\AjouterBorneType;
 use App\Form\BorneSearchType;
 use App\Form\EtatType;
+use App\Form\ModifierBorneType;
 use App\Form\TestType;
 use Knp\Component\Pager\PaginatorInterface;
 use phpDocumentor\Reflection\Types\Array_;
@@ -74,7 +75,7 @@ class BornesController extends AbstractController
     public function modifierBorne($id,Request $request):Response
     {
         $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
-        $form=$this->createForm(AjouterBorneType::class,$borne);
+        $form=$this->createForm(ModifierBorneType::class,$borne);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
