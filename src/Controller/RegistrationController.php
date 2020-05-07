@@ -60,6 +60,7 @@ class RegistrationController extends AbstractController
             ;
             $mailer->send($message);
 
+
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
@@ -119,13 +120,25 @@ class RegistrationController extends AbstractController
                 )
             ;
             $mailer->send($message);
-
+            $borne=new Borne();
+            $borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
+            $url=$borne->getPortailUrl();
+            if($url)
+            {
+                return $guardHandler->authenticateUserAndHandleSuccess(
+                    $user,
+                    $request,
+                    $authenticator,
+                    'main' // firewall name in security.yaml
+                )?: new RedirectResponse($url);
+            }
             return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml
-            )?: new RedirectResponse('/bornes');
+            )?: new RedirectResponse('http://www.cigale-hotspot.fr/qui-sommes-nous/');
+
         }
 
         $test = $this->jsonLocalisation();
