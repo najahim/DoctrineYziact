@@ -1,10 +1,63 @@
+
 {% extends 'base.html.twig' %}
-{% block body %}
 
-    <div>
-        <h1>Ajouter Admin</h1>
-        {{ form(form) }}
-    </div>
+{% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
 
+{% block main %}
+    <section class="parametres">
+        {{ form_start(form) }}
+        <article>
+            <h2>Ajouter Admin</h2>
+            <div class="form infos-bornes">
+                <div class="identification">
+                    <div class="champ">
+                        {{ form_label(form.email, "Email :") }}
+                        {{ form_widget(form.email) }}
+                    </div>
+
+
+                    <div class="champ">
+                        {{ form_label(form.nom, "Nom admin :") }}
+                        {{ form_widget(form.nom) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.prenom, "Prenom admin :") }}
+                        {{ form_widget(form.prenom) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.plainPassword, "Mot de passe :") }}
+                        {{ form_widget(form.plainPassword) }}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" name="" class="button button-ok" value="Valider">
+                        <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+
+
+
+        {{ form_end(form) }}
+
+        {###################   Reste a faire   #####################}
+        {# appliquer a toutes mes bornes #}
+        {#
+            <article>
+                <a href="." class="button button-alt">Redémarrer la borne <i class="fas fa-power-off"></i></a>
+                <a href="." class="button button-no">Bloquer la borne <i class="fas fa-ban"></i></a>
+                <a href="." class="button button-no">Supprimer la borne <i class="fas fa-trash-alt"></i></a>
+            </article>
+        #}
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
 
 {% endblock %}

@@ -26,12 +26,6 @@ class ModifierCompteController extends AbstractController
             $form = $this->createForm(ModifierAdminType::class, $user);
             $form->handleRequest($request);
             if ($form->isSubmitted() && $form->isValid()) {
-                $user->setPassword(
-                    $passwordEncoder->encodePassword(
-                        $user,
-                        $form->get('plainPassword')->getData()
-                    )
-                );
 
 
                 $entityManager = $this->getDoctrine()->getManager();

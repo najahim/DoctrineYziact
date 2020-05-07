@@ -24,7 +24,7 @@ class ModifierAdminType extends AbstractType
 
             ->add('nom')
             ->add('prenom')
-            ->add('envoyer', SubmitType::class)
+           // ->add('envoyer', SubmitType::class)
         ;
     }
 
