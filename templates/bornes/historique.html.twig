@@ -1,31 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello BornesController!{% endblock %}
+{% block title %}{% endblock %}
 
-{% block body %}
-    <style>
+{% block stylesheets %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
+    {{ parent() }}
+    <link rel="stylesheet" href="/css/datatables.css">
+{% endblock %}
 
-    </style>
+{% block main %}
 
-    <head>
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css">
-    </head>
-    </div>
-
-    <div>
-        <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.js"></script>
-
-        <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
-        <script src="https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"></script>
-
-        <div>
-
-
+    <main>
+        <article class="liste-bornes">
+            <h2>Historique</h2>
 
             <table id="mydatatable" class="table table-striped table-bordered dt-responsive mydatatable" style="width:100%">
                 <thead>
@@ -47,17 +35,27 @@
                     </tr>
                 {% endfor %}
                 </tbody>
+            </table>
+        </article>
+    </main>
+{% endblock %}
 
-        </div>
-    </div>
-    <script type="text/javascript" src="jquery.dataTables.js"></script>
-    <script>
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"></script>
+
+    <script type="text/javascript" src="jquery.dataTables.js" defer></script>
+    <script defer>
         $(document).ready(function() {
             // Setup - add a text input to each footer cell
-            $('#mydatatable thead tr').clone(true).appendTo( '#mydatatable thead' );
-            $('#mydatatable thead tr:eq(1) th').each( function (i) {
+            $('#mydatatable thead tr th').each( function (i) {
                 var title = $(this).text();
-                $(this).html( '<input type="text" placeholder="Chercher '+title+'" />' );
+                $(this).html( '<input type="text" placeholder="'+title+'" />' );
 
                 $( 'input', this ).on( 'keyup change', function () {
                     if ( table.column(i).search() !== this.value ) {
@@ -66,16 +64,22 @@
                             .search( this.value )
                             .draw();
                     }
-                } );
-            } );
+                });
+            });
 
             var table = $('#mydatatable').DataTable( {
                 "language": {
                     "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
                 },
-                lengthMenu: [[2,3,5,-1],[2,3,5,'tous']],
+                lengthMenu: [[2,3,5,-1],[2,3,5,'tous les']],
 
-            } );
-        } );
+            });
+
+            // $('#mydatatable .tableHead').hide();
+
+            $('tr[data-href]').on("click", function() {
+                document.location = $(this).data('href');
+            });
+        });
     </script>
 {% endblock %}
