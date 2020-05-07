@@ -32,14 +32,6 @@
             <form method="post" action="{# redirection #}">
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" placeholder="Identifiant" required autofocus>
                 <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Mot de passe" required>
-                {# remember_me
-                <div class="checkbox">
-                    <input type="checkbox" name="_remember_me" id="remember_me">
-                    <label for="remember_me">
-                        Rester connecté
-                    </label>
-                </div>
-                #}
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"
                 >
