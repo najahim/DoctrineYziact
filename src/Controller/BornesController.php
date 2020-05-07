@@ -84,10 +84,10 @@ class BornesController extends AbstractController
             $imgFile = $form['img_portail']->getData();
             if ($imgFile) {
                 $oldImg = $borne->getImgPortail();
-                @unlink($oldImg);
+                @unlink($fileUploader->getTargetDirectory . $oldImg);
 
-                $imgURL = $fileUploader->upload($imgFile, $borne->getId());
-                $borne->setImgPortail($fileUploader->getTargetDirectory() . '/' . $imgURL);
+                $imgURL = $fileUploader->upload($imgFile, '/uploads/portail/' . $borne->getId());
+                $borne->setImgPortail('/uploads/portail/' . $borne->getId() . '/' . $imgURL);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -169,7 +169,6 @@ class BornesController extends AbstractController
 
         return $this->render('bornes/historique.html.twig', [
             'borne' => $borne,
-
         ]);
     }
 

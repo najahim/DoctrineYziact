@@ -116,6 +116,9 @@
                     {{ form_widget(form.img_portail) }}
                 </div>
                 <div class="champ">
+                    <img src="{{ borne.getImgPortail() }}" alt="Image du portail">
+                </div>
+                <div class="champ">
                     {{ form_label(form.desc_portail, 'Description portail (sous-titre) :') }}
                     {{ form_widget(form.desc_portail) }}
                 </div>
