@@ -89,7 +89,7 @@ class BornesController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($borne);
             $entityManager->flush();
-            return $this->redirectToRoute('bornes');
+            //return $this->redirectToRoute('bornes');
 
         }
         return $this->render('bornes/modifier.html.twig', [
