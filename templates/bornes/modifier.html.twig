@@ -112,19 +112,20 @@
                     {{ form_widget(form.nom_portail) }}
                 </div>
                 <div class="champ">
-                    {{ form_label(form.img_portail, 'Logo du portail (100ko max) :') }}
-                    {{ form_widget(form.img_portail) }}
-                </div>
-                <div class="champ">
-                    <img src="{{ borne.getImgPortail() }}" alt="Image du portail">
-                </div>
-                <div class="champ">
                     {{ form_label(form.desc_portail, 'Description portail (sous-titre) :') }}
                     {{ form_widget(form.desc_portail) }}
                 </div>
                 <div class="champ">
                     {{ form_label(form.portail_url, 'Redirection après connexion :') }}
                     {{ form_widget(form.portail_url) }}
+                </div>
+                <div class="champ">
+                    {{ form_label(form.img_portail, 'Logo du portail (100ko max) :') }}
+                    {{ form_widget(form.img_portail) }}
+                </div>
+                <div class="champ">
+                    <span>Image actuelle :</span>
+                    <img src="{{ borne.getImgPortail() }}" alt="Image du portail">
                 </div>
                 <div class="">
                     {{ form_widget(form.affichage_map) }}

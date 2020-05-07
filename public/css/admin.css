@@ -201,6 +201,11 @@ footer a, footer a:visited, footer a:hover {
 	flex: 1;
 }
 
+.parametres .champ img {
+	height: 70px;
+}
+
+
 .parametres .submit {
 	width: 100%;
 	margin: auto;
