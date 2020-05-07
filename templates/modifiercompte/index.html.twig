@@ -6,6 +6,7 @@
 
 {% block main %}
     <section class="parametres">
+        {% if is_granted('ROLE_ADMIN')  %}
         {{ form_start(form) }}
         <article>
             <h2>Ajouter Admin</h2>
@@ -37,11 +38,45 @@
             </div>
         </article>
 
+        {{ form_end(form) }}
+        {% else %}
+        {{ form_start(form) }}
+        <article>
+            <h2>Ajouter Admin</h2>
+            <div class="form infos-bornes">
+                <div class="identification">
+                    <div class="champ">
+                        {{ form_label(form.email, "Email :") }}
+                        {{ form_widget(form.email) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.identifiant, "Identifiant :") }}
+                        {{ form_widget(form.identifiant) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.nom_manager, "Nom manager :") }}
+                        {{ form_widget(form.nom_manager) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.prenom_manager, "Prenom manager :") }}
+                        {{ form_widget(form.prenom_manager) }}
+                    </div>
 
 
+
+                    <div class="submit">
+                        <input type="submit" name="" class="button button-ok" value="Valider">
+                        <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        </article>
 
         {{ form_end(form) }}
-
+        {% endif %}
         {###################   Reste a faire   #####################}
         {# appliquer a toutes mes bornes #}
         {#
