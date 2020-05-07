@@ -120,9 +120,9 @@ class RegistrationController extends AbstractController
                 )
             ;
             $mailer->send($message);
-            $borne=new Borne();
-            $borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
-            $url=$borne->getPortailUrl();
+            $borne1=new Borne();
+            $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
+            $url=$borne1->getPortailUrl();
             if($url)
             {
                 return $guardHandler->authenticateUserAndHandleSuccess(
