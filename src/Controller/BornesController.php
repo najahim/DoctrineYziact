@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Service\FileUploader;
 
 class BornesController extends AbstractController
 {
@@ -72,7 +73,7 @@ class BornesController extends AbstractController
     /**
      * @Route ("/bornes/modifier/{id}",name="bornes.modifier")
      */
-    public function modifierBorne($id,Request $request):Response
+    public function modifierBorne($id,Request $request, FileUploader $fileUploader):Response
     {
         $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
         $form=$this->createForm(ModifierBorneType::class,$borne);
@@ -82,8 +83,11 @@ class BornesController extends AbstractController
             /** @var UploadedFile $imgFile */
             $imgFile = $form['img_portail']->getData();
             if ($imgFile) {
-                $imgURL = $fileUploader->upload($imgFile);
-                $borne->setImgPortail("//images//" . $imgFileName);
+                $oldImg = $borne->getImgPortail();
+                @unlink($oldImg);
+
+                $imgURL = $fileUploader->upload($imgFile, $borne->getId());
+                $borne->setImgPortail($fileUploader->getTargetDirectory() . '/' . $imgURL);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
