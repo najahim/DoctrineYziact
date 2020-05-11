@@ -77,10 +77,6 @@
                     {{ form_widget(form.date_expiration_test) }}
                 </div>
             </div>
-			<div class="submit">
-				<input type="submit" name="" class="button button-ok" value="Valider">
-				<a href="{{ currentPath }}" class="button button-no">Annuler</a>
-			</div>
         </div>
     </article>
     <article>
@@ -95,6 +91,10 @@
                     {{ form_label(form.modeleborne, 'Modèle :') }}
                     {{ form_widget(form.modeleborne) }}
                 </div>
+                <div class="champ">
+                    {{ form_label(form.etat, 'Etat :') }}
+					{{ form_widget(form.etat) }}
+				</div>
                 <div class="champ-checkbox">
                     {{ form_widget(form.filtrage) }}
                     {{ form_label(form.filtrage, 'Filtrage') }}
@@ -109,11 +109,10 @@
                     {{ form_label(form.txpower, "Puissance d'émission :") }}
                     {{ form_widget(form.txpower) }}
                 </div>
-            </div>
-            <div class="submit">
-                <input type="submit" name="" class="button button-ok" value="Valider">
-                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
-                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                <div class="champ">
+                    {{ form_label(form.serveur, 'Serveur :') }}
+					{{ form_widget(form.serveur) }}
+				</div>
             </div>
         </div>
 	</article>
@@ -146,11 +145,6 @@
                     {{ form_label(form.affichage_map, 'Afficher la carte des bornes Cigale') }}
                 </div>
 			</div>
-            <div class="submit">
-                <input type="submit" name="" class="button button-ok" value="Valider">
-                {# <input type="submit" name="" class="button button-alt" value="Apliquer à toutes mes bornes"> #}
-                <a href="{{ currentPath }}" class="button button-no">Annuler</a>
-            </div>
         </div>
 	</article>
 
