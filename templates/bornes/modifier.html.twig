@@ -76,6 +76,11 @@
     <article>
 		<h2>Paramètres de la borne</h2>
         <div class="form parametres-bornes">
+            <div class="submit">
+                <a href="/bornes/activation/{{borne.id}}" class="button button-ok">Activation <i class="fas fa-lightbulb"></i></a>
+                <a href="/bornes/desactivation/{{borne.id}}" class="button button-no">Désactivation <i class="far fa-lightbulb"></i></a>
+                <a href="/bornes/historique/{{borne.id}}" class="button button-alt">Historique <i class="fas fa-history"></i></a>
+            </div>
             <div>
                 <div class="champ">
                     {{ form_label(form.adresse_mac, 'MAC :') }}
@@ -84,13 +89,6 @@
                 <div class="champ">
                     {{ form_label(form.modeleborne, 'Modèle :') }}
                     {{ form_widget(form.modeleborne) }}
-                </div>
-                <div class="champ-checkbox">
-                    <a href="" class="button button-alt">Changer l'état <i class="far fa-lightbulb"></i></a>
-				</div>
-                <div class="champ-checkbox">
-                    {{ form_widget(form.filtrage) }}
-                    {{ form_label(form.filtrage, 'Filtrage') }}
                 </div>
             </div>
             <div>
@@ -101,6 +99,10 @@
                 <div class="champ">
                     {{ form_label(form.txpower, "Puissance d'émission :") }}
                     {{ form_widget(form.txpower) }}
+                </div>
+                <div class="champ-checkbox">
+                    {{ form_widget(form.filtrage) }}
+                    {{ form_label(form.filtrage, 'Filtrage') }}
                 </div>
             </div>
             <div class="submit">
