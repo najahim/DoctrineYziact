@@ -1,4 +1,33 @@
-<div>
-    <h1>modifier mot de passe </h1>
-    {{ form(form) }}
-</div>
+{% extends 'base.html.twig' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+
+{% block main %}
+    <section class="parametres">
+        <article>
+            <h2>Modifier le mot de passe</h2>
+            <div class="form">
+                {{ form_start(form) }}
+                    <div class="champ">
+                        {{ form_label(form.motdepasse, "Ancien mot de passe :") }}
+                        {{ form_widget(form.motdepasse) }}
+                    </div>
+                    <div class="champ">
+                        {{ form_label(form.newpassword.first, "Nouveau mot de passe :") }}
+                        {{ form_widget(form.newpassword.first) }}
+                    </div>
+                    <div class="champ">
+                        {{ form_label(form.newpassword.second, "Retaper nouveau mot de passe :") }}
+                        {{ form_widget(form.newpassword.second) }}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" name="" class="button button-ok" value="Valider">
+                        <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </article>
+    </section>
+{% endblock %}

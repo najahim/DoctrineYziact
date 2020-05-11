@@ -32,12 +32,12 @@ class MotdepasseType extends AbstractType
                 'mapped'=> false
             ))
 
-            ->add('submit', SubmitType::class, array(
-                'attr' => array(
-                    'class' => 'btn btn-primary btn-block'
-                )
-
-            ))
+            // ->add('submit', SubmitType::class, array(
+            //     'attr' => array(
+            //         'class' => 'btn btn-primary btn-block'
+            //     )
+            //
+            // ))
         ;
     }
 
