@@ -39,12 +39,12 @@ class Nouveaute
     private $date_nouveaute;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50,nullable=true)
      */
     private $auteur_nom;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50,nullable=true)
      */
     private $auteur_prenom;
 
@@ -70,7 +70,10 @@ class Nouveaute
     {
         return $this->bornes;
     }
-
+    public function __construct()
+    {
+        $this->bornes = new ArrayCollection();
+    }
     /**
      * @param ArrayCollection $bornes
      */
@@ -79,10 +82,7 @@ class Nouveaute
         $this->bornes = $bornes;
     }
 
-    public function __construct()
-    {
-        $this->bornes = new ArrayCollection();
-    }
+
 
 
     public function getId(): ?int

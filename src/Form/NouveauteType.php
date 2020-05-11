@@ -2,10 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Borne;
 use App\Entity\Langue;
 use App\Entity\Manager;
 use App\Entity\Nouveaute;
 use App\Entity\TypeNouveaute;
+use App\Repository\BorneRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -67,6 +69,21 @@ class NouveauteType extends AbstractType
             //     'placeholder' => 'Choisir un type'
             // ])
             //->add('bornes')
+            ->add('bornes', EntityType::class,[
+                'required' => false,
+                'class'=>Borne::class,
+                /*'query_builder' => function (BorneRepository $er) {
+                    return $er->createQueryBuilder('u')
+                        ->orderBy('u.id', 'DESC');
+                },*/
+                'choice_label' => function(Borne $borne) {
+                    return sprintf('(%d) %s', $borne->getId(), $borne->getNom());
+                },
+                // 'choices'=> $this->g->findByOrder(),
+                'placeholder' => 'Choisir bornes',
+                'multiple' => true,
+
+            ])
             // ->add('envoyer', SubmitType::class)
         ;
     }

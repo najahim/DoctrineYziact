@@ -264,11 +264,24 @@ class Borne
     /**
      * @param mixed $flottes
      */
-    public function setFlottes($flottes): void
+    public function setFlottes($flottes):void
     {
         $this->flottes = $flottes;
+        //return $this;
+
     }
 
+
+  /*  public function addFlottes($flotte):void
+    {
+        if ($this->flottes and $this->flottes->contains($flotte)) {
+            return;
+        }
+
+        $this->flottes->add($flotte);
+        $flotte->addBornes($this);
+
+    }*/
 
 
     public function __construct()

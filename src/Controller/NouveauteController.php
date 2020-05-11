@@ -3,9 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Flotte;
+use App\Entity\Manager;
 use App\Entity\Nouveaute;
 use App\Form\FlotteType;
 use App\Form\NouveauteType;
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +36,13 @@ class NouveauteController extends AbstractController
     public function ajouterNouveaute(Request $request, FileUploader $fileUploader):Response
     {
         $nouveaute= new Nouveaute();
+        $user=new Manager();
+        $user=$this->getUser();
+        $bornes= new ArrayCollection();
+        $bornes=$this->getDoctrine()->getRepository('App:Borne')
+            ->findByUser($user->getId());
+        var_dump($bornes);
+       // $nouveaute->setBornes($bornes);
         $form=$this->createForm(NouveauteType::class,$nouveaute);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

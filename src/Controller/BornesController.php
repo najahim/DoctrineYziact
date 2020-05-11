@@ -84,6 +84,7 @@ class BornesController extends AbstractController
         $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
         $form=$this->createForm(ModifierBorneType::class,$borne);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $imgFile = $form['img_portail']->getData();

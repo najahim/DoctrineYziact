@@ -54,6 +54,16 @@ class Flotte
         $this->bornes = $bornes;
     }
 
+   /* public function addBornes($borne):void
+    {
+        if ($this->bornes and $this->bornes->contains($borne)) {
+            return;
+        }
+
+        $this->bornes->add($borne);
+        $borne->addFlottes($this);
+
+    }*/
     public function getId(): ?int
     {
         return $this->id;
@@ -82,4 +92,6 @@ class Flotte
 
         return $this;
     }
+
+
 }

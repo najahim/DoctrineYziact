@@ -138,7 +138,8 @@ class AjouterBorneType extends AbstractType
                 'choice_label' => function(Flotte $flotte) {
                     return sprintf('%s', $flotte->getManager()->getEmail());
                 },
-                'placeholder' => 'Choisir manager'
+                'placeholder' => 'Choisir manager',
+
 
             ])
             // ->add('nouveautes', EntityType::class,[
