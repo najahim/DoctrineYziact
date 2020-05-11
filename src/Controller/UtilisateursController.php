@@ -8,9 +8,11 @@ use App\Entity\UtilisateurSearch;
 use App\Form\AdminRegistrationType;
 use App\Form\ManagerRegistrationType;
 use App\Form\ModifierManagerType;
+use App\Form\MotdepasseType;
 use App\Form\UtilisateurSearchType;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -135,6 +137,48 @@ class UtilisateursController extends AbstractController
         }
         return $this->render('utilisateurs/modifierManager.html.twig', [
             'manager' => $manager,
+            'form'=>$form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route ("/motdepasse",name="utilisateurs.motdepasse")
+     */
+    public function modifierpasseword(Request $request,UserPasswordEncoderInterface $passwordEncoder):Response
+    {
+        $user= $this->getUser();
+        $form=$this->createForm(MotdepasseType::class,$user);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $oldpassword=$passwordEncoder->encodePassword(
+                $user,
+                $form->get('motdepasse')->getData()
+            );
+            if($passwordEncoder->isPasswordValid($user,$form->get('motdepasse')->getData()))
+            {
+
+                $user->setPassword(
+                    $passwordEncoder->encodePassword(
+                        $user,
+                        $form->get('newpassword')->getData()
+                    )
+                );
+                $this->addFlash('notice', 'Votre mot de passe à bien été changé !');
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+            }
+            else
+            {
+                $form->addError(new FormError('Ancien mot de passe incorrect'));
+
+            }
+
+        }
+        return $this->render('utilisateurs/motdepasse.html.twig', [
+            'manager' => $user,
             'form'=>$form->createView(),
         ]);
     }
