@@ -85,9 +85,8 @@
                     {{ form_label(form.modeleborne, 'Modèle :') }}
                     {{ form_widget(form.modeleborne) }}
                 </div>
-                <div class="champ">
-                    {{ form_label(form.etat, 'Etat :') }}
-					{{ form_widget(form.etat) }}
+                <div class="champ-checkbox">
+                    <a href="" class="button button-alt">Changer l'état <i class="far fa-lightbulb"></i></a>
 				</div>
                 <div class="champ-checkbox">
                     {{ form_widget(form.filtrage) }}
@@ -103,10 +102,6 @@
                     {{ form_label(form.txpower, "Puissance d'émission :") }}
                     {{ form_widget(form.txpower) }}
                 </div>
-                <div class="champ">
-                    {{ form_label(form.serveur, 'Serveur :') }}
-					{{ form_widget(form.serveur) }}
-				</div>
             </div>
             <div class="submit">
                 <input type="submit" name="" class="button button-ok" value="Valider">

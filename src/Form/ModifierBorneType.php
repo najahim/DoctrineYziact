@@ -84,21 +84,21 @@ class ModifierBorneType extends AbstractType
                 'placeholder' => 'Choisir modele'
 
             ])
-            ->add('etat', EntityType::class,[
-                'class'=>Etat::class,
-                'choice_label' => function(Etat $etat) {
-                    return sprintf('%s', $etat->getEtat());
-                },            
-            ])
-            ->add('serveur', EntityType::class,[
-                'required' => false,
-                'class'=>Serveur::class,
-                'choice_label' => function(Serveur $serveur) {
-                    return sprintf('(%d) %s', $serveur->getId(), $serveur->getReseaux());
-                },
-                'placeholder' => 'Choisir serveur'
-
-            ])
+            // ->add('etat', EntityType::class,[
+            //     'class'=>Etat::class,
+            //     'choice_label' => function(Etat $etat) {
+            //         return sprintf('%s', $etat->getEtat());
+            //     },
+            // ])
+            // ->add('serveur', EntityType::class,[
+            //     'required' => false,
+            //     'class'=>Serveur::class,
+            //     'choice_label' => function(Serveur $serveur) {
+            //         return sprintf('(%d) %s', $serveur->getId(), $serveur->getReseaux());
+            //     },
+            //     'placeholder' => 'Choisir serveur'
+            //
+            // ])
             ->add('contact', EntityType::class,[
                 'class'=>Contact::class,
                 'choice_label' => function(Contact $contact) {
