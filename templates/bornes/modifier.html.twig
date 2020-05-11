@@ -134,6 +134,10 @@
                     <span>Image actuelle :</span>
                     <img src="{{ borne.getImgPortail() }}" alt="Image du portail">
                 </div>
+                <div class="champ">
+                    {{ form_label(form.css, 'Fichier couleur :') }}
+                    {{ form_widget(form.css) }}
+                </div>
                 <div class="champ-checkbox">
                     {{ form_widget(form.affichage_map) }}
                     {{ form_label(form.affichage_map, 'Afficher la carte des bornes Cigale') }}

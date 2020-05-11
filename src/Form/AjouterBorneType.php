@@ -86,6 +86,9 @@ class AjouterBorneType extends AbstractType
                     ])
                 ],
             ])
+            ->add('css', TextType::class, [
+                'required' => false
+            ])
             ->add('modeleborne', EntityType::class,[
                 'required' => false,
                 'class'=>ModeleBorne::class,
