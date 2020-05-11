@@ -49,5 +49,18 @@ class VersionCGUController extends AbstractController
             'form'=>$form->createView(),
         ]);
     }
+    /**
+     * @Route ("/versioncgu/supprimer/{id}",name="versioncgu.supprimer")
+     */
+    public function supprimerCGU($id,Request $request):Response
+    {
+        $cgu= $this->getDoctrine()->getRepository('App:VersionCGU')->find($id);
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($cgu);
+        $entityManager->flush();
+        return $this->redirectToRoute('versioncgu');
+    }
 
 }

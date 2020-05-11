@@ -64,4 +64,19 @@ class NouveauteController extends AbstractController
             'form'=>$form->createView(),
         ]);
     }
+    /**
+     * @Route ("/nouveaute/supprimer/{id}",name="nouveaute.supprimer")
+     */
+    public function supprimernouveaute($id,Request $request):Response
+    {
+        $nouveaute= $this->getDoctrine()->getRepository('App:Nouveaute')->find($id);
+
+        $oldImg = $nouveaute->getImgPortail();
+        @unlink($fileUploader->getTargetDirectory . $oldImg);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($nouveaute);
+        $entityManager->flush();
+        return $this->redirectToRoute('nouveaute');
+    }
 }
