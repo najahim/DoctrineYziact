@@ -19,11 +19,13 @@ class VersionType extends AbstractType
         $builder
             ->add('versioncgu')
             ->add('description_cgu')
-            ->add('date_activation', DateType::class)
+            ->add('date_activation', DateType::class, [
+                'data' => new \DateTime(),
+            ])
             //->add('active', CheckboxType::class, [
            // 'required' => false
            // ])
-            ->add('envoyer', SubmitType::class)
+           //->add('envoyer', SubmitType::class)
         ;
     }
 

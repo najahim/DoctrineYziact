@@ -1,9 +1,21 @@
-{% block body %}
+{% extends 'base.html.twig' %}
 
-    <div>
-        <h1>Ajouter Version CGU</h1>
-        {{ form(form) }}
-    </div>
-
+{% block main %}
+<main>
+    <section class="actualites">
+    	<article class="actus">
+    		<h2>Nouvelle version CGU</h2>
+            {{ form_start(form) }}
+                {{ form_widget(form.versioncgu, {'attr': {'placeholder': 'Version'}}) }}
+    			<div class="title">
+                    {{ form_widget(form.description_cgu, {'attr': {'placeholder': 'Description'}}) }}
+                    {{ form_widget(form.date_activation) }}
+    			</div>
+    			<div class="submit">
+    				<input type="submit" name="" class="button button-ok" value="Valider">
+    			</div>
+            {{ form_end(form) }}
+    	</article>
+</main>
 
 {% endblock %}

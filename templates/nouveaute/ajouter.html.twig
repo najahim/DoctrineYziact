@@ -5,38 +5,38 @@
 
 {% block main %}
 <section class="actualites">
-		<article class="actus">
-			<h2>Nouvelle actualité</h2>
-            {{ form_start(form, {'attr': {'class': 'actu-form'}}) }}
-                {{ form_widget(form.lien_image) }}
-				<div class="title">
-                    {{ form_widget(form.titre, {'attr': {'placeholder': 'Titre de l\'actualité'}}) }}
-                    {{ form_widget(form.date_nouveaute) }}
-				</div>
-                {{ form_widget(form.contenu, {'attr': {'placeholder': 'Contenu de l\'actualité', 'rows': '8', 'cols': '80'}}) }}
-    			<div class="submit">
-    				<input type="submit" name="" class="button button-ok" value="Valider">
-    			</div>
-            {{ form_end(form) }}
-		</article>
-		<article class="actus">
-			<h2>Dernière actualités</h2>
-			<div class="actu">
-				<div class="img" style="background: no-repeat center center url('http://yziact.fr/wp-content/uploads/2019/04/Home-Yziact-systeme-informatique.jpg'); background-size: cover;">
-				</div>
-				<div class="content">
-					<h3>Nouveau site en cours de création</h3>
-					<span class="date"><i class="fas fa-clock"></i> 21/04/2020</span>
+	<article class="actus">
+		<h2>Nouvelle actualité</h2>
+        {{ form_start(form, {'attr': {'class': 'actu-form'}}) }}
+            {{ form_widget(form.lien_image) }}
+			<div class="title">
+                {{ form_widget(form.titre, {'attr': {'placeholder': 'Titre de l\'actualité'}}) }}
+                {{ form_widget(form.date_nouveaute) }}
+			</div>
+            {{ form_widget(form.contenu, {'attr': {'placeholder': 'Contenu de l\'actualité', 'rows': '8', 'cols': '80'}}) }}
+			<div class="submit">
+				<input type="submit" name="" class="button button-ok" value="Valider">
+			</div>
+        {{ form_end(form) }}
+	</article>
+	<article class="actus">
+		<h2>Dernière actualités</h2>
+		<div class="actu">
+			<div class="img" style="background: no-repeat center center url('http://yziact.fr/wp-content/uploads/2019/04/Home-Yziact-systeme-informatique.jpg'); background-size: cover;">
+			</div>
+			<div class="content">
+				<h3>Nouveau site en cours de création</h3>
+				<span class="date"><i class="fas fa-clock"></i> 21/04/2020</span>
 
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil est voluptas, optio illo id voluptatem sit dolore necessitatibus quis temporibus consectetur placeat, architecto delectus aliquam deleniti perferendis autem repellat.</p>
+				<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil est voluptas, optio illo id voluptatem sit dolore necessitatibus quis temporibus consectetur placeat, architecto delectus aliquam deleniti perferendis autem repellat.</p>
 
-					<div class="delete">
-						<a class="button button-no">Supprimer <i class="fas fa-trash-alt"></i></a>
-					</div>
+				<div class="delete">
+					<a class="button button-no">Supprimer <i class="fas fa-trash-alt"></i></a>
 				</div>
 			</div>
-        </article>
-	</section>
+		</div>
+    </article>
+</section>
 
 {% endblock %}
 
