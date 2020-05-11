@@ -125,12 +125,10 @@ class ModifierBorneType extends AbstractType
 
             ->add('flottes', EntityType::class,[
                 'class'=>Flotte::class,
-                'choice_label' => function(Flotte $flotte) {
-                    return sprintf('%s', $flotte->getManager()->getEmail());
-                },
+                'choice_label' => 'manager.email',
                 'placeholder' => 'Choisir proprietaire',
                 'required'=> false,
-
+                'multiple' => true,
             ])
             // ->add('nouveautes', EntityType::class,[
             //     'required' => false,

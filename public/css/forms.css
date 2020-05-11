@@ -166,3 +166,21 @@ a.twitter-button {
 .contact textarea {
 	height: 300px
 }
+
+.parametres .champ select[multiple] {
+	flex: 1;
+	color: inherit;
+	width: 300px;
+}
+
+.parametres .champ select[multiple] option{
+	flex: 1;
+	padding: 3px 5px;
+	border-radius: 3px;
+}
+
+.parametres .champ select[multiple] option[selected]{
+	flex: 1;
+	background: #ffffff;
+	border-radius: 3px;
+}
