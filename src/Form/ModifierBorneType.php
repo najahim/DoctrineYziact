@@ -103,7 +103,7 @@ class ModifierBorneType extends AbstractType
             //     'placeholder' => 'Choisir serveur'
             //
             // ])
-            ->add('contact', ContactBorneType::class,[
+            ->add('contact', EntityType::class,[
                 'class'=>Contact::class,
                 'choice_label' => function(Contact $contact) {
                     return sprintf('%s', $contact->getEmail());
