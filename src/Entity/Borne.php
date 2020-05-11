@@ -120,6 +120,27 @@ class Borne
     private $commentaire;
 
     /**
+     * @ORM\Column(type="string", length=255,nullable=true)
+     */
+    private $css;
+
+    /**
+     * @return mixed
+     */
+    public function getCss()
+    {
+        return $this->css;
+    }
+
+    /**
+     * @param mixed $css
+     */
+    public function setCss($css): void
+    {
+        $this->css = $css;
+    }
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\ModeleBorne", inversedBy="bornes")
      */
     private $modeleborne;
