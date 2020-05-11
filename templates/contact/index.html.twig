@@ -2,8 +2,21 @@
 
 {% block title %}Hello ContactController!{% endblock %}
 
-{% block body %}
-    <h1>Nouveau contact</h1>
-    {{ form(contactForm) }}
+{% block main %}
+<section class="contact">
+	<article>
+		<h2>Formulaire de contact</h2>
+		<p>Si vous rencontrez un problème, vous pouvez nous contacter ci-dessous. Merci de nous apporter un maximum d'éléments pour que nous puissions répondre au mieux à vos besoins</p>
+        {{ form_start(contactForm) }}
+
+            {{ form_widget(contactForm.email, { 'attr': {'placeholder': 'Email'} }) }}
+            {{ form_widget(contactForm.objet, { 'attr': {'placeholder': 'Objet'} }) }}
+            {{ form_widget(contactForm.message, { 'attr': {'placeholder': 'Message'} }) }}
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+            </div>
+        {{ form_end(contactForm) }}
+	</article>
+</section>
 
 {% endblock %}
