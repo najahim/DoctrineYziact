@@ -101,6 +101,9 @@ class RegistrationController extends AbstractController
             $user->setValidation(false);
             $user->setActivationToken(md5(uniqid()));
             $user->setDateCreation(new \DateTime('now'));
+            $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
+                ->findLast();
+            $user->setVersionCgu($cgu[0]);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
@@ -125,19 +128,22 @@ class RegistrationController extends AbstractController
             $url=$borne1->getPortailUrl();
             if($url)
             {
-                return $guardHandler->authenticateUserAndHandleSuccess(
+                /*return $guardHandler->authenticateUserAndHandleSuccess(
                     $user,
                     $request,
                     $authenticator,
                     'main' // firewall name in security.yaml
-                )?: new RedirectResponse($url);
+                )?: new RedirectResponse($url);*/
+                return $this->redirect($url);
+
             }
-            return $guardHandler->authenticateUserAndHandleSuccess(
+            /*return $guardHandler->authenticateUserAndHandleSuccess(
                 $user,
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml
-            )?: new RedirectResponse('http://www.cigale-hotspot.fr/qui-sommes-nous/');
+            )?: new RedirectResponse('http://www.cigale-hotspot.fr/qui-sommes-nous/');*/
+            return $this->redirect('http://www.cigale-hotspot.fr/qui-sommes-nous/');
 
         }
 

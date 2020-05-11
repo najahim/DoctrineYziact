@@ -20,9 +20,9 @@ class VersionType extends AbstractType
             ->add('versioncgu')
             ->add('description_cgu')
             ->add('date_activation', DateType::class)
-            ->add('active', CheckboxType::class, [
-            'required' => false
-            ])
+            //->add('active', CheckboxType::class, [
+           // 'required' => false
+           // ])
             ->add('envoyer', SubmitType::class)
         ;
     }

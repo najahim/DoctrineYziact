@@ -55,7 +55,8 @@ class GoogleController extends AbstractController
                 )
             ;
             $mailer->send($message);
-            return $this->redirectToRoute('default');
+            return $this->redirect('http://www.cigale-hotspot.fr/qui-sommes-nous/');
+
         }
 
     }

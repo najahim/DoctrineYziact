@@ -55,6 +55,9 @@ class GoogleAuthenticator extends SocialAuthenticator
             $user->setDateCreation(new \DateTime('now'));
             $user->setActivationToken(md5(uniqid()));
             $user->setValidation(false);
+            $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
+                ->findLast();
+            $user->setVersionCgu($cgu[0]);
             //$user->setResponse($googleUser->getHostedDomain());
             // $user->setFullname($googleUser->getName());
             //$user->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
@@ -107,6 +110,6 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
     {
-           //return new RedirectResponse('/default');
+           return new RedirectResponse('/logout');
     }
 }

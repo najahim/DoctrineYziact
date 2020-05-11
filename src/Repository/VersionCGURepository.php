@@ -18,6 +18,15 @@ class VersionCGURepository extends ServiceEntityRepository
     {
         parent::__construct($registry, VersionCGU::class);
     }
+    public function findLast()
+    {
+        return $this->createQueryBuilder('v')
+            ->orderBy('v.id', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
     // /**
     //  * @return VersionCGU[] Returns an array of VersionCGU objects
