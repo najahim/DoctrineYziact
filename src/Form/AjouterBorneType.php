@@ -63,7 +63,7 @@ class AjouterBorneType extends AbstractType
             ])
             ->add('nom_portail')
             ->add('desc_portail')
-            ->add('img_portail',FileType::class, [
+            ->add('img_portail', FileType::class, [
                 'label' => 'Logo du portail',
 
                 // unmapped means that this field is not associated to any entity property

@@ -51,12 +51,18 @@ class BornesController extends AbstractController
     /**
      * @Route ("/bornes/ajouter",name="bornes.ajouter")
      */
-    public function ajouterBorne(Request $request):Response
+    public function ajouterBorne(Request $request, FileUploader $fileUploader):Response
     {
         $borne= new Borne();
         $form=$this->createForm(AjouterBorneType::class,$borne);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $imgFile = $form['img_portail']->getData();
+            if ($imgFile) {
+                $imgURL = $fileUploader->upload($imgFile, '/uploads/portail/' . $borne->getId());
+                $borne->setImgPortail('/uploads/portail/' . $imgURL);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($borne);
@@ -80,14 +86,13 @@ class BornesController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var UploadedFile $imgFile */
             $imgFile = $form['img_portail']->getData();
             if ($imgFile) {
                 $oldImg = $borne->getImgPortail();
                 @unlink($fileUploader->getTargetDirectory . $oldImg);
 
                 $imgURL = $fileUploader->upload($imgFile, '/uploads/portail/' . $borne->getId());
-                $borne->setImgPortail('/uploads/portail/' . $borne->getId() . '/' . $imgURL);
+                $borne->setImgPortail('/uploads/portail/' . $imgURL);
             }
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -178,6 +183,9 @@ class BornesController extends AbstractController
     public function supprimerBorne($id,Request $request):Response
     {
         $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
+
+        $oldImg = $borne->getImgPortail();
+        @unlink($fileUploader->getTargetDirectory . $oldImg);
 
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->remove($borne);

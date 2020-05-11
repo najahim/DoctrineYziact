@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
 
 class NouveauteController extends AbstractController
 {
@@ -30,14 +31,28 @@ class NouveauteController extends AbstractController
     /**
      * @Route ("/nouveaute/ajouter",name="nouveaute.ajouter")
      */
-    public function ajouterNouveaute(Request $request):Response
+    public function ajouterNouveaute(Request $request, FileUploader $fileUploader):Response
     {
         $nouveaute= new Nouveaute();
         $form=$this->createForm(NouveauteType::class,$nouveaute);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $nouveaute->setDateNouveaute(new \DateTime('now'));
+            $imgFile = $form['lien_image']->getData();
+            if ($imgFile) {
+
+                // POUR SUPPRIMER L'IMAGE :
+                // $oldImg = $nouveaute->getLienImage();
+                // @unlink($fileUploader->getTargetDirectory . $oldImg);
+
+                $imgURL = $fileUploader->upload($imgFile, '/uploads/nouveautes/' . $nouveaute->getId());
+                $nouveaute->setLienImage('/uploads/nouveautes/' . $imgURL);
+            }
+
+            $nouveaute->setAuteurNom($this->getUser()->getNomManager());
+            $nouveaute->setAuteurPrenom("");
+
+            // $nouveaute->setDateNouveaute(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($nouveaute);
             $entityManager->flush();

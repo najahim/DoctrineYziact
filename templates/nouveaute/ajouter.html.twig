@@ -7,19 +7,16 @@
 <section class="actualites">
 		<article class="actus">
 			<h2>Nouvelle actualité</h2>
-            {{ form_start(form, {'attr': {'class': 'actu'}}) }}
-            {{ form_widget(form.emplacement) }}
-				<input type="file" class="img">
-				<div class="content">
-					<h3><input type="text" placeholder="Titre de l'actualité"></h3>
-					<span class="date"><input type="date"></span>
-
-					<textarea name="contenu" rows="8" cols="80" placeholder="Contenu de l'actualité"></textarea>
+            {{ form_start(form, {'attr': {'class': 'actu-form'}}) }}
+                {{ form_widget(form.lien_image) }}
+				<div class="title">
+                    {{ form_widget(form.titre, {'attr': {'placeholder': 'Titre de l\'actualité'}}) }}
+                    {{ form_widget(form.date_nouveaute) }}
 				</div>
-			</form>
-			<div class="submit">
-				<input type="submit" name="" class="button button-ok" value="Valider">
-			</div>
+                {{ form_widget(form.contenu, {'attr': {'placeholder': 'Contenu de l\'actualité', 'rows': '8', 'cols': '80'}}) }}
+    			<div class="submit">
+    				<input type="submit" name="" class="button button-ok" value="Valider">
+    			</div>
             {{ form_end(form) }}
 		</article>
 		<article class="actus">
@@ -38,6 +35,7 @@
 					</div>
 				</div>
 			</div>
+        </article>
 	</section>
 
 {% endblock %}

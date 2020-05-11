@@ -11,6 +11,10 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class NouveauteType extends AbstractType
 {
@@ -18,29 +22,52 @@ class NouveauteType extends AbstractType
     {
         $builder
             ->add('titre')
-            ->add('contenu')
-            ->add('lien_image')
-            //->add('date_nouveaute')
-            ->add('auteur_nom')
-            ->add('auteur_prenom')
+            ->add('contenu', TextareaType::class)
+            ->add('lien_image', FileType::class, [
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => true,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1500k',
+                        'mimeTypes' => [
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        'mimeTypesMessage' => "Merci d'utiliser un JPEG ou un PNG",
+                    ])
+                ],
+            ])
+            ->add('date_nouveaute', DateType::class, [
+                'data' => new \DateTime(),
+                'widget' => 'single_text'
+            ])
+            // ->add('auteur_nom')
+            // ->add('auteur_prenom')
             //->add('langue')
-            ->add('langue', EntityType::class,[
-                'class'=>Langue::class,
-                'choice_label' => function(Langue $langue) {
-                    return sprintf('(%d) %s', $langue->getId(), $langue->getDescription());
-                },
-                'placeholder' => 'Choisir une langue'
-            ])
+            // ->add('langue', EntityType::class,[
+            //     'class'=>Langue::class,
+            //     'choice_label' => function(Langue $langue) {
+            //         return sprintf('(%d) %s', $langue->getId(), $langue->getDescription());
+            //     },
+            //     'placeholder' => 'Choisir une langue'
+            // ])
             //->add('typenouveaute')
-            ->add('typenouveaute', EntityType::class,[
-                'class'=>TypeNouveaute::class,
-                'choice_label' => function(TypeNouveaute $type) {
-                    return sprintf('(%d) %s', $type->getId(), $type->getTypeNouveaute());
-                },
-                'placeholder' => 'Choisir un type'
-            ])
+            // ->add('typenouveaute', EntityType::class,[
+            //     'class'=>TypeNouveaute::class,
+            //     'choice_label' => function(TypeNouveaute $type) {
+            //         return sprintf('(%d) %s', $type->getId(), $type->getTypeNouveaute());
+            //     },
+            //     'placeholder' => 'Choisir un type'
+            // ])
             //->add('bornes')
-            ->add('envoyer', SubmitType::class)
+            // ->add('envoyer', SubmitType::class)
         ;
     }
 

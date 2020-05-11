@@ -249,66 +249,6 @@ footer a, footer a:visited, footer a:hover {
 	width: auto;
 }
 
-.liste-clients .nom, .liste-clients .mail, .liste-clients .elevation {
-	font-size: 16px;
-}
-
-.liste-clients .mail {
-	text-align: center;
-}
-
-.liste-clients .elevation {
-	text-align: right;
-}
-
-.liste-clients .liste-bornes {
-	min-width: 100%;
-	text-align: left;
-}
-
-.liste-clients .liste-bornes .head {
-	min-width: 100%;
-	margin: 15px 0 5px 0;
-}
-
-.liste-clients .liste-bornes span {
-	display: inline-block;
-	margin: 5px 0;
-}
-
-.liste-clients .liste-bornes .borne {
-	font-weight: 200;
-	font-size: 14px;
-}
-
-.liste-utilisateurs .mail, .liste-utilisateurs .methode, .liste-utilisateurs .borne, .liste-utilisateurs .date {
-	font-size: 16px;
-	text-align: center;
-}
-
-.liste-utilisateurs .mail {
-	text-align: left;
-}
-
-.liste-utilisateurs .liste-appareils {
-	min-width: 100%;
-	text-align: left;
-}
-
-.liste-utilisateurs .liste-appareils .head {
-	min-width: 100%;
-	margin: 15px 0 5px 0;
-}
-
-.liste-utilisateurs .liste-appareils span {
-	display: inline-block;
-	margin: 5px 0;
-}
-
-.liste-utilisateurs .liste-appareils .appareil {
-	font-weight: 200;
-	font-size: 15px;
-}
 
 .actu {
 	display: flex;
@@ -350,26 +290,23 @@ footer a, footer a:visited, footer a:hover {
 	text-align: justify;
 }
 
-.actu input[type="text"], .actu input[type="date"] {
-	margin: 0;
-}
-
-.actu input[type="text"] {
-	width: 300px;
-}
-
-.actu input[type="date"] {
-	width: auto;
-}
-
-.actu .delete {
+.actu {
 	width: 100%;
 	display: flex;
 	justify-content: center;
 }
 
-.actu .submit {
-	width: 100%;
+.actu-form input[type="date"] {
+	width: auto;
+	margin: 0;
+}
+
+.actu-form input[type="text"] {
+	margin: 0 15px 0 0;
+}
+
+.actu-form .title {
+	display: flex;
 }
 
 @media all and (max-width: 750px) {
