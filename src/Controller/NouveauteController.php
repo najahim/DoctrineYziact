@@ -59,7 +59,8 @@ class NouveauteController extends AbstractController
             }
 
             $nouveaute->setAuteurNom($this->getUser()->getNomManager());
-            $nouveaute->setAuteurPrenom("");
+
+            // selon role définir type
 
             // $nouveaute->setDateNouveaute(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();

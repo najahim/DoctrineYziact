@@ -21,6 +21,7 @@ class VersionType extends AbstractType
             ->add('description_cgu')
             ->add('date_activation', DateType::class, [
                 'data' => new \DateTime(),
+                'widget' => 'single_text',
             ])
             //->add('active', CheckboxType::class, [
            // 'required' => false
