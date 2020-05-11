@@ -36,7 +36,7 @@ class BornesController extends AbstractController
         $form->handleRequest($request);
 
         $datas = $this->getDoctrine()->getRepository('App:Borne')->findAll();
-
+        //var_dump($datas);
         //$data = $paginator->paginate(
         //    $datas,
         //    $request->query->getInt('page',1),

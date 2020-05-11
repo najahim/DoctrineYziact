@@ -29,7 +29,13 @@
             <tbody>
             {% for b in bornes %}
                 <tr data-href="{{ path('bornes.modifier',{id : b.id}) }}">
-                    <td>{# {{ b.nom_organisation }} #} b.nom_organisation</td>
+                    <td>
+                        {% if b.flottes is defined %}
+                            {% for f in b.flottes %}
+                                {{ f.manager.email }}
+                            {% endfor %}
+                        {% endif %}
+                    </td>
                     <td>{{ b.nom }}</td>
                     {# <td><a href='{{ path('bornes.stat',{id : b.id}) }}'>details</a></td> #}
                     <td>{{ b.emplacement.adresse.ville }}</td>
