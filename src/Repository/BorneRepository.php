@@ -67,6 +67,25 @@ class BorneRepository extends ServiceEntityRepository
         )->setParameter('id', $id);
         return $query->getResult();
     }
+
+
+    /**
+     * @return Borne[] Returns an array of Borne objects
+     */
+    public function findByProp()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT b,f
+        FROM App\Entity\Borne b
+        INNER JOIN b.flottes f
+        INNER JOIN f.manager m
+        ')
+        ;
+        return $query->getResult();
+    }
+
     // /**
     //  * @return Borne[] Returns an array of Borne objects
     //  */
