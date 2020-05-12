@@ -24,7 +24,7 @@ class NouveauteController extends AbstractController
     public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:Nouveaute')
-            ->findbyType(2);
+            ->findbyType(1);
 
         return $this->render('nouveaute/index.html.twig', [
             'controller_name' => 'NouveauteController',
@@ -40,7 +40,6 @@ class NouveauteController extends AbstractController
         $nouveaute= new Nouveaute();
         //$user=new Manager();
         $user=$this->getUser();
-
 
 
         if($user instanceof Manager)
