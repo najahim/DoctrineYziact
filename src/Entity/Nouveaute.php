@@ -59,7 +59,7 @@ class Nouveaute
     private $typenouveaute;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Borne", mappedBy="flottes")
+     * @ORM\ManyToMany(targetEntity="Borne", mappedBy="nouveautes")
      */
     private $bornes;
 
