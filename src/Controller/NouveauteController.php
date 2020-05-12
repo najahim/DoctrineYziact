@@ -58,18 +58,21 @@ class NouveauteController extends AbstractController
                 //$nouveaute->setBornes();
             }
             var_dump($nouveaute->getBornes()->count());
-            $form=$this->createForm(NouveauteType::class,$nouveaute,array('id'=>$user->getId()));
+
             $nouveaute->setAuteurNom($user->getNomManager());
             $nouveaute->setAuteurPrenom($user->getPrenomManager());
             $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(1);
             $nouveaute->setTypenouveaute($type);
+            $form=$this->createForm(NouveauteType::class,$nouveaute,array('id'=>$user->getId()));
         }
         if($user instanceof Admin)
         {
+
             $nouveaute->setAuteurNom($user->getNom());
             $nouveaute->setAuteurPrenom($user->getPrenom());
             $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(2);
             $nouveaute->setTypenouveaute($type);
+            $form=$this->createForm(NouveauteType::class,$nouveaute);
         }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
