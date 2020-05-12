@@ -92,7 +92,8 @@ class NouveauteType extends AbstractType
 
                 'placeholder' => 'Choisir bornes',
                 'multiple' => true,
-
+                'disabled' => true,
+                'attr' => ['style' => 'display:none;']
             ])
             // ->add('envoyer', SubmitType::class)
         ;

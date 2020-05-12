@@ -48,16 +48,15 @@ class NouveauteController extends AbstractController
             $bornes= new ArrayCollection();
             $bornes=$this->getDoctrine()->getRepository('App:Borne')
                 ->findByUser($user->getId());
-            //var_dump($bornes[1]);
             //$nouveaute->setBornes($bornes);
             foreach ($bornes as $borne)
             {
                 // $borne->setNouveautes($nouveaute);
-                var_dump($borne->getId());
+                //var_dump("borne " . $borne->getId());
                 $nouveaute->addBorne($borne);
                 //$nouveaute->setBornes();
             }
-            var_dump($nouveaute->getBornes()->count());
+            //var_dump($nouveaute->getBornes()->count());
 
             $nouveaute->setAuteurNom($user->getNomManager());
             $nouveaute->setAuteurPrenom($user->getPrenomManager());
@@ -74,6 +73,7 @@ class NouveauteController extends AbstractController
             $nouveaute->setTypenouveaute($type);
             $form=$this->createForm(NouveauteType::class,$nouveaute);
         }
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
