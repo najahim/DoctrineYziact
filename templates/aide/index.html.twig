@@ -1,22 +1,20 @@
 {% extends 'base.html.twig' %}
 
-{% block main %}
-<main>
-		<article class="actus">
-			<h2>Aide</h2>
-			<p class="important">
-				Yziact rédigera cette page html.<br>
-				<br>
-				Le contenu actuel sert juste à meubler
-			</p>
-			<div class="actu">
-				<div class="img" style="background: no-repeat center center url('http://yziact.fr/wp-content/uploads/2019/04/Home-Yziact-systeme-informatique.jpg'); background-size: cover;">
-				</div>
-				<div class="content">
-					<h3>Aide 1</h3>
+{% block title %}Hello AideController!{% endblock %}
 
-					<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nisi nihil est voluptas, optio illo id voluptatem sit dolore necessitatibus quis temporibus consectetur placeat, architecto delectus aliquam deleniti perferendis autem repellat.</p>
-				</div>
-			</div>
-	</section>
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <h1>Hello {{ controller_name }}! ✅</h1>
+
+    This friendly message is coming from:
+    <ul>
+        <li>Your controller at <code><a href="{{ 'C:/Users/najahim/Documents/dev/Doctrine/ToSend/Nouveau dossier/DoctrineYziact/src/Controller/AideController.php'|file_link(0) }}">src/Controller/AideController.php</a></code></li>
+        <li>Your template at <code><a href="{{ 'C:/Users/najahim/Documents/dev/Doctrine/ToSend/Nouveau dossier/DoctrineYziact/templates/aide/index.html.twig'|file_link(0) }}">templates/aide/index.html.twig</a></code></li>
+    </ul>
+</div>
 {% endblock %}
