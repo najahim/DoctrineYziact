@@ -63,7 +63,7 @@ class NouveauteController extends AbstractController
             $nouveaute->setAuteurPrenom($user->getPrenomManager());
             $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(1);
             $nouveaute->setTypenouveaute($type);
-            $form=$this->createForm(NouveauteType::class,$nouveaute,array('id'=>$user->getId()));
+            $form=$this->createForm(NouveauteType::class,$nouveaute,array('idU'=>$user->getId()));
         }
         if($user instanceof Admin)
         {
