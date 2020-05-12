@@ -59,14 +59,15 @@ class Nouveaute
     private $typenouveaute;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Borne", mappedBy="nouveautes")
+     * @ORM\ManyToMany(targetEntity="Borne", inversedBy="nouveautes")
+     * @ORM\JoinTable(name="bornes_nouveautes")
      */
     private $bornes;
 
     /**
-     * @return ArrayCollection
+     * @return mixed
      */
-    public function getBornes(): ArrayCollection
+    public function getBornes()
     {
         return $this->bornes;
     }
@@ -75,7 +76,7 @@ class Nouveaute
         $this->bornes = new ArrayCollection();
     }
     /**
-     * @param ArrayCollection $bornes
+     * @return mixed
      */
     public function setBornes(ArrayCollection $bornes): void
     {

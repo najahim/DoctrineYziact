@@ -6,6 +6,7 @@ use App\Entity\Admin;
 use App\Entity\Flotte;
 use App\Entity\Manager;
 use App\Entity\Nouveaute;
+use App\Entity\TypeNouveaute;
 use App\Form\FlotteType;
 use App\Form\NouveauteType;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -44,21 +45,14 @@ class NouveauteController extends AbstractController
 
         if($user instanceof Manager)
         {
-            $bornes= new ArrayCollection();
-            $bornes=$this->getDoctrine()->getRepository('App:Borne')
-                ->findByUser($user->getId());
+
             //$nouveaute->setBornes($bornes);
-            foreach ($bornes as $borne)
-            {
-                // $borne->setNouveautes($nouveaute);
-                //var_dump("borne " . $borne->getId());
-                $nouveaute->addBorne($borne);
-                //$nouveaute->setBornes();
-            }
+
             //var_dump($nouveaute->getBornes()->count());
 
             $nouveaute->setAuteurNom($user->getNomManager());
             $nouveaute->setAuteurPrenom($user->getPrenomManager());
+            $type = new TypeNouveaute();
             $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(1);
             $nouveaute->setTypenouveaute($type);
             $form=$this->createForm(NouveauteType::class,$nouveaute,array('idU'=>$user->getId()));
@@ -72,7 +66,7 @@ class NouveauteController extends AbstractController
             $nouveaute->setTypenouveaute($type);
             $form=$this->createForm(NouveauteType::class,$nouveaute);
         }
-
+        //$form=$this->createForm(NouveauteType::class,$nouveaute);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -87,7 +81,7 @@ class NouveauteController extends AbstractController
                 $nouveaute->setLienImage('/uploads/nouveautes/' . $imgURL);
             }
 
-            $nouveaute->setAuteurNom($this->getUser()->getNomManager());
+            //$nouveaute->setAuteurNom($this->getUser()->getNomManager());
 
             // selon role définir type
 

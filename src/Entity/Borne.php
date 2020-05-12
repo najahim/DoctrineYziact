@@ -178,7 +178,7 @@ class Borne
 
 
     /**
-     * @ORM\ManyToMany(targetEntity="Nouveaute", inversedBy="bornes")
+     * @ORM\ManyToMany(targetEntity="Nouveaute", mappedBy="bornes")
      * @ORM\JoinTable(name="bornes_nouveautes")
      */
     private $nouveautes;

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Borne;
+use App\Entity\Flotte;
 use App\Entity\Langue;
 use App\Entity\Manager;
 use App\Entity\Nouveaute;
@@ -74,11 +75,11 @@ class NouveauteType extends AbstractType
             //     'placeholder' => 'Choisir un type'
             // ])
             //->add('bornes')
-            ->add('bornes', EntityType::class,[
+            /*->add('bornes', EntityType::class,[
                 'required' => false,
                 'class'=>Borne::class,
 
-                'query_builder' => function (BorneRepository $er) use ($idU){
+                /*'query_builder' => function (BorneRepository $er) use ($idU){
 
 
                     return $er->createQueryBuilder('b')
@@ -89,14 +90,33 @@ class NouveauteType extends AbstractType
 
                         //->getResult();
 
-                },
-                 'choice_label' => 'nom',
+                },*/
+                /* 'choice_label' => 'nom',
 
                 'placeholder' => 'Choisir bornes',
                 'multiple' => true,
-                'attr' => ['style' => 'display:none;']
-            ])
+                //'attr' => ['style' => 'display:none;']
+            ])*/
             // ->add('envoyer', SubmitType::class)
+            ->add('bornes', EntityType::class,[
+                'class'=>Borne::class,
+                'query_builder' => function (BorneRepository $er) use ($idU){
+
+
+                    return $er->createQueryBuilder('b')
+                        ->innerJoin('b.flottes', 'f')
+                        ->innerJoin('f.manager', 'm')
+                        ->andWhere('f.manager = :val')
+                        ->setParameter('val', $idU);
+
+                    //->getResult();
+
+                },
+                'choice_label' => 'nom',
+                'mapped'=>true,
+                'placeholder' => 'Choisir borne',
+                'multiple' => true,
+            ])
         ;
     }
 
