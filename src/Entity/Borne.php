@@ -161,7 +161,7 @@ class Borne
     private $contact;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Emplacement", inversedBy="bornes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Emplacement", inversedBy="bornes",cascade={"persist"})
      */
     private $emplacement;
 

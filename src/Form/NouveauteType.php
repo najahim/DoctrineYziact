@@ -25,6 +25,8 @@ class NouveauteType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $idU=$options['idU'];
+
         $builder
             ->add('titre')
             ->add('contenu', TextareaType::class)
@@ -76,18 +78,18 @@ class NouveauteType extends AbstractType
                 'required' => false,
                 'class'=>Borne::class,
 
-                /*'query_builder' => function (BorneRepository $er,$id) {
+                'query_builder' => function (BorneRepository $er) use ($idU){
 
 
                     return $er->createQueryBuilder('b')
                         ->innerJoin('b.flottes', 'f')
                         ->innerJoin('f.manager', 'm')
                         ->andWhere('f.manager = :val')
-                        ->setParameter('val', $id)
-                        ->getQuery()
-                        ->getResult();
+                        ->setParameter('val', $idU);
 
-                },*/
+                        //->getResult();
+
+                },
                  'choice_label' => 'nom',
 
                 'placeholder' => 'Choisir bornes',
@@ -103,7 +105,9 @@ class NouveauteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Nouveaute::class,
-            'id'=> null
         ]);
+        $resolver->setRequired(
+          'idU'
+        );
     }
 }
