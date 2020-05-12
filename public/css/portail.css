@@ -107,11 +107,19 @@ p.info {
 	margin: 20px 0;
 }
 
+.form .hr {
+	width: 100%;
+}
+
 .hr::before, .hr::after {
 	border-top: 1px solid;
 	content: "";
 	flex: 1;
 	margin: 10px;
+}
+
+.form p, .form form {
+	width: 80%;
 }
 
 .checkbox {
@@ -216,5 +224,9 @@ footer {
 @media all and (max-width: 600px) {
 	.actu .img {
 		display: none;
+	}
+
+	.form p, .form form {
+		width: 100%;
 	}
 }
