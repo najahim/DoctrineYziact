@@ -82,7 +82,10 @@ class Nouveaute
         $this->bornes = $bornes;
     }
 
-
+    public function addBorne(Borne $borne): void
+    {
+        $this->bornes->add($borne);
+    }
 
 
     public function getId(): ?int

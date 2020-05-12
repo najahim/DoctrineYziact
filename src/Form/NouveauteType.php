@@ -10,6 +10,9 @@ use App\Entity\TypeNouveaute;
 use App\Repository\BorneRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -72,14 +75,21 @@ class NouveauteType extends AbstractType
             ->add('bornes', EntityType::class,[
                 'required' => false,
                 'class'=>Borne::class,
-                /*'query_builder' => function (BorneRepository $er) {
-                    return $er->createQueryBuilder('u')
-                        ->orderBy('u.id', 'DESC');
+
+                /*'query_builder' => function (BorneRepository $er,$id) {
+
+
+                    return $er->createQueryBuilder('b')
+                        ->innerJoin('b.flottes', 'f')
+                        ->innerJoin('f.manager', 'm')
+                        ->andWhere('f.manager = :val')
+                        ->setParameter('val', $id)
+                        ->getQuery()
+                        ->getResult();
+
                 },*/
-                'choice_label' => function(Borne $borne) {
-                    return sprintf('(%d) %s', $borne->getId(), $borne->getNom());
-                },
-                // 'choices'=> $this->g->findByOrder(),
+                 'choice_label' => 'nom',
+
                 'placeholder' => 'Choisir bornes',
                 'multiple' => true,
 
@@ -92,6 +102,7 @@ class NouveauteType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Nouveaute::class,
+            'id'=> null
         ]);
     }
 }

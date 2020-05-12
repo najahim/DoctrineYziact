@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Admin;
 use App\Entity\Flotte;
 use App\Entity\Manager;
 use App\Entity\Nouveaute;
@@ -13,6 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use function Sodium\add;
 
 class NouveauteController extends AbstractController
 {
@@ -22,11 +24,11 @@ class NouveauteController extends AbstractController
     public function index(Request $request)
     {
         $data=$this->getDoctrine()->getRepository('App:Nouveaute')
-            ->findAll();
+            ->findbyType(2);
 
         return $this->render('nouveaute/index.html.twig', [
             'controller_name' => 'NouveauteController',
-            'data'=> $data,
+            'nouveautes'=> $data,
         ]);
     }
 
@@ -36,14 +38,39 @@ class NouveauteController extends AbstractController
     public function ajouterNouveaute(Request $request, FileUploader $fileUploader):Response
     {
         $nouveaute= new Nouveaute();
-        $user=new Manager();
+        //$user=new Manager();
         $user=$this->getUser();
-        $bornes= new ArrayCollection();
-        $bornes=$this->getDoctrine()->getRepository('App:Borne')
-            ->findByUser($user->getId());
-        var_dump($bornes);
-       // $nouveaute->setBornes($bornes);
-        $form=$this->createForm(NouveauteType::class,$nouveaute);
+
+
+
+        if($user instanceof Manager)
+        {
+            $bornes= new ArrayCollection();
+            $bornes=$this->getDoctrine()->getRepository('App:Borne')
+                ->findByUser($user->getId());
+            //var_dump($bornes[1]);
+            //$nouveaute->setBornes($bornes);
+            foreach ($bornes as $borne)
+            {
+                // $borne->setNouveautes($nouveaute);
+                var_dump($borne->getId());
+                $nouveaute->addBorne($borne);
+                //$nouveaute->setBornes();
+            }
+            var_dump($nouveaute->getBornes()->count());
+            $form=$this->createForm(NouveauteType::class,$nouveaute,array('id'=>$user->getId()));
+            $nouveaute->setAuteurNom($user->getNomManager());
+            $nouveaute->setAuteurPrenom($user->getPrenomManager());
+            $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(1);
+            $nouveaute->setTypenouveaute($type);
+        }
+        if($user instanceof Admin)
+        {
+            $nouveaute->setAuteurNom($user->getNom());
+            $nouveaute->setAuteurPrenom($user->getPrenom());
+            $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(2);
+            $nouveaute->setTypenouveaute($type);
+        }
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 

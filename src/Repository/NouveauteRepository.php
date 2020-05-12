@@ -19,6 +19,15 @@ class NouveauteRepository extends ServiceEntityRepository
         parent::__construct($registry, Nouveaute::class);
     }
 
+    public function findbyType($value)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.typenouveaute = :val')
+            ->setParameter('val', $value)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Nouveaute[] Returns an array of Nouveaute objects
     //  */
