@@ -84,7 +84,7 @@ class NouveauteType extends AbstractType
                         ->innerJoin('f.manager', 'm')
                         ->andWhere('f.manager = :val')
                         ->setParameter('val', $id)
-                        ->getQuery()
+
                         ->getResult();
 
                 },*/
