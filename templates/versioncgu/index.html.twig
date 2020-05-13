@@ -4,16 +4,15 @@
 
 {% block main %}
 
-
-<div class="example-wrapper">
 <main>
 	<article>
         <h2>Historique des versions des CGU</h2>
         <a class="button button-ok" href="{{ path('versioncgu.ajouterVersion') }}" >Ajouter</a>
         {% for v in version | sort((a, b) => b.dateActivation <=> a.dateActivation) %}
             <p>
-                <b>{{ v.active  }} {{ v.versionCGU }} - {{ v.dateActivation | date }} - {{ v.descriptionCGU }}</b> &nbsp;&nbsp;&nbsp; <a class="button button-no" href="/versioncgu/supprimer/{{ v.id }}" >Supprimer</a>
+                <b>{{ v.active  }} {{ v.versionCGU }} - {{ v.dateActivation | date }} - {{ v.descriptionCGU }}</b> &nbsp;&nbsp;&nbsp; <a class="button button-no" href="{{ path('versioncgu.supprimer', {id: v.id}) }}" >Supprimer</a>
             </p>
         {% endfor %}
-</div>
+	</article>
+</main>
 {% endblock %}

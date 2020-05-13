@@ -9,8 +9,11 @@
         <span>Panneau d'administration</span>
     </div>
     <div class="compte">
-        <a href="/user" class="button button-alt">
-            Admin Yziact <i class="fas fa-cog"></i>
+        <a href="{{ path('modifiercompte') }}" class="button button-alt">
+            Paramètres <i class="fas fa-cog"></i>
+        </a>
+        <a href="{{ path('app_logout') }}" class="button button-no">
+            Déconnexion <i class="fas fa-sign-out-alt"></i>
         </a>
     </div>
 {% endblock %}
@@ -18,70 +21,80 @@
 {% block main %}
 <main class="accueil">
 <nav class="menu">
-    <a href="/bornes">
+    <a href="{{ path('bornes') }}">
         <div class="menu-item">
             <i class="fas fa-satellite-dish"></i>
             <h3>Paramètres des bornes</h3>
         </div>
     </a>
+    {% if is_granted('ROLE_ADMIN')  %}
     <a href="{{ path('bornes.ajouter') }}">
         <div class="menu-item">
             <i class="fas fa-plug"></i>
             <h3>Ajouter une borne</h3>
         </div>
     </a>
-    <a href="/clients">
+    <a href="{{ path('utilisateurs.managers') }}">
         <div class="menu-item">
             <i class="fas fa-user-shield"></i>
             <h3>Comptes clients</h3>
         </div>
     </a>
-    <a href="/utilisateurs">
+    <a href="{{ path('utilisateurs') }}">
         <div class="menu-item">
             <i class="fas fa-mobile-alt"></i>
             <h3>Comptes utilisateurs</h3>
         </div>
     </a>
-    <a href="/nouveaute">
+    <a href="{{ path('nouveaute') }}">
         <div class="menu-item">
             <i class="fas fa-newspaper"></i>
-            <h3>Actualités du portail</h3>
-        </div>
-    </a>
-    <a href="/nouveaute">
-        <div class="menu-item">
-            <i class="far fa-newspaper"></i>
             <h3>Actualités de Cigale</h3>
         </div>
     </a>
-    <a href="/deploiement">
+    <a href="{{ path('serveur') }}">
+        <div class="menu-item">
+            <i class="fas fa-server"></i>
+            <h3>Serveurs</h3>
+        </div>
+    </a>
+    <a href="">
         <div class="menu-item">
             <i class="fas fa-project-diagram"></i>
             <h3>Déploiement des bornes</h3>
         </div>
     </a>
-    <a href="/stats">
-        <div class="menu-item">
-            <i class="fas fa-chart-line"></i>
-            <h3>Statistiques par bornes</h3>
-        </div>
-    </a>
-    <a href="/versioncgu">
+    <a href="{{ path('versioncgu') }}">
         <div class="menu-item">
             <i class="fas fa-balance-scale"></i>
             <h3>Versions des CGU</h3>
         </div>
     </a>
-    <a href="/help">
+    {% endif %}
+    {% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN')  %}
+    <a href="{{ path('nouveaute') }}">
+        <div class="menu-item">
+            <i class="far fa-newspaper"></i>
+            <h3>Actualités du portail</h3>
+        </div>
+        <a href="{{ path('contact') }}">
+            <div class="menu-item">
+                <i class="fas fa-envelope"></i>
+                <h3>Contacter Yziact</h3>
+            </div>
+        </a>
+    </a>
+    {% endif %}
+    <a href="">
+        <div class="menu-item">
+            <i class="fas fa-chart-line"></i>
+            <h3>Statistiques par bornes</h3>
+        </div>
+    </a>
+    <a href="{{ path('aide') }}">
         <div class="menu-item">
             <i class="fas fa-question-circle"></i>
             <h3>Aide</h3>
-        </div>
-    </a>
-    <a href="/contact">
-        <div class="menu-item">
-            <i class="fas fa-envelope"></i>
-            <h3>Contacter Yziact</h3>
         </div>
     </a>
 </nav>

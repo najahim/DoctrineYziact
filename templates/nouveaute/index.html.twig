@@ -17,7 +17,7 @@
     				<p>{{ n.contenu }}</p>
 
     				<div class="delete">
-    					<a class="button button-no" href="/nouveaute/supprimer/{{ n.id }}">Supprimer <i class="fas fa-trash-alt"></i></a>
+    					<a class="button button-no" href="{{ path('nouveaute.supprimer',{id : n.id}) }}">Supprimer <i class="fas fa-trash-alt"></i></a>
     				</div>
     			</div>
     		</div>

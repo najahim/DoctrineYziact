@@ -30,7 +30,7 @@
                     {{ form_label(form.contact, 'Contact :') }}
 					{{ form_widget(form.contact) }}
                 </div>
-                <a href="" class="button button-alt">Creer un nouveau contact <i class="fas fa-id-card"></i></a>
+                <a href="{{ path('contact_borne.ajouter') }}" class="button button-alt">Creer un nouveau contact <i class="fas fa-id-card"></i></a>
                 <div class="champ">
                     {{ form_label(form.flottes, 'Manager :') }}
 					{{ form_widget(form.flottes) }}
@@ -174,7 +174,7 @@
             </div>
 			<div class="horaires">
                 {{ form_widget(form.Prog_wifi, {'attr': {'class': 'prog_wifi', 'style': 'display:none;'}}) }}
-				<span href="." class="ajouter-regle button button-alt">Ajouter une regle</span><br>
+				<span class="ajouter-regle button button-alt">Ajouter une regle</span><br>
 				<span>
                     Par défaut la borne fonctionne 24/24h 7/7j. <br>
                     Vous pouvez choisir de ne pas diffuser de wifi entre 00:00 et 23:59 tous les jours de la semaine
@@ -188,16 +188,6 @@
         </div>
 	</article>
     {{ form_end(form) }}
-
-    {###################   Reste a faire   #####################}
-    {# appliquer a toutes mes bornes #}
-{#
-	<article>
-		<a href="." class="button button-alt">Redémarrer la borne <i class="fas fa-power-off"></i></a>
-		<a href="." class="button button-no">Bloquer la borne <i class="fas fa-ban"></i></a>
-		<a href="." class="button button-no">Supprimer la borne <i class="fas fa-trash-alt"></i></a>
-	</article>
-#}
 </section>
 {% endblock %}
 

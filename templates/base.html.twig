@@ -42,13 +42,16 @@
         <a href="{{ path('default') }}" class="img">
             <i class="fas fa-home"></i>
         </a>
-        <a href="/" class="title">
+        <a href="{{ path('default') }}" class="title">
             <h1>{{ h1 | default('Cigale') }}</h1>
             <span>Panneau d'administration</span>
         </a>
         <div class="compte">
-            <a href="/user" class="button button-alt">
-                Admin Yziact <i class="fas fa-cog"></i>
+            <a href="{{ path('modifiercompte') }}" class="button button-alt">
+                Paramètres <i class="fas fa-cog"></i>
+            </a>
+            <a href="{{ path('app_logout') }}" class="button button-no">
+                Déconnexion <i class="fas fa-sign-out-alt"></i>
             </a>
         </div>
     {% endblock %}
@@ -59,7 +62,7 @@
 
     <footer>
     {% block footer %}
-        <a href="/cgu"><i class="fas fa-balance-scale"></i> Conditions d'utilisations</a> - ©Cigale 2020 par <a href="http://yziact.fr/">Yziact</a>
+        <a href="{{ path('cgu') }}"><i class="fas fa-balance-scale"></i> Conditions d'utilisations</a> - ©Cigale 2020 par <a href="http://yziact.fr/">Yziact</a>
     {% endblock %}
     </footer>
 </body>

@@ -39,7 +39,7 @@
                         {{ borne.contact.telephone }}
                     </p>
                 </div>
-                <a href="" class="button button-alt">Creer un nouveau contact <i class="fas fa-id-card"></i></a>
+                <a href="{{ path('contact_borne.ajouter') }}" class="button button-alt">Creer un nouveau contact <i class="fas fa-id-card"></i></a>
                 <div class="champ">
                     {{ form_label(form.flottes, 'Manager :') }}
 					{{ form_widget(form.flottes) }}
@@ -87,9 +87,9 @@
 		<h2>Paramètres de la borne</h2>
         <div class="form parametres-bornes">
             <div class="submit">
-                <a href="/bornes/activation/{{borne.id}}" class="button button-ok">Activation <i class="fas fa-lightbulb"></i></a>
-                <a href="/bornes/desactivation/{{borne.id}}" class="button button-no">Désactivation <i class="far fa-lightbulb"></i></a>
-                <a href="/bornes/historique/{{borne.id}}" class="button button-alt">Historique <i class="fas fa-history"></i></a>
+                <a href="{{ path('bornes.activation',{id : borne.id}) }}" class="button button-ok">Activation <i class="fas fa-lightbulb"></i></a>
+                <a href="{{ path('bornes.desactivation',{id : borne.id}) }}" class="button button-no">Désactivation <i class="far fa-lightbulb"></i></a>
+                <a href="{{ path('bornes.historique',{id : borne.id}) }}" class="button button-alt">Historique <i class="fas fa-history"></i></a>
             </div>
             <div>
                 <div class="champ">
@@ -184,7 +184,7 @@
             </div>
 			<div class="horaires">
                 {{ form_widget(form.Prog_wifi, {'attr': {'class': 'prog_wifi', 'style': 'display:none;'}}) }}
-				<span href="." class="ajouter-regle button button-alt">Ajouter une regle</span><br>
+				<span class="ajouter-regle button button-alt">Ajouter une regle</span><br>
 				<span>
                     Par défaut la borne fonctionne 24/24h 7/7j. <br>
                     Vous pouvez choisir de ne pas diffuser de wifi entre 00:00 et 23:59 tous les jours de la semaine
