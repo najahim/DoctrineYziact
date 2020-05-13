@@ -41,7 +41,7 @@ security:
         ROLE_ADMIN:       ROLE_USER
         ROLE_SUPER_ADMIN: ROLE_ADMIN
     access_control:
-         - { path: ^/acceuil, roles: ROLE_USER }
+         - { path: ^/accueil, roles: ROLE_USER }
          - { path: ^/bornes/activer/, roles: ROLE_USER }
          - { path: ^/bornes/desactiver/, roles: ROLE_USER }
          - { path: ^/bornes/ajouter, roles: ROLE_ADMIN }
