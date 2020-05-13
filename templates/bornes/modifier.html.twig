@@ -31,6 +31,16 @@
 					{{ form_widget(form.contact) }}
 				</div>
                 <div class="champ">
+                    <label for="">Contact actuel :</label>
+                    <p>
+                        {{ borne.contact.nomDuContact }} <br>
+                        {{ borne.contact.email }} <br>
+                        {{ borne.contact.siteWeb }} <br>
+                        {{ borne.contact.telephone }}
+                    </p>
+                </div>
+                <a href="" class="button button-alt">Creer un nouveau contact <i class="fas fa-id-card"></i></a>
+                <div class="champ">
                     {{ form_label(form.flottes, 'Manager :') }}
 					{{ form_widget(form.flottes) }}
 				</div>
