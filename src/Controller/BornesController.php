@@ -7,6 +7,7 @@ use App\Entity\Admin;
 use App\Entity\Borne;
 use App\Entity\BorneSearch;
 use App\Entity\Etat;
+use App\Entity\Manager;
 use App\Form\ActivationType;
 use App\Form\AdminRegistrationType;
 use App\Form\AjouterBorneType;
@@ -31,11 +32,22 @@ class BornesController extends AbstractController
      */
     public function index(Request $request)
     {
-        $search =new BorneSearch();
-        $form=$this->createForm(BorneSearchType::class,$search);
-        $form->handleRequest($request);
-
-        $datas = $this->getDoctrine()->getRepository('App:Borne')->findAll();
+        //$search =new BorneSearch();
+       // $form=$this->createForm(BorneSearchType::class,$search);
+       // $form->handleRequest($request);
+        $user=$this->getUser();
+        if ($user instanceof  Admin)
+        {
+            $datas = $this->getDoctrine()->getRepository('App:Borne')->findAll();
+        }
+        if ($user instanceof  Manager)
+        {
+            $datas = $this->getDoctrine()->getRepository('App:Borne')->findByUser($user->getId());
+        }
+        else
+        {
+            $datas = $this->getDoctrine()->getRepository('App:Borne')->findAll();
+        }
         //var_dump($datas);
         //$data = $paginator->paginate(
         //    $datas,
