@@ -29,7 +29,7 @@ class ServeurType extends AbstractType
                 'placeholder' => 'Choisir etat'
             ])
             //->add('bornes')
-            ->add('envoyer', SubmitType::class)
+            //->add('envoyer', SubmitType::class)
         ;
     }
 

@@ -17,7 +17,7 @@ class ContactBorneType extends AbstractType
             ->add('email')
             ->add('site_web')
             ->add('telephone')
-            ->add('envoyer', SubmitType::class)
+            //->add('envoyer', SubmitType::class)
         ;
     }
 

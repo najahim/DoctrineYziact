@@ -1,4 +1,45 @@
-<div>
-    <h1>Ajouter Serveur</h1>
-    {{ form(form) }}
-</div>
+{% extends 'base.html.twig' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+
+{% block title %}Ajouter un serveur | Cigale{% endblock %}
+
+{% block main %}
+    <section class="parametres">
+        {{ form_start(form) }}
+        <article>
+            <h2>Ajouter un serveur</h2>
+            <div class="form infos-bornes">
+                <div class="identification">
+                    <div class="champ">
+                        {{ form_label(form.reseaux, "Reseaux :") }}
+                        {{ form_widget(form.reseaux) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.page_de_blocage, "Page de blocage :") }}
+                        {{ form_widget(form.page_de_blocage) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.nb_max_borne, "Nombre maximal de bornes :") }}
+                        {{ form_widget(form.nb_max_borne) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.etat, "Etat :") }}
+                        {{ form_widget(form.etat) }}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" name="" class="button button-ok" value="Valider">
+                        <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

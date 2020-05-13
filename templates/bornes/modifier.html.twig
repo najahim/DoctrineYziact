@@ -41,6 +41,7 @@
                         {{ borne.contact.telephone }}
                     </p>
                 </div>
+                <a href="{{ path('contact_borne.modifier', {id: borne.contact.id}) }}" class="button button-alt">Modifier le contact <i class="fas fa-cog"></i></a>
                 <a href="{{ path('contact_borne.ajouter') }}" class="button button-alt">Creer un nouveau contact <i class="fas fa-id-card"></i></a>
                 <div class="champ">
                     {{ form_label(form.flottes, 'Manager :') }}

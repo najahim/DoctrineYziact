@@ -1,4 +1,45 @@
-<div>
-    <h1>Ajouter Contact</h1>
-    {{ form(form) }}
-</div>
+{% extends 'base.html.twig' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+
+{% block title %}Modifier un contact | Cigale{% endblock %}
+
+{% block main %}
+    <section class="parametres">
+        {{ form_start(form) }}
+        <article>
+            <h2>Modifier un contact</h2>
+            <div class="form infos-bornes">
+                <div class="identification">
+                    <div class="champ">
+                        {{ form_label(form.nom_du_contact, "Nom du contact :") }}
+                        {{ form_widget(form.nom_du_contact) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.email, "Email :") }}
+                        {{ form_widget(form.email) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.site_web, "Site web :") }}
+                        {{ form_widget(form.site_web) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.telephone, "Telephone :") }}
+                        {{ form_widget(form.telephone) }}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" name="" class="button button-ok" value="Valider">
+                        <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
