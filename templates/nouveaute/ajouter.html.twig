@@ -14,6 +14,7 @@
                 {{ form_widget(form.date_nouveaute) }}
 			</div>
             {{ form_widget(form.contenu, {'attr': {'placeholder': 'Contenu de l\'actualité', 'rows': '8', 'cols': '80'}}) }}
+            {{ form_label(form.bornes, 'Bornes concernées :') }}
             {{ form_widget(form.bornes) }}
 			<div class="submit">
 				<input type="submit" name="" class="button button-ok" value="Valider">

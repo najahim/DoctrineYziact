@@ -104,7 +104,7 @@ class NouveauteController extends AbstractController
     {
         $nouveaute= $this->getDoctrine()->getRepository('App:Nouveaute')->find($id);
 
-        $oldImg = $nouveaute->getImgPortail();
+        $oldImg = $nouveaute->getLienImage();
         @unlink($fileUploader->getTargetDirectory . $oldImg);
 
         $entityManager = $this->getDoctrine()->getManager();

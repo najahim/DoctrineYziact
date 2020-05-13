@@ -6,6 +6,7 @@
 <main>
     <article class="actus">
 		<h2>Dernière actualités</h2>
+        <a href="{{ path('nouveaute.ajouter') }}" class="button button-ok">Nouveau <i class="fas fa-plus-square"></i></a>
         {% for n in nouveautes %}
     		<div class="actu">
     			<div class="img" style="background: no-repeat center center url('{{ n.lienImage }}'); background-size: cover;">
