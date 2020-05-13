@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class VersionCGUController extends AbstractController
 {
     /**
-     * @Route("/versioncgu", name="versioncgu")
+     * @Route("/CGU/versions", name="versioncgu")
      */
     public function index(PaginatorInterface $paginator)
     {
@@ -30,7 +30,7 @@ class VersionCGUController extends AbstractController
 
 
     /**
-     * @Route("/versioncgu/ajouterVersion", name="versioncgu.ajouterVersion")
+     * @Route("/CGU/versions/ajouter", name="versioncgu.ajouterVersion")
      */
     public function ajouterManager(Request $request):Response
     {

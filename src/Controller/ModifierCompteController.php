@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class ModifierCompteController extends AbstractController
 {
     /**
-     * @Route("/modifiercompte", name="modifiercompte")
+     * @Route("/modifier/compte", name="modifiercompte")
      */
     public function index(UserPasswordEncoderInterface $passwordEncoder,Request $request):Response
     {

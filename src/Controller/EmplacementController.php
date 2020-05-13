@@ -30,7 +30,7 @@ class EmplacementController extends AbstractController
     }
 
     /**
-     * @Route("/emplacement/ajouter", name="emplacement.ajouter")
+     * @Route("/bornes/emplacements/ajouter", name="emplacement.ajouter")
      */
     public function ajouterEmplacement(Request $request):Response
     {
@@ -54,7 +54,7 @@ class EmplacementController extends AbstractController
         ]);
     }
     /**
-     * @Route("/emplacement/ajouterAdresse", name="emplacement.ajouterAdresse")
+     * @Route("/bornes/emplacements/adresse/ajouter", name="emplacement.ajouterAdresse")
      */
     public function ajouterAdresse(Request $request):Response
     {

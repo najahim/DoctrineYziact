@@ -38,7 +38,7 @@ class UtilisateursController extends AbstractController
 
 
     /**
-     * @Route ("/ajouterAdmin",name="utilisateurs.ajouterAdmin")
+     * @Route ("/admin/ajouter",name="utilisateurs.ajouterAdmin")
      */
     public function ajouterAdmin(UserPasswordEncoderInterface $passwordEncoder,Request $request):Response
     {
@@ -68,7 +68,7 @@ class UtilisateursController extends AbstractController
     }
 
     /**
-     * @Route ("/ajouterManager",name="utilisateurs.ajouterManager")
+     * @Route ("/managers/ajouter",name="utilisateurs.ajouterManager")
      */
     public function ajouterManager(UserPasswordEncoderInterface $passwordEncoder,Request $request):Response
     {
@@ -116,7 +116,7 @@ class UtilisateursController extends AbstractController
 
 
     /**
-     * @Route ("/modifierManager/{id}",name="utilisateurs.modifierManager")
+     * @Route ("/managers/modifier/{id}",name="utilisateurs.modifierManager")
      */
     public function modifierManager($id,Request $request):Response
     {
@@ -142,7 +142,7 @@ class UtilisateursController extends AbstractController
     }
 
     /**
-     * @Route ("/motdepasse",name="utilisateurs.motdepasse")
+     * @Route ("/mdp",name="utilisateurs.motdepasse")
      */
     public function modifierpasseword(Request $request,UserPasswordEncoderInterface $passwordEncoder):Response
     {

@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ServeurController extends AbstractController
 {
     /**
-     * @Route("/serveur", name="serveur")
+     * @Route("/serveurs", name="serveur")
      */
     public function index(Request $request)
     {
@@ -28,7 +28,7 @@ class ServeurController extends AbstractController
     }
 
     /**
-     * @Route ("/serveur/ajouter",name="serveur.ajouter")
+     * @Route ("/serveurs/ajouter",name="serveur.ajouter")
      */
     public function ajouterServeur(Request $request):Response
     {

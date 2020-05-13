@@ -20,7 +20,7 @@ use function Sodium\add;
 class NouveauteController extends AbstractController
 {
     /**
-     * @Route("/nouveaute", name="nouveaute")
+     * @Route("/news", name="nouveaute")
      */
     public function index(Request $request)
     {
@@ -34,7 +34,7 @@ class NouveauteController extends AbstractController
     }
 
     /**
-     * @Route ("/nouveaute/ajouter",name="nouveaute.ajouter")
+     * @Route ("/news/ajouter",name="nouveaute.ajouter")
      */
     public function ajouterNouveaute(Request $request, FileUploader $fileUploader):Response
     {

@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ContactBorneController extends AbstractController
 {
     /**
-     * @Route("/contact/borne", name="contact_borne")
+     * @Route("/bornes/contacts", name="contact_borne")
      */
     public function index(Request $request)
     {
@@ -31,7 +31,7 @@ class ContactBorneController extends AbstractController
     }
 
     /**
-     * @Route("/contact/borne/ajouter", name="contact_borne.ajouter")
+     * @Route("/bornes/contacts/ajouter", name="contact_borne.ajouter")
      */
     public function ajouterContact(Request $request):Response
     {

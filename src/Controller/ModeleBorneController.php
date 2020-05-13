@@ -28,7 +28,7 @@ class ModeleBorneController extends AbstractController
     }
 
     /**
-     * @Route ("/modele/borne/ajouter",name="modele_borne.ajouter")
+     * @Route ("/bornes/modele/ajouter",name="modele_borne.ajouter")
      */
     public function ajouterServeur(Request $request):Response
     {

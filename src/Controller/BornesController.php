@@ -151,7 +151,7 @@ class BornesController extends AbstractController
     }
 
     /**
-     * @Route ("/bornes/activation/{id}",name="bornes.activation")
+     * @Route ("/bornes/activer/{id}",name="bornes.activation")
      */
     public function ActiverBorne($id,Request $request):Response
     {
@@ -180,7 +180,7 @@ class BornesController extends AbstractController
 
 
     /**
-     * @Route ("/bornes/desactivation/{id}",name="bornes.desactivation")
+     * @Route ("/bornes/desactiver/{id}",name="bornes.desactivation")
      */
     public function DesactiverBorne($id,Request $request):Response
     {
