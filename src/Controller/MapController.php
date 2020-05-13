@@ -22,7 +22,6 @@ class MapController extends AbstractController
     public function index()
     {
         $test = $this->jsonLocalisation();
-        var_dump($test);
         return $this->render('map/index.html.twig', [
             'controller_name' => 'MapController',
             'test'=> $test

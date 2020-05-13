@@ -102,7 +102,7 @@ class BornesController extends AbstractController
 
             $imgFile = $form['img_portail']->getData();
             if ($imgFile) {
-                $imgURL = $fileUploader->upload($imgFile, '/uploads/portail/' . $borne->getId());
+                $imgURL = $fileUploader->upload($imgFile, '/uploads/portail');
                 $borne->setImgPortail('/uploads/portail/' . $imgURL);
             }
 
@@ -134,7 +134,7 @@ class BornesController extends AbstractController
                 $oldImg = $borne->getImgPortail();
                 @unlink($fileUploader->getTargetDirectory . $oldImg);
 
-                $imgURL = $fileUploader->upload($imgFile, '/uploads/portail/' . $borne->getId());
+                $imgURL = $fileUploader->upload($imgFile, '/uploads/portail');
                 $borne->setImgPortail('/uploads/portail/' . $imgURL);
             }
 

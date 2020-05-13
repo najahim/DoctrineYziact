@@ -77,7 +77,7 @@ class NouveauteController extends AbstractController
                 // $oldImg = $nouveaute->getLienImage();
                 // @unlink($fileUploader->getTargetDirectory . $oldImg);
 
-                $imgURL = $fileUploader->upload($imgFile, '/uploads/nouveautes/' . $nouveaute->getId());
+                $imgURL = $fileUploader->upload($imgFile, '/uploads/nouveautes');
                 $nouveaute->setLienImage('/uploads/nouveautes/' . $imgURL);
             }
 

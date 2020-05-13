@@ -158,6 +158,7 @@ class RegistrationController extends AbstractController
             'test'=> $test,
             'emplacement'=>$locBorne,
             'nouveautes'=>$nouveautes,
+            'borne' => $borne,
         ]);
     }
 

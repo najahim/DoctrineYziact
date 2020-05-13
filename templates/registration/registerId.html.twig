@@ -3,7 +3,13 @@
 
 {% block title %}{{ title | default('Cigale - Portail') }}{% endblock %}
 
+{% block colors %}
+    <link rel="stylesheet" type="text/css" href="/css/colors/base.css" />
+    <link rel="stylesheet" type="text/css" href="/css/colors/{{ borne.css | default('base') }}.css" />
+{% endblock %}
+
 {% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/css/forms.css" />
     <link rel="stylesheet" type="text/css" href="/css/portail.css" />
     <link rel="stylesheet" type="text/css" href="/css/forms.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
@@ -17,9 +23,9 @@
 {% endblock %}
 
 {% block header %}
-    <img src="images/{{logo | default('Logo-Cigale') }}.png" alt="Logo Cigale">
-    <h1>{{ h1 | default('Cigale') }}</h1>
-    <span>{{ desc | default('Solution de HotSpot Wifi Public') }}</span>
+    <img src="{{ borne.imgPortail | default('/images/Logo-Cigale') }}" alt="Logo Cigale">
+    <h1>{{ borne.nomPortail | default('Cigale') }}</h1>
+    <span>{{ borne.descPortail | default('Solution de HotSpot Wifi Public') }}</span>
 {% endblock %}
 
 {% block main %}
@@ -36,8 +42,8 @@
             </span>
             <div class="form">
                 <p>
-                    <a href="{{ path('connect.google') }}" class="google-button"><i class="fab fa-google-plus-square"></i>Google</a>
-                    <a href="{{ path('connect.facebook') }}" class="facebook-button"><i class="fab fa-facebook-square"></i>Facebook</a>
+                    <a href="/connect/google" class="google-button"><i class="fab fa-google-plus-square"></i>Google</a>
+                    <a href="/connect/facebook" class="facebook-button"><i class="fab fa-facebook-square"></i>Facebook</a>
                 </p>
                 <span class="hr">ou</span>
                 {{ form_start(registrationForm) }}
@@ -118,12 +124,6 @@
             var bornes ={{ test }};
 
             console.log(bornes);
-
-
-
-
-
-
 
 
             var markers = [];
