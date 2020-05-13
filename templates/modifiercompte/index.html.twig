@@ -9,7 +9,7 @@
         {% if is_granted('ROLE_ADMIN')  %}
         {{ form_start(form) }}
         <article>
-            <h2>Ajouter Admin</h2>
+            <h2>Modifier le compte</h2>
             <div class="form infos-bornes">
                 <div class="identification">
                     <div class="champ">
@@ -42,7 +42,7 @@
         {% else %}
         {{ form_start(form) }}
         <article>
-            <h2>Ajouter Admin</h2>
+            <h2>Modifier le compte</h2>
             <div class="form infos-bornes">
                 <div class="identification">
                     <div class="champ">
@@ -77,15 +77,6 @@
 
         {{ form_end(form) }}
         {% endif %}
-        {###################   Reste a faire   #####################}
-        {# appliquer a toutes mes bornes #}
-        {#
-            <article>
-                <a href="." class="button button-alt">Redémarrer la borne <i class="fas fa-power-off"></i></a>
-                <a href="." class="button button-no">Bloquer la borne <i class="fas fa-ban"></i></a>
-                <a href="." class="button button-no">Supprimer la borne <i class="fas fa-trash-alt"></i></a>
-            </article>
-        #}
     </section>
 {% endblock %}
 
