@@ -14,7 +14,7 @@
 <main>
     <article class="liste-bornes">
         <h2>Paramètres des bornes</h2>
-        
+
         <table id="mydatatable" class="table table-striped table-bordered dt-responsive mydatatable" style="width:100%">
             <thead>
                 <tr class="tableHead">
@@ -38,7 +38,10 @@
                     </td>
                     <td>{{ b.nom }}</td>
                     {# <td><a href='{{ path('bornes.stat',{id : b.id}) }}'>details</a></td> #}
-                    <td>{{ b.emplacement.adresse.ville }}</td>
+                    <td>
+                        {{ b.emplacement.adresse.numeroRue }} {{ b.emplacement.adresse.rue | capitalize }}<br>
+                        {{ b.emplacement.adresse.codePostal }} {{ b.emplacement.adresse.ville | upper}}
+                    </td>
                     <td>{{ b.adresseMac }}</td>
 
                     {% if b.etat.etat is defined and b.etat.etat == "Active" %}
@@ -69,36 +72,5 @@
     <script src="https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"></script>
 
     <script type="text/javascript" src="jquery.dataTables.js" defer></script>
-    <script defer>
-        $(document).ready(function() {
-            // Setup - add a text input to each footer cell
-            $('#mydatatable thead tr th').each( function (i) {
-                var title = $(this).text();
-                $(this).html( '<input type="text" placeholder="'+title+'" />' );
-
-                $( 'input', this ).on( 'keyup change', function () {
-                    if ( table.column(i).search() !== this.value ) {
-                        table
-                            .column(i)
-                            .search( this.value )
-                            .draw();
-                    }
-                });
-            });
-
-            var table = $('#mydatatable').DataTable( {
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"
-                },
-                lengthMenu: [[2,3,5,-1],[2,3,5,'tous les']],
-
-            });
-
-            // $('#mydatatable .tableHead').hide();
-
-            $('tr[data-href]').on("click", function() {
-                document.location = $(this).data('href');
-            });
-        });
-    </script>
+    <script type="text/javascript" src="/js/dataTables.js" defer></script>
 {% endblock %}
