@@ -1,7 +1,12 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}{{ title | default('Cigale - Portail') }}{% endblock %}
+{% block title %}Portail | {{ borne.nomPortail | default('Cigale') }}{% endblock %}
+
+{% block colors %}
+    <link rel="stylesheet" type="text/css" href="/css/colors/base.css" />
+    <link rel="stylesheet" type="text/css" href="/css/colors/{{ borne.css | default('base') }}.css" />
+{% endblock %}
 
 {% block stylesheets %}
     <link rel="stylesheet" type="text/css" href="/css/portail.css" />
@@ -17,9 +22,9 @@
 {% endblock %}
 
 {% block header %}
-    <img src="images/{{logo | default('Logo-Cigale') }}.png" alt="Logo Cigale">
-    <h1>{{ h1 | default('Cigale') }}</h1>
-    <span>{{ desc | default('Solution de HotSpot Wifi Public') }}</span>
+    <img src="{{ borne.imgPortail | default('/images/Logo-Cigale') }}" alt="Logo Cigale">
+    <h1>{{ borne.nomPortail | default('Cigale') }}</h1>
+    <span>{{ borne.descPortail | default('Solution de HotSpot Wifi Public') }}</span>
 {% endblock %}
 
 {% block main %}

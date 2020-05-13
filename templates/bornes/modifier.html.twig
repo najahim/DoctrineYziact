@@ -3,6 +3,8 @@
 {% set currentPath = path(app.request.attributes.get('_route'),
                        app.request.attributes.get('_route_params')) %}
 
+{% block title %}Modifier une borne | Cigale{% endblock %}
+
 {% block main %}
 <section class="parametres">
     {{ form_start(form) }}

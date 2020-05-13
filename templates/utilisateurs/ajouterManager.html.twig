@@ -4,11 +4,13 @@
 {% set currentPath = path(app.request.attributes.get('_route'),
     app.request.attributes.get('_route_params')) %}
 
+{% block title %}Ajouter un client | Cigale{% endblock %}
+
 {% block main %}
     <section class="parametres">
         {{ form_start(form) }}
         <article>
-            <h2>Ajouter Manager</h2>
+            <h2>Ajouter un client</h2>
             <div class="form infos-bornes">
                 <div class="identification">
                     <div class="champ">

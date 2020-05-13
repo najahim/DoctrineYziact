@@ -4,6 +4,8 @@
 {% set currentPath = path(app.request.attributes.get('_route'),
     app.request.attributes.get('_route_params')) %}
 
+{% block title %}Parametres du compte | Cigale{% endblock %}
+
 {% block main %}
     <section class="parametres">
         {% if is_granted('ROLE_ADMIN')  %}

@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
 
 
-{% block title %}{{ title | default('Cigale - Portail') }}{% endblock %}
+{% block title %}Portail | {{ borne.nomPortail | default('Cigale') }}{% endblock %}
 
 {% block colors %}
     <link rel="stylesheet" type="text/css" href="/css/colors/base.css" />
@@ -9,7 +9,6 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <link rel="stylesheet" type="text/css" href="/css/forms.css" />
     <link rel="stylesheet" type="text/css" href="/css/portail.css" />
     <link rel="stylesheet" type="text/css" href="/css/forms.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
