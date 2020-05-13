@@ -48,6 +48,36 @@ class BornesController extends AbstractController
             //'form'=>$form->createView()
         ]);
     }
+
+    /**
+     * @Route("/managerbornes", name="bornes.managerborne")
+     */
+    public function Borne(Request $request)
+    {
+       // $search =new BorneSearch();
+       // $form=$this->createForm(BorneSearchType::class,$search);
+        //$form->handleRequest($request);
+        $user=$this->getUser();
+
+        $datas = $this->getDoctrine()->getRepository('App:Borne')->findByUser($user->getId());
+
+        //var_dump($datas);
+        //$data = $paginator->paginate(
+        //    $datas,
+        //    $request->query->getInt('page',1),
+        //    2
+        //);
+        return $this->render('bornes/index.html.twig', [
+            'controller_name' => 'BornesController',
+            'bornes'=>$datas,
+            //'form'=>$form->createView()
+        ]);
+    }
+
+
+
+
+
     /**
      * @Route ("/bornes/ajouter",name="bornes.ajouter")
      */
