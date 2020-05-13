@@ -38,7 +38,10 @@
                     </td>
                     <td>{{ b.nom }}</td>
                     {# <td><a href='{{ path('bornes.stat',{id : b.id}) }}'>details</a></td> #}
-                    <td>{{ b.emplacement.adresse.ville }}</td>
+                    <td>
+                        {{ b.emplacement.adresse.numeroRue }} {{ b.emplacement.adresse.rue | capitalize }}<br>
+                        {{ b.emplacement.adresse.codePostal }} {{ b.emplacement.adresse.ville | upper}}
+                    </td>
                     <td>{{ b.adresseMac }}</td>
 
                     {% if b.etat.etat is defined and b.etat.etat == "Active" %}
