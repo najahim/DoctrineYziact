@@ -65,7 +65,7 @@ class CustomAuthenticator extends AbstractFormLoginAuthenticator implements Pass
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Personne::class)->findOneBy(['email' => $credentials['email']]);
+        $user = $this->entityManager->getRepository(Personne::class)->findOneBy(['email' => strtolower($credentials['email'])]);
 
         if (!$user) {
             // fail authentication with a custom error
