@@ -67,7 +67,7 @@ class BornesController extends AbstractController
         //    $request->query->getInt('page',1),
         //    2
         //);
-        return $this->render('bornes/index.html.twig', [
+        return $this->render('bornes/managerborne.html.twig', [
             'controller_name' => 'BornesController',
             'bornes'=>$datas,
             //'form'=>$form->createView()
