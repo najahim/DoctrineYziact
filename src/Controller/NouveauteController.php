@@ -8,6 +8,7 @@ use App\Entity\Manager;
 use App\Entity\Nouveaute;
 use App\Entity\TypeNouveaute;
 use App\Form\FlotteType;
+use App\Form\NouveauteAdminType;
 use App\Form\NouveauteType;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -55,7 +56,7 @@ class NouveauteController extends AbstractController
             $nouveaute->setAuteurPrenom($user->getPrenom());
             $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(2);
             $nouveaute->setTypenouveaute($type);
-            $form=$this->createForm(NouveauteType::class,$nouveaute);
+            $form=$this->createForm(NouveauteAdminType::class,$nouveaute);
         }
         //$form=$this->createForm(NouveauteType::class,$nouveaute);
         $form->handleRequest($request);
