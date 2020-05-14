@@ -15,9 +15,6 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            if( !$this->getUser()->getRoles('ROLE_UD') ) {
-                return $this->redirectToRoute('login');
-            }
             return $this->redirectToRoute('default');
         }
 
