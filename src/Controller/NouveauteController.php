@@ -28,11 +28,8 @@ class NouveauteController extends AbstractController
     {
         $user=$this->getUser();
 
-
         // ajouter news
         $nouveaute= new Nouveaute();
-
-
 
         if($user instanceof Manager)
         {
@@ -84,7 +81,7 @@ class NouveauteController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($nouveaute);
             $entityManager->flush();
-
+            return $this->redirectToRoute('default');
         }
 
         //fin ajouter news

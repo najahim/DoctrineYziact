@@ -42,7 +42,7 @@ class ServeurController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($serveur);
             $entityManager->flush();
-
+            return $this->redirectToRoute('serveur');
         }
 
         return $this->render('serveur/ajouter.html.twig', [
@@ -66,7 +66,6 @@ class ServeurController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($serveur);
             $entityManager->flush();
-
         }
 
         return $this->render('serveur/modifier.html.twig', [
@@ -98,7 +97,6 @@ class ServeurController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($s);
             $entityManager->flush();
-
         }
 
         return $this->render('serveur/deployer.html.twig', [

@@ -68,7 +68,7 @@ class RegistrationController extends AbstractController
                 $request,
                 $authenticator,
                 'main' // firewall name in security.yaml
-            )?: new RedirectResponse('/bornes');
+            )?: new RedirectResponse('app_logout');
         }
         $nouveautes=$this->getDoctrine()->getRepository('App:Nouveaute')
             ->findAll();

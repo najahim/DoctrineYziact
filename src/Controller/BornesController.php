@@ -87,9 +87,6 @@ class BornesController extends AbstractController
     }
 
 
-
-
-
     /**
      * @Route ("/bornes/ajouter",name="bornes.ajouter")
      */
@@ -121,12 +118,7 @@ class BornesController extends AbstractController
                     return $this->redirectToRoute('bornes');
                     break;
                 }
-
-
             }
-
-
-
         }
         return $this->render('bornes/ajouter.html.twig', [
             'borne' => $borne,
@@ -186,11 +178,10 @@ class BornesController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($activation);
             $entityManager->flush();
-            return $this->redirectToRoute('bornes');
+            return $this->redirectToRoute('bornes.historique', array('id' => $id));
 
         }
         return $this->render('bornes/activation.html.twig', [
-
             'form'=>$form->createView(),
         ]);
     }
@@ -216,11 +207,9 @@ class BornesController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($activation);
             $entityManager->flush();
-            return $this->redirectToRoute('bornes');
-
+            return $this->redirectToRoute('bornes.historique', array('id' => $id));
         }
         return $this->render('bornes/desactivation.html.twig', [
-
             'form'=>$form->createView(),
         ]);
     }
@@ -238,21 +227,21 @@ class BornesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route ("/bornes/supprimer/{id}",name="bornes.supprimer")
-     */
-    public function supprimerBorne($id,Request $request):Response
-    {
-        $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
-
-        $oldImg = $borne->getImgPortail();
-        @unlink($fileUploader->getTargetDirectory . $oldImg);
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($borne);
-        $entityManager->flush();
-        return $this->redirectToRoute('bornes');
-    }
+    // /**
+    //  * @Route ("/bornes/supprimer/{id}",name="bornes.supprimer")
+    //  */
+    // public function supprimerBorne($id,Request $request):Response
+    // {
+    //     $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
+    //
+    //     $oldImg = $borne->getImgPortail();
+    //     @unlink($fileUploader->getTargetDirectory . $oldImg);
+    //
+    //     $entityManager = $this->getDoctrine()->getManager();
+    //     $entityManager->remove($borne);
+    //     $entityManager->flush();
+    //     return $this->redirectToRoute('bornes');
+    // }
 
     /**
      * @Route("/bornes/{id}", name="bornes.stat")

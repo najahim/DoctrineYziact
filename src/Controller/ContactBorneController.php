@@ -44,7 +44,7 @@ class ContactBorneController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($contact);
             $entityManager->flush();
-
+            return $this->redirectToRoute('bornes');
         }
 
         return $this->render('contact_borne/ajouter.html.twig', [
@@ -68,7 +68,7 @@ class ContactBorneController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($contact);
             $entityManager->flush();
-
+            return $this->redirectToRoute('bornes');
         }
 
         return $this->render('contact_borne/modifier.html.twig', [

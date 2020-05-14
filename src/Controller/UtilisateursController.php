@@ -59,7 +59,7 @@ class UtilisateursController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($admin);
             $entityManager->flush();
-
+            return $this->redirectToRoute('default');
         }
         return $this->render('utilisateurs/ajouterAdmin.html.twig', [
             'admin' => $admin,
@@ -90,7 +90,7 @@ class UtilisateursController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($manager);
             $entityManager->flush();
-
+            return $this->redirectToRoute('utilisateurs.managers');
         }
         return $this->render('utilisateurs/ajouterManager.html.twig', [
             'manager' => $manager,

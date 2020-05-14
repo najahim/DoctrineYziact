@@ -30,6 +30,7 @@ class ContactController extends AbstractController
                     'text/html'
                 );
             $mailer->send($message);
+            return $this->redirectToRoute('default');
         }
         return $this->render('contact/index.html.twig',[
             'contactForm' => $form->createView()]);

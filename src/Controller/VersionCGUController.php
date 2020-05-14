@@ -32,7 +32,7 @@ class VersionCGUController extends AbstractController
     /**
      * @Route("/CGU/versions/ajouter", name="versioncgu.ajouterVersion")
      */
-    public function ajouterManager(Request $request):Response
+    public function ajouterVersion(Request $request):Response
     {
         $version= new VersionCGU();
         $form=$this->createForm(VersionType::class,$version);
@@ -42,7 +42,7 @@ class VersionCGUController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($version);
             $entityManager->flush();
-
+            return $this->redirectToRoute('versioncgu');
         }
         return $this->render('/versioncgu/ajouterVersion.html.twig', [
             'version' => $version,
