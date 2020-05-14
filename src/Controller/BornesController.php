@@ -182,6 +182,7 @@ class BornesController extends AbstractController
             $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
             $activation->setBorne($borne);
             $activation->setType($etat);
+            $borne->setEtat($etat);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($activation);
             $entityManager->flush();
@@ -211,6 +212,7 @@ class BornesController extends AbstractController
             $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
             $activation->setBorne($borne);
             $activation->setType($etat);
+            $borne->setEtat($etat);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($activation);
             $entityManager->flush();
