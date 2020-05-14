@@ -23,7 +23,7 @@ class NouveauteController extends AbstractController
     /**
      * @Route("/news", name="nouveaute")
      */
-    public function index(Request $request)
+    public function index(Request $request, FileUploader $fileUploader)
     {
         $data=$this->getDoctrine()->getRepository('App:Nouveaute')
             ->findbyType(2);

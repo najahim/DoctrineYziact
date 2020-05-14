@@ -5,8 +5,25 @@
 {% block main %}
 <main>
     <article class="actus">
+		<h2>Nouvelle actualité</h2>
+        {{ form_start(form, {'attr': {'class': 'actu-form'}}) }}
+            {{ form_widget(form.lien_image) }}
+			<div class="title">
+                {{ form_widget(form.titre, {'attr': {'placeholder': 'Titre de l\'actualité'}}) }}
+                {{ form_widget(form.date_nouveaute) }}
+			</div>
+            {{ form_widget(form.contenu, {'attr': {'placeholder': 'Contenu de l\'actualité', 'rows': '8', 'cols': '80'}}) }}
+            {% if not is_granted('ROLE_ADMIN')  %}
+                {{ form_label(form.bornes, 'Bornes concernées :') }}
+                {{ form_widget(form.bornes) }}
+            {% endif %}
+			<div class="submit">
+				<input type="submit" name="" class="button button-ok" value="Valider">
+			</div>
+        {{ form_end(form) }}
+	</article>
+    <article class="actus">
 		<h2>Dernière actualités</h2>
-        <a href="{{ path('nouveaute.ajouter') }}" class="button button-ok">Nouveau <i class="fas fa-plus-square"></i></a>
         {% for n in nouveautes %}
     		<div class="actu">
     			<div class="img" style="background: no-repeat center center url('{{ n.lienImage }}'); background-size: cover;">
