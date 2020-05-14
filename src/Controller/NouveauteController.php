@@ -25,14 +25,12 @@ class NouveauteController extends AbstractController
      */
     public function index(Request $request)
     {
-        $data=$this->getDoctrine()->getRepository('App:Nouveaute')
-            ->findbyType(2);
+        $user=$this->getUser();
 
 
         // ajouter news
         $nouveaute= new Nouveaute();
-        //$user=new Manager();
-        $user=$this->getUser();
+
 
 
         if($user instanceof Manager)
@@ -48,6 +46,8 @@ class NouveauteController extends AbstractController
             $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(1);
             $nouveaute->setTypenouveaute($type);
             $form=$this->createForm(NouveauteType::class,$nouveaute,array('idU'=>$user->getId()));
+            $data=$this->getDoctrine()->getRepository('App:Nouveaute')
+                ->findbyUser($user->getNomManager(),$user->getPrenomManager(),1);
         }
         if($user instanceof Admin)
         {
@@ -57,6 +57,8 @@ class NouveauteController extends AbstractController
             $type=$this->getDoctrine()->getRepository('App:TypeNouveaute')->find(2);
             $nouveaute->setTypenouveaute($type);
             $form=$this->createForm(NouveauteAdminType::class,$nouveaute);
+            $data=$this->getDoctrine()->getRepository('App:Nouveaute')
+                ->findbyType(2);
         }
         //$form=$this->createForm(NouveauteType::class,$nouveaute);
         $form->handleRequest($request);
@@ -162,6 +164,7 @@ class NouveauteController extends AbstractController
     public function supprimernouveaute($id,Request $request):Response
     {
         $nouveaute= $this->getDoctrine()->getRepository('App:Nouveaute')->find($id);
+
 
         $oldImg = $nouveaute->getLienImage();
         @unlink($fileUploader->getTargetDirectory . $oldImg);
