@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\FileUploader;
+use function GuzzleHttp\Psr7\str;
 use function Sodium\add;
 
 class NouveauteController extends AbstractController
@@ -163,6 +164,7 @@ class NouveauteController extends AbstractController
      */
     public function supprimernouveaute($id,Request $request):Response
     {
+        //$user=$this->getUser();
         $nouveaute= $this->getDoctrine()->getRepository('App:Nouveaute')->find($id);
 
 
