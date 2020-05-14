@@ -28,6 +28,19 @@ class NouveauteRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+    public function findbyUser($nom,$prenom,$value)
+    {
+        return $this->createQueryBuilder('n')
+            ->andWhere('n.typenouveaute = :val')
+            ->andWhere('n.auteur_prenom = : valn')
+            ->andWhere('auteur_prenom = : valp')
+            ->setParameter('val', $value)
+            ->setParameter('valn',$nom)
+            ->setParameter('valp',$prenom)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
     // /**
     //  * @return Nouveaute[] Returns an array of Nouveaute objects
     //  */
