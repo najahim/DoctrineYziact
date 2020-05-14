@@ -164,8 +164,22 @@ class NouveauteController extends AbstractController
      */
     public function supprimernouveaute($id,Request $request):Response
     {
-        //$user=$this->getUser();
+        $user=$this->getUser();
         $nouveaute= $this->getDoctrine()->getRepository('App:Nouveaute')->find($id);
+
+        if($user instanceof Manager)
+        {
+            if($user->getNomManager()==$nouveaute->getAuteurNom() and $user->getPrenomManager()==$nouveaute->getAuteurPreom()  and $nouveaute->getTypenouveaute()==1)
+            {
+                $oldImg = $nouveaute->getLienImage();
+                @unlink($fileUploader->getTargetDirectory . $oldImg);
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($nouveaute);
+                $entityManager->flush();
+                return $this->redirectToRoute('nouveaute');
+            }
+        }
 
 
         $oldImg = $nouveaute->getLienImage();
@@ -175,5 +189,6 @@ class NouveauteController extends AbstractController
         $entityManager->remove($nouveaute);
         $entityManager->flush();
         return $this->redirectToRoute('nouveaute');
+
     }
 }
