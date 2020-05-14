@@ -96,7 +96,7 @@ class BornesController extends AbstractController
         $form=$this->createForm(AjouterBorneType::class,$borne);
         $serveurs=$this->getDoctrine()->getRepository('App:Serveur')
             ->findByCountBorne();
-        var_dump($serveurs);
+        //var_dump($serveurs);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
