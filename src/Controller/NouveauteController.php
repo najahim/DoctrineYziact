@@ -180,7 +180,7 @@ class NouveauteController extends AbstractController
                 return $this->redirectToRoute('nouveaute');
             }
             else
-                return;
+                return $this->redirectToRoute('nouveaute');
         }
 
         if ($user instanceof  Admin)
