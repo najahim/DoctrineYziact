@@ -37,7 +37,9 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+            $roles[] = 'ROLE_UD';
             $user->setValidation(false);
+            $user->setRoles($roles);
             $user->setActivationToken(md5(uniqid()));
             $user->setDateCreation(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
@@ -212,7 +214,7 @@ class RegistrationController extends AbstractController
         foreach ($bornes as $borne){
             $taille=$taille+1;
             //$matrices=[];
-            $jsonData=$jsonData .$borne->getEmplacement()->getAdresse()->getVille().': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' }';
+            $jsonData=$jsonData .$taille.': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' }';
             if ($taille<$t)
             {
                 $jsonData =$jsonData .',';
