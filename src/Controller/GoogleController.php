@@ -43,7 +43,7 @@ class GoogleController extends AbstractController
         if (!$user) {
             return new JsonResponse(array('status' => false, 'message' => "User not found!"));
         } else {
-            $message = (new \Swift_Message('Nouveau compte'))
+            /*$message = (new \Swift_Message('Nouveau compte'))
                 // On attribue l'expéditeur
                 ->setFrom('testyziact@gmail.com')
                 // On attribue le destinataire
@@ -57,7 +57,7 @@ class GoogleController extends AbstractController
                     'text/html'
                 )
             ;
-            $mailer->send($message);
+            $mailer->send($message);*/
             return $this->redirect('http://www.cigale-hotspot.fr/qui-sommes-nous/');
 
         }

@@ -54,7 +54,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             $user->setGoogleAccessToken($googleUser->getId());
             $user->setDateCreation(new \DateTime('now'));
             $user->setActivationToken(md5(uniqid()));
-            $user->setValidation(false);
+            $user->setValidation(true);
 
             //$user->setResponse($googleUser->getHostedDomain());
             // $user->setFullname($googleUser->getName());

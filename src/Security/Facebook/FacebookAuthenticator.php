@@ -56,7 +56,7 @@ class FacebookAuthenticator extends SocialAuthenticator
             // $user->setFullname($googleUser->getName());
             $user->setDateCreation(new \DateTime('now'));
             $user->setActivationToken(md5(uniqid()));
-            $user->setValidation(false);
+            $user->setValidation(true);
 
             //$user->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));
             $this->em->persist($user);
