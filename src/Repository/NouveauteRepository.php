@@ -37,7 +37,7 @@ class NouveauteRepository extends ServiceEntityRepository
             ->andWhere('n.auteur_prenom = :valp')
             ->setParameter('val', $value)
             ->setParameter('valn',$nom)
-            //->setParameter('valp',$prenom)
+            ->setParameter('valp',$prenom)
             ->getQuery()
             ->getResult()
             ;
