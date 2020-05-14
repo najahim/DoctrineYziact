@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Nouveaute;
 use App\Entity\Serveur;
+use App\Form\DeployerServeurType;
 use App\Form\NouveauteType;
 use App\Form\ServeurType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -50,7 +51,7 @@ class ServeurController extends AbstractController
         ]);
     }
     /**
-     * @Route ("/serveurs/modifier/{id}",name="serveur.ajouter")
+     * @Route ("/serveurs/modifier/{id}",name="serveur.modifier")
      */
     public function modifierServeur($id,Request $request):Response
     {
@@ -68,7 +69,39 @@ class ServeurController extends AbstractController
 
         }
 
-        return $this->render('serveur/ajouter.html.twig', [
+        return $this->render('serveur/modifier.html.twig', [
+            'serveur' => $serveur,
+            'form'=>$form->createView(),
+        ]);
+    }
+
+    /**
+     * @Route ("/serveurs/deployer",name="serveur.deployer")
+     */
+    public function deployerServeur(Request $request):Response
+    {
+        $serveur=new Serveur();
+
+        $form=$this->createForm(DeployerServeurType::class,$serveur);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$s=new Serveur();
+            $s=$form->get('serveur')->getData();
+            //$serveur1=$this->getDoctrine()->getRepository('App:Serveur')
+             //   ->find($s->getId());
+            $s->setDerniereMAJ(new \DateTime('now'));
+            $bornes=$form->get('bornes')->getData();
+            foreach ($bornes as $b)
+            {
+                $s->addBorne($b);
+            }
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($s);
+            $entityManager->flush();
+
+        }
+
+        return $this->render('serveur/deployer.html.twig', [
             'serveur' => $serveur,
             'form'=>$form->createView(),
         ]);

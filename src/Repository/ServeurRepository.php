@@ -19,6 +19,20 @@ class ServeurRepository extends ServiceEntityRepository
         parent::__construct($registry, Serveur::class);
     }
 
+
+    public function findByCountBorne()
+    {
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT s.id, s.nb_max_borne, count(b) as nb_borne
+        FROM App\Entity\Serveur s
+        LEFT JOIN s.bornes b
+        group by s
+        order by count(b) ASC'
+        );
+        return $query->getResult();
+    }
     // /**
     //  * @return Serveur[] Returns an array of Serveur objects
     //  */

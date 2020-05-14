@@ -97,6 +97,9 @@ class BornesController extends AbstractController
     {
         $borne= new Borne();
         $form=$this->createForm(AjouterBorneType::class,$borne);
+        $serveurs=$this->getDoctrine()->getRepository('App:Serveur')
+            ->findByCountBorne();
+        var_dump($serveurs);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
@@ -105,11 +108,24 @@ class BornesController extends AbstractController
                 $imgURL = $fileUploader->upload($imgFile, '/uploads/portail');
                 $borne->setImgPortail('/uploads/portail/' . $imgURL);
             }
+            foreach ($serveurs as $serveur)
+            {
+                if ($serveur["nb_borne"] < $serveur["nb_max_borne"])
+                {
+                    $s=$this->getDoctrine()->getRepository('App:Serveur')
+                        ->find($serveur["id"]);
+                    $borne->setServeur($s);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($borne);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('bornes');
+                    break;
+                }
 
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($borne);
-            $entityManager->flush();
-            return $this->redirectToRoute('bornes');
+
+            }
+
+
 
         }
         return $this->render('bornes/ajouter.html.twig', [
