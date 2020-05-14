@@ -55,9 +55,7 @@ class GoogleAuthenticator extends SocialAuthenticator
             $user->setDateCreation(new \DateTime('now'));
             $user->setActivationToken(md5(uniqid()));
             $user->setValidation(false);
-            $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
-                ->findLast();
-            $user->setVersionCgu($cgu[0]);
+
             //$user->setResponse($googleUser->getHostedDomain());
             // $user->setFullname($googleUser->getName());
             //$user->setCreatedAt(new \DateTime(date('Y-m-d H:i:s')));

@@ -37,6 +37,9 @@ class GoogleController extends AbstractController
     public function connectCheckAction(Request $request,\Swift_Mailer $mailer):Response
     {
         $user=$this->getUser();
+        $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
+            ->findLast();
+        $user->setVersionCgu($cgu[0]);
         if (!$user) {
             return new JsonResponse(array('status' => false, 'message' => "User not found!"));
         } else {
