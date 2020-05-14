@@ -179,16 +179,21 @@ class NouveauteController extends AbstractController
                 $entityManager->flush();
                 return $this->redirectToRoute('nouveaute');
             }
+            else
+                return;
         }
 
+        if ($user instanceof  Admin)
+        {
+            $oldImg = $nouveaute->getLienImage();
+            @unlink($fileUploader->getTargetDirectory . $oldImg);
 
-        $oldImg = $nouveaute->getLienImage();
-        @unlink($fileUploader->getTargetDirectory . $oldImg);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($nouveaute);
+            $entityManager->flush();
+            return $this->redirectToRoute('nouveaute');
+        }
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->remove($nouveaute);
-        $entityManager->flush();
-        return $this->redirectToRoute('nouveaute');
 
     }
 }
