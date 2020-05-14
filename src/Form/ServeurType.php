@@ -24,9 +24,8 @@ class ServeurType extends AbstractType
             ->add('etat', EntityType::class,[
                 'class'=>Etat::class,
                 'choice_label' => function(Etat $etat) {
-                    return sprintf('(%d) %s', $etat->getId(), $etat->getEtat());
+                    return sprintf('%s', $etat->getEtat());
                 },
-                'placeholder' => 'Choisir etat'
             ])
             //->add('bornes')
             //->add('envoyer', SubmitType::class)

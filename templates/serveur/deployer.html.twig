@@ -1,4 +1,35 @@
-<div>
-    <h1>deployer serveur</h1>
-    {{ form(form) }}
-</div>
+{% extends 'base.html.twig' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+
+{% block title %}Deploiement | Cigale{% endblock %}
+
+{% block main %}
+    <section class="parametres">
+        {{ form_start(form) }}
+        <article>
+            <h2>Déploiement</h2>
+            <div class="form infos-bornes">
+                <div class="identification">
+                    <div class="champ">
+                        {{ form_label(form.serveur, "Serveur :") }}
+                        {{ form_widget(form.serveur) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.bornes, "Bornes :") }}
+                        {{ form_widget(form.bornes) }}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" name="" class="button button-ok" value="Valider">
+                        <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}

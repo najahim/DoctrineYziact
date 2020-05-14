@@ -26,7 +26,7 @@ class DeployerServeurType extends AbstractType
                 'choice_label' => 'reseaux',
                 'mapped'=>false
             ])
-            ->add('envoyer',SubmitType::class)
+            //->add('envoyer',SubmitType::class)
         ;
     }
 

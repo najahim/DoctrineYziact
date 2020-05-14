@@ -22,22 +22,24 @@
                 <tr class="tableHead">
 
                     <th>Reseaux</th>
-                    <th>derniere MAJ </th>
-                    <th>Page de blocage</th>
-                    <th>nombre borne</th>
-                    <th>etat</th>
+                    <th>Derniere MAJ </th>
+                    <th>Nombre max borne</th>
+                    <th>Nombre bornes</th>
+                    <th>Etat</th>
                 </tr>
                 </thead>
 
                 <tbody>
                 {% for d in data %}
-                    <tr >
+                    <tr data-href="{{ path('serveur.modifier',{id : d.id}) }}">
                         <td>{{ d.reseaux }}</td>
                         <td>{{ d.derniereMAJ | date}}</td>
-                        <td>{{ d.pageDeBlocage }}</td>
                         <td>{{ d.nbMaxBorne }}</td>
-                        {% if d.etat.etat is defined%}
+                        <td>{{ d.bornes.count }}</td>
+                        {% if d.etat.etat is defined %}
                             <td>{{ d.etat.etat }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
                         {% endif %}
 
                     </tr>

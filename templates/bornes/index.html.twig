@@ -45,7 +45,7 @@
                     <td>{{ b.adresseMac }}</td>
 
                     {% if b.etat.etat is defined and b.etat.etat == "Active" %}
-                        <td><span class="button button-yes etat">Active</span></td>
+                        <td><span class="button button-ok etat">Active</span></td>
                     {% elseif b.etat.etat is defined and b.etat.etat == "Inactive" %}
                         <td><span class="button button-no etat">Inactive</span></td>
                     {% elseif b.etat.etat is defined %}
