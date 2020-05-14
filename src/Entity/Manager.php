@@ -41,7 +41,7 @@ class Manager extends Personne
     private $organisations;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Flotte", mappedBy="manager")
+     * @ORM\OneToMany(targetEntity="App\Entity\Flotte", mappedBy="manager",cascade={"persist"})
      */
     private $flottes;
 

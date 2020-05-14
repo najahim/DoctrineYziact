@@ -24,7 +24,7 @@ class Flotte
     private $nom_flotte;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Manager", inversedBy="flottes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manager", inversedBy="flottes",cascade={"persist"})
      */
     private $manager;
 

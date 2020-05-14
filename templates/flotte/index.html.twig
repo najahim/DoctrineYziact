@@ -10,6 +10,7 @@
         {% for d in data %}
             <h1>{{ d.id }}</h1>
             <h1>
+                {{ d.nomFlotte }}
                 {{ d.manager.email }}
             </h1>
         {% endfor %}

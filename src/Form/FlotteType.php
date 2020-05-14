@@ -26,10 +26,11 @@ class FlotteType extends AbstractType
                 'choice_label' => function(Manager $user) {
                     return sprintf('(%d) %s', $user->getId(), $user->getEmail());
                 },
-                'placeholder' => 'Choisir un Manager'
+                'placeholder' => 'Choisir un Manager',
+                //'required'=>false,
                 ])
             //->add('bornes')
-            ->add('envoyer', SubmitType::class)
+            //->add('envoyer', SubmitType::class)
         ;
     }
 

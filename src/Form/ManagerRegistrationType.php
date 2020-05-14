@@ -38,6 +38,9 @@ class ManagerRegistrationType extends AbstractType
             ->add('nom_manager')
             ->add('prenom_manager')
             //->add('niveau_privilege')
+            ->add('flotte',FlotteManagerType::class,[
+                'mapped' => false,
+            ])
             //->add('envoyer', SubmitType::class)
         ;
     }

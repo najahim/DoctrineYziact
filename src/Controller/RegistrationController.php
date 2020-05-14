@@ -207,10 +207,16 @@ class RegistrationController extends AbstractController
             ->getRepository('App:Borne')
             ->findAll();
         //var_dump($bornes);
+        $t=count($bornes);
+        //var_dump($t);
         foreach ($bornes as $borne){
             $taille=$taille+1;
             //$matrices=[];
-            $jsonData=$jsonData . $taille. ': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' },';
+            $jsonData=$jsonData .$borne->getEmplacement()->getAdresse()->getVille().': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' }';
+            if ($taille<$t)
+            {
+                $jsonData =$jsonData .',';
+            }
             //array_push($matrices,$taille);
             // array_push($matrices,$borne->getEmplacement()->getLatitude());
             // array_push($matrices,$borne->getEmplacement()->getLongitude());
@@ -221,6 +227,7 @@ class RegistrationController extends AbstractController
             return null;
         else
         {
+            //var_dump($jsonData);
             $Locs = JsonResponse::fromJsonString($jsonData)->getContent();
             //return $matrice;
             //$Locs=$jsonData;

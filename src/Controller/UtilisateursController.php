@@ -85,6 +85,7 @@ class UtilisateursController extends AbstractController
             $roles[] = 'ROLE_USER';
             //$admin=$form->getData();
             $manager->setRoles($roles);
+            $manager->addFlotte($form->get('flotte')->getData());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($manager);

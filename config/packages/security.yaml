@@ -51,12 +51,12 @@ security:
          - { path: ^/bornes/stats/, roles: ROLE_USER }
          - { path: ^/contact, roles: ROLE_USER }
          - { path: ^/bornes/contacts/ajouter, roles: ROLE_USER }
-         #- { path: ^/bornes/contacts/modifier/, roles: ROLE_USER }
+         - { path: ^/bornes/contacts/modifier/, roles: ROLE_USER }
          - { path: ^/news, roles: ROLE_USER }
          - { path: ^/news/ajouter, roles: ROLE_USER }
          - { path: ^/serveurs, roles: ROLE_ADMIN }
          - { path: ^/serveurs/ajouter, roles: ROLE_ADMIN }
-         #- { path: ^/serveurs/modifier/, roles: ROLE_ADMIN }
+         - { path: ^/serveurs/modifier/, roles: ROLE_ADMIN }
          - { path: ^/utilisateurs, roles: ROLE_ADMIN }
          - { path: ^/managers, roles: ROLE_ADMIN }
          - { path: ^/admin/ajouter, roles: ROLE_ADMIN }

@@ -49,4 +49,28 @@ class ServeurController extends AbstractController
             'form'=>$form->createView(),
         ]);
     }
+    /**
+     * @Route ("/serveurs/modifier/{id}",name="serveur.ajouter")
+     */
+    public function modifierServeur($id,Request $request):Response
+    {
+        $serveur= new Serveur();
+        $serveur=$this->getDoctrine()->getRepository('App:Serveur')
+            ->find($id);
+        $form=$this->createForm(ServeurType::class,$serveur);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $serveur->setDerniereMAJ(new \DateTime('now'));
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($serveur);
+            $entityManager->flush();
+
+        }
+
+        return $this->render('serveur/ajouter.html.twig', [
+            'serveur' => $serveur,
+            'form'=>$form->createView(),
+        ]);
+    }
 }

@@ -53,7 +53,7 @@ class ContactBorneController extends AbstractController
         ]);
     }
     /**
-     * @Route ("/contact/modifier/{id}",name="contact_borne.modifier")
+     * @Route ("/bornes/contacts/modifier/{id}",name="contact_borne.modifier")
      */
     public function modifierBorne($id,Request $request):Response
     {

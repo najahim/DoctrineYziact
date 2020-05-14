@@ -38,6 +38,12 @@
                         {{ form_widget(form.plainPassword) }}
                     </div>
 
+                    <div class="champ">
+                        {{ form_label(form.flotte, "flotte :") }}
+                        {{ form_widget(form.flotte.nom_flotte) }}
+                    </div>
+
+
                     <div class="submit">
                         <input type="submit" name="" class="button button-ok" value="Valider">
                         <a href="{{ currentPath }}" class="button button-no">Annuler</a>
