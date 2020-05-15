@@ -31,10 +31,7 @@
                         {{ form_label(form.etat, "Etat :") }}
                         {{ form_widget(form.etat) }}
                     </div>
-
-                    {{ form_widget(form.flotte, {'attr' : {'style' : 'display:none;', 'value' : 'auto'}}) }}
-
-
+                    
                     <div class="submit">
                         <input type="submit" name="" class="button button-ok" value="Valider">
                         <a href="{{ currentPath }}" class="button button-no">Annuler</a>

@@ -38,10 +38,7 @@
                         {{ form_widget(form.plainPassword) }}
                     </div>
 
-                    <div class="champ">
-                        {{ form_label(form.flotte, "flotte :") }}
-                        {{ form_widget(form.flotte.nom_flotte) }}
-                    </div>
+                    {{ form_widget(form.flotte, {'attr' : {'style' : 'display:none;', 'value' : 'auto'}}) }}
 
 
                     <div class="submit">
