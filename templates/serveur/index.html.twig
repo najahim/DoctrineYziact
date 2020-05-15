@@ -44,7 +44,7 @@
                         {% endif %}
 
                         {% if d.filtrage is defined %}
-                            <td>{{ d.filtrage }}</td>
+                            <td>{{ d.filtrage ? 'Oui' : 'Non' }}</td>
                         {% else %}
                             <td>Inconnu</td>
                         {% endif %}
@@ -66,6 +66,6 @@
     <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="https://cdn.datatables.net/plug-ins/1.10.20/i18n/French.json"></script>
 
-     
+
     <script type="text/javascript" src="/js/datatables.js" defer></script>
 {% endblock %}
