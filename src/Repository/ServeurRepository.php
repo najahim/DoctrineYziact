@@ -20,7 +20,7 @@ class ServeurRepository extends ServiceEntityRepository
     }
 
 
-    public function findByCountBorne()
+    public function findByCountBorne($value)
     {
         $entityManager = $this->getEntityManager();
 
@@ -28,9 +28,10 @@ class ServeurRepository extends ServiceEntityRepository
             'SELECT s.id, s.nb_max_borne, count(b) as nb_borne
         FROM App\Entity\Serveur s
         LEFT JOIN s.bornes b
+        where s.filtrage = :filtrage
         group by s
         order by count(b) ASC'
-        );
+        )->setParameter('filtrage', $value);
         return $query->getResult();
     }
     // /**

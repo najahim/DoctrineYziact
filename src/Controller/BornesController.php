@@ -94,8 +94,7 @@ class BornesController extends AbstractController
     {
         $borne= new Borne();
         $form=$this->createForm(AjouterBorneType::class,$borne);
-        $serveurs=$this->getDoctrine()->getRepository('App:Serveur')
-            ->findByCountBorne();
+
         //var_dump($serveurs);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -105,6 +104,8 @@ class BornesController extends AbstractController
                 $imgURL = $fileUploader->upload($imgFile, '/uploads/portail');
                 $borne->setImgPortail('/uploads/portail/' . $imgURL);
             }
+            $serveurs=$this->getDoctrine()->getRepository('App:Serveur')
+                ->findByCountBorne($borne->getFiltrage());
             foreach ($serveurs as $serveur)
             {
                 if ($serveur["nb_borne"] < $serveur["nb_max_borne"])
@@ -132,6 +133,7 @@ class BornesController extends AbstractController
     public function modifierBorne($id,Request $request, FileUploader $fileUploader):Response
     {
         $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
+        //$filtrage=$borne->getFiltrage();
         $form=$this->createForm(ModifierBorneType::class,$borne);
         $form->handleRequest($request);
 
@@ -145,6 +147,22 @@ class BornesController extends AbstractController
                 $imgURL = $fileUploader->upload($imgFile, '/uploads/portail');
                 $borne->setImgPortail('/uploads/portail/' . $imgURL);
             }
+
+                $serveurs=$this->getDoctrine()->getRepository('App:Serveur')
+                    ->findByCountBorne($borne->getFiltrage());
+                foreach ($serveurs as $serveur)
+                {
+                    if ($serveur["nb_borne"] < $serveur["nb_max_borne"])
+                    {
+                        $s=$this->getDoctrine()->getRepository('App:Serveur')
+                            ->find($serveur["id"]);
+                        $borne->setServeur($s);
+
+                        break;
+                    }
+                }
+
+
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($borne);
