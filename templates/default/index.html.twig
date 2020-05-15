@@ -52,6 +52,12 @@
             <h3>Actualités de Cigale</h3>
         </div>
     </a>
+    <a href="{{ path('nouveaute.portail') }}" class="menu-item-link">
+        <div class="menu-item">
+            <i class="far fa-newspaper"></i>
+            <h3>Actualités des portails</h3>
+        </div>
+    </a>
     <a href="{{ path('serveur') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-server"></i>
@@ -108,7 +114,7 @@
                     </div>
                     <div class="content">
                         <h3>{{ n.titre }}</h3>
-                        <span class="date"><i class="fas fa-clock"></i> {{ n.dateNouveaute | date }}</span>
+                        <span class="date"><i class="fas fa-clock"></i> {{ n.dateNouveaute | date("d/m/Y") }}</span>
                         <p>{{ n.contenu }}</p>
                     </div>
                 </div>

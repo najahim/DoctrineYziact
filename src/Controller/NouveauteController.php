@@ -81,7 +81,7 @@ class NouveauteController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($nouveaute);
             $entityManager->flush();
-            return $this->redirectToRoute('default');
+            return $this->redirect($request->getUri());
         }
 
         //fin ajouter news
@@ -166,7 +166,7 @@ class NouveauteController extends AbstractController
 
         if($user instanceof Manager)
         {
-            if($user->getNomManager()==$nouveaute->getAuteurNom() and $user->getPrenomManager()==$nouveaute->getAuteurPreom()  and $nouveaute->getTypenouveaute()==1)
+            if($user->getNomManager()==$nouveaute->getAuteurNom() and $user->getPrenomManager()==$nouveaute->getAuteurPrenom()  and $nouveaute->getTypenouveaute()->getID()==1)
             {
                 $oldImg = $nouveaute->getLienImage();
                 @unlink($fileUploader->getTargetDirectory . $oldImg);
@@ -188,10 +188,8 @@ class NouveauteController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($nouveaute);
             $entityManager->flush();
-            return $this->redirectToRoute('nouveaute');
+            return $this->redirectToRoute('default');
         }
-
-
     }
 
 

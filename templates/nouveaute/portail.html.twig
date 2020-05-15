@@ -7,13 +7,13 @@
 
         <article class="actus">
             <h2>Dernière actualités</h2>
-            {% for n in nouveautes %}
+            {% for n in nouveautes | sort((a, b) => b.dateNouveaute <=> a.dateNouveaute) %}
                 <div class="actu">
                     <div class="img" style="background: no-repeat center center url('{{ n.lienImage }}'); background-size: cover;">
                     </div>
                     <div class="content">
                         <h3>{{ n.titre }}</h3>
-                        <span class="date"><i class="fas fa-clock"></i> {{ n.dateNouveaute | date }}</span>
+                        <span class="date"><i class="fas fa-clock"></i> {{ n.dateNouveaute | date("d/m/Y") }}</span>
 
                         <p>{{ n.contenu }}</p>
 
