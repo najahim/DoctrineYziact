@@ -40,6 +40,27 @@ class Serveur
     private $nb_max_borne;
 
     /**
+     * @ORM\Column(type="boolean",nullable=true)
+     */
+    private $filtrage;
+
+    /**
+     * @return mixed
+     */
+    public function getFiltrage()
+    {
+        return $this->filtrage;
+    }
+
+    /**
+     * @param mixed $filtrage
+     */
+    public function setFiltrage($filtrage): void
+    {
+        $this->filtrage = $filtrage;
+    }
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Etat", inversedBy="serveurs")
      */
     private $etat;

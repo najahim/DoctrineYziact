@@ -26,6 +26,7 @@
                     <th>Nombre max borne</th>
                     <th>Nombre bornes</th>
                     <th>Etat</th>
+                    <th>Filtrage</th>
                 </tr>
                 </thead>
 
@@ -42,6 +43,11 @@
                             <td>Inconnu</td>
                         {% endif %}
 
+                        {% if d.filtrage is defined %}
+                            <td>{{ d.filtrage }}</td>
+                        {% else %}
+                            <td>Inconnu</td>
+                        {% endif %}
                     </tr>
                     </a>
                 {% endfor %}
