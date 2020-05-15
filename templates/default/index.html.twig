@@ -21,50 +21,50 @@
 {% block main %}
 <main class="accueil">
 <nav class="menu">
-    <a href="{{ path('bornes') }}">
+    <a href="{{ path('bornes') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-satellite-dish"></i>
             <h3>Paramètres des bornes</h3>
         </div>
     </a>
     {% if is_granted('ROLE_ADMIN')  %}
-    <a href="{{ path('bornes.ajouter') }}">
+    <a href="{{ path('bornes.ajouter') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-plug"></i>
             <h3>Ajouter une borne</h3>
         </div>
     </a>
-    <a href="{{ path('utilisateurs.managers') }}">
+    <a href="{{ path('utilisateurs.managers') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-user-shield"></i>
             <h3>Comptes clients</h3>
         </div>
     </a>
-    <a href="{{ path('utilisateurs') }}">
+    <a href="{{ path('utilisateurs') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-mobile-alt"></i>
             <h3>Comptes utilisateurs</h3>
         </div>
     </a>
-    <a href="{{ path('nouveaute') }}">
+    <a href="{{ path('nouveaute') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-newspaper"></i>
             <h3>Actualités de Cigale</h3>
         </div>
     </a>
-    <a href="{{ path('serveur') }}">
+    <a href="{{ path('serveur') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-server"></i>
             <h3>Serveurs</h3>
         </div>
     </a>
-    <a href="{{ path('serveur.deployer') }}">
+    <a href="{{ path('serveur.deployer') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-project-diagram"></i>
             <h3>Déploiement des bornes</h3>
         </div>
     </a>
-    <a href="{{ path('versioncgu') }}">
+    <a href="{{ path('versioncgu') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-balance-scale"></i>
             <h3>Versions des CGU</h3>
@@ -72,12 +72,12 @@
     </a>
     {% endif %}
     {% if is_granted('ROLE_USER') and not is_granted('ROLE_ADMIN')  %}
-    <a href="{{ path('nouveaute') }}">
+    <a href="{{ path('nouveaute') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="far fa-newspaper"></i>
             <h3>Actualités du portail</h3>
         </div>
-        <a href="{{ path('contact') }}">
+        <a href="{{ path('contact') }}" class="menu-item-link">
             <div class="menu-item">
                 <i class="fas fa-envelope"></i>
                 <h3>Contacter Yziact</h3>
@@ -85,13 +85,13 @@
         </a>
     </a>
     {% endif %}
-    <a href="">
+    <a href="" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-chart-line"></i>
             <h3>Statistiques par bornes</h3>
         </div>
     </a>
-    <a href="{{ path('aide') }}">
+    <a href="{{ path('aide') }}" class="menu-item-link">
         <div class="menu-item">
             <i class="fas fa-question-circle"></i>
             <h3>Aide</h3>
