@@ -32,6 +32,13 @@
             <!--<![endif]-->
 
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function() {
+                    $('.scroll-top').on("click", function() {
+                        window.scrollTo(0, 0);
+                    });
+                });
+            </script>
         {% endblock %}
     {% endblock %}
 </head>
@@ -59,6 +66,8 @@
 
     {% block main %}
     {% endblock %}
+
+    <span class="scroll-top"><i class="fas fa-arrow-up"></i></span>
 
     <footer>
     {% block footer %}
