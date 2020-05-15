@@ -14,7 +14,7 @@
 			</div>
             {{ form_widget(form.contenu, {'attr': {'placeholder': 'Contenu de l\'actualité', 'rows': '8', 'cols': '80'}}) }}
             {% if not is_granted('ROLE_ADMIN')  %}
-                {{ form_label(form.bornes, 'Bornes concernées :') }}
+                {{ form_label(form.bornes, 'Bornes concernées (appuyez sur Ctrl ou Shift pour en selectionner plusieurs):') }}
                 {{ form_widget(form.bornes) }}
             {% endif %}
 			<div class="submit">
