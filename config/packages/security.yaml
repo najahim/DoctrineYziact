@@ -53,6 +53,7 @@ security:
          - { path: ^/contact, roles: ROLE_USER }
          - { path: ^/bornes/contacts/ajouter, roles: ROLE_USER }
          - { path: ^/bornes/contacts/modifier/, roles: ROLE_USER }
+         - { path: ^/news/portail, roles: ROLE_ADMIN }
          - { path: ^/news, roles: ROLE_USER }
          - { path: ^/news/ajouter, roles: ROLE_USER }
          - { path: ^/serveurs, roles: ROLE_ADMIN }

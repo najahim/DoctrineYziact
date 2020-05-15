@@ -193,4 +193,25 @@ class NouveauteController extends AbstractController
 
 
     }
+
+
+    /**
+     * @Route("/news/portail", name="nouveaute.portail")
+     */
+    public function portail(Request $request, FileUploader $fileUploader)
+    {
+
+
+
+            $data=$this->getDoctrine()->getRepository('App:Nouveaute')
+                ->findbyType(1);
+
+
+        //fin ajouter news
+        return $this->render('nouveaute/portail.html.twig', [
+            'controller_name' => 'NouveauteController',
+            'nouveautes'=> $data,
+
+        ]);
+    }
 }

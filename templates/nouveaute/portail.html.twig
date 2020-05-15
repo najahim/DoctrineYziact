@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouveautés | Cigale{% endblock %}
+
+{% block main %}
+    <main>
+
+        <article class="actus">
+            <h2>Dernière actualités</h2>
+            {% for n in nouveautes %}
+                <div class="actu">
+                    <div class="img" style="background: no-repeat center center url('{{ n.lienImage }}'); background-size: cover;">
+                    </div>
+                    <div class="content">
+                        <h3>{{ n.titre }}</h3>
+                        <span class="date"><i class="fas fa-clock"></i> {{ n.dateNouveaute | date }}</span>
+
+                        <p>{{ n.contenu }}</p>
+
+                        <p>
+                            <b>Affiché sur les bornes :</b> {{ n.bornes | map(b => "#{b.nom}") | join(', ') }}.
+                        </p>
+
+                        <div class="delete">
+                            <a class="button button-no" href="{{ path('nouveaute.supprimer',{id : n.id}) }}">Supprimer <i class="fas fa-trash-alt"></i></a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </article>
+    </main>
+{% endblock %}
