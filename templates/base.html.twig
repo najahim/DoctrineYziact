@@ -67,7 +67,9 @@
     {% block main %}
     {% endblock %}
 
-    <span class="scroll-top"><i class="fas fa-arrow-up"></i></span>
+    {% block scroll %}
+        <span class="scroll-top"><i class="fas fa-arrow-up"></i></span>
+    {% endblock %}
 
     <footer>
     {% block footer %}
