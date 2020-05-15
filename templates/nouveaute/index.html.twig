@@ -34,6 +34,10 @@
 
     				<p>{{ n.contenu }}</p>
 
+                    <p>
+                        <b>Affiché sur les bornes :</b> {{ n.bornes | map(b => "#{b.nom}") | join(', ') }}.
+                    </p>
+
     				<div class="delete">
     					<a class="button button-no" href="{{ path('nouveaute.supprimer',{id : n.id}) }}">Supprimer <i class="fas fa-trash-alt"></i></a>
     				</div>
