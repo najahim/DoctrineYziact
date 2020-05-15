@@ -184,3 +184,8 @@ a.twitter-button {
 	background: #ffffff;
 	border-radius: 3px;
 }
+
+/* Fix firefox */
+.champ input[type="file"] {
+	flex: 1;
+}
