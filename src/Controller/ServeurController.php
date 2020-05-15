@@ -93,6 +93,7 @@ class ServeurController extends AbstractController
             foreach ($bornes as $b)
             {
                 $s->addBorne($b);
+                $b->setFiltrage($s->getFiltrage());
             }
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($s);
