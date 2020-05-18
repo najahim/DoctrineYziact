@@ -138,7 +138,8 @@
                     popupAnchor: [-3, -76],
                 });
                 var marker = L.marker([bornes[borne].lat, bornes[borne].lon]);
-                marker.bindPopup(borne);
+                var text1=borne.split('_').join(' ');
+                marker.bindPopup(text1);
                 markerClusters.addLayer(marker);
                 markers.push(marker);
             }

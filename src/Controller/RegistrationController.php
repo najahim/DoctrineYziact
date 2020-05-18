@@ -214,7 +214,9 @@ class RegistrationController extends AbstractController
         foreach ($bornes as $borne){
             $taille=$taille+1;
             //$matrices=[];
-            $jsonData=$jsonData .$taille.': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' }';
+            $text=$borne->getNom();
+            $text=str_replace(' ','_',$text);
+            $jsonData=$jsonData .$text.': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' }';
             if ($taille<$t)
             {
                 $jsonData =$jsonData .',';

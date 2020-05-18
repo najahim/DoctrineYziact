@@ -40,6 +40,7 @@
 
     var villes ={{ test }};
 
+
     console.log(villes);
 
 
@@ -68,13 +69,16 @@
         console.log(ville);
         // Nous définissons l'icône à utiliser pour le marqueur, sa taille affichée (iconSize), sa position (iconAnchor) et le décalage de son ancrage (popupAnchor)
         var myIcon = L.icon({
-            iconUrl: iconBase ,
+            iconUrl: iconBase,
             iconSize: [50, 50],
             iconAnchor: [25, 50],
             popupAnchor: [-3, -76],
         });
+
+        var text1=ville.split('_').join(' ');
+        console.log(text1);
         var marker = L.marker([villes[ville].lat, villes[ville].lon]); // pas de addTo(macarte), l'affichage sera géré par la bibliothèque des clusters
-        marker.bindPopup(ville);
+        marker.bindPopup(text1);
         markerClusters.addLayer(marker); // Nous ajoutons le marqueur aux groupes
         markers.push(marker); // Nous ajoutons le marqueur à la liste des marqueurs
     }

@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use App\Repository\BorneRepository;
+use function GuzzleHttp\Psr7\copy_to_string;
+use function GuzzleHttp\Psr7\str;
 use function MongoDB\BSON\toJSON;
 
 
@@ -22,9 +24,11 @@ class MapController extends AbstractController
     public function index()
     {
         $test = $this->jsonLocalisation();
+        $test1 = $this->geoJson();
         return $this->render('map/index.html.twig', [
             'controller_name' => 'MapController',
-            'test'=> $test
+            'test'=> $test,
+            'test1'=> $test1,
         ]);
     }
 
@@ -38,15 +42,16 @@ class MapController extends AbstractController
             ->getRepository('App:Borne')
             ->getBornes();
         foreach ($bornes as $borne){
+            $text=$borne->getNom();
+            $text=str_replace(' ','_',$text);
+
             $taille=$taille+1;
-            //$matrices=[];
-            $jsonData=$jsonData . $taille. ': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). ' },';
-            //array_push($matrices,$taille);
-           // array_push($matrices,$borne->getEmplacement()->getLatitude());
-           // array_push($matrices,$borne->getEmplacement()->getLongitude());
-           // array_push($matrice,$matrices);
+
+            $jsonData=$jsonData . $text. ': { lat: ' . $borne->getEmplacement()->getLatitude() . ', lon: ' . $borne->getEmplacement()->getLongitude(). '},';
+
         }
-        $jsonData =$jsonData .'Bayonne: { lat: 43.500, lon: -1.467 }}';
+        $jsonData =$jsonData .'}';
+       // var_dump($jsonData);
         if ($Locs === 0)
             return null;
         else
@@ -61,4 +66,51 @@ class MapController extends AbstractController
     }
 
 
+
+    // Optimisation de map
+    public function geoJson(){
+        $Locs = [];
+        $taille= 0;
+        // $matrice=[];
+        $jsonData = '[';
+        $borne = new Borne();
+        $bornes = $this->getDoctrine()->getManager()
+            ->getRepository('App:Borne')
+            ->getBornes();
+        foreach ($bornes as $borne){
+            $text=$borne->getNom();
+            $text=str_replace(' ','_',$text);
+            $jsonData=$jsonData .
+                "{  
+                    properties: {
+                        name: " . $text.",
+                        rue :" . str_replace(' ','_',$borne->getEmplacement()->getAdresse()->getRue()).
+                        ", nRue :". $borne->getEmplacement()->getAdresse()->getNumeroRue().
+                        ", ville :". str_replace(' ','_',$borne->getEmplacement()->getAdresse()->getVille()).
+                        ", zip :". $borne->getEmplacement()->getAdresse()->getCodePostal().
+                        ",web :". $borne->getContact()->getSiteWeb()."
+                                    },
+                        geometry: {
+                            
+                             coordinates: [".$borne->getEmplacement()->getLatitude().",". $borne->getEmplacement()->getLongitude()."]
+    } 
+},";
+
+
+        }
+        $jsonData =$jsonData .']';
+        // var_dump($jsonData);
+        if ($Locs === 0)
+            return null;
+        else
+        {
+            $Locs = JsonResponse::fromJsonString($jsonData)->getContent();
+
+            //return $matrice;
+            //$Locs=$jsonData;
+            return $Locs;
+        }
+
+
+    }
 }
