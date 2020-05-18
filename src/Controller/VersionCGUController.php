@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Manager;
+use App\Entity\Utilisateur;
 use App\Entity\VersionCGU;
+use App\Form\MajCGUType;
 use App\Form\ManagerRegistrationType;
 use App\Form\VersionType;
 use Knp\Component\Pager\PaginatorInterface;
@@ -62,5 +64,34 @@ class VersionCGUController extends AbstractController
         $entityManager->flush();
         return $this->redirectToRoute('versioncgu');
     }
+
+    /**
+     * @Route ("/CGU/maj/{id}",name="versioncgu.maj")
+     */
+    public function majCGU($id,Request $request):Response
+    {
+        $version= $this->getDoctrine()->getRepository('App:VersionCGU')
+            ->findLast();
+        $cgu = new MajCGUType();
+        $form=$this->createForm(MajCGUType::class,$cgu);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //$user=new Utilisateur();
+            //$device=$this->getDoctrine()->getRepository('App:Peripherique')
+            //    ->findBy(array('adresse_mac'=>$id));
+            $user=$this->getDoctrine()->getRepository('App:Utilisateur')
+                ->find($id);
+            $user->setVersionCgu($version[0]);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('versioncgu');
+        }
+        return $this->render('/versioncgu/maj.html.twig', [
+            'version' => $version,
+            'form'=>$form->createView(),
+        ]);
+    }
+
 
 }

@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Maj | Cigale{% endblock %}
+
+{% block main %}
+    <main>
+
+        <article class="actus">
+            <h2>Dernière Maj</h2>
+                <div class="actu">
+
+                    <div class="content">
+                        <h3>{{ version[0].versionCgu }}</h3>
+                        <span class="date"><i class="fas fa-clock"></i> {{ version[0].dateActivation | date("d/m/Y") }}</span>
+
+                        <p>{{ version[0].descriptionCgu }}</p>
+
+
+
+
+                    </div>
+                </div>
+        </article>
+        {{ form_start(form) }}
+        <div class="checkbox">
+            <div class="champ">
+                {{ form_label(form.accepter, "J'ai lu et j'accepte les conditions d'utilisations :") }}
+                {{ form_widget(form.accepter) }}
+            </div>
+            <div class="submit">
+                <input type="submit" name="" class="button button-ok" value="Valider">
+
+            </div>
+        </div>
+    {{ form_end(form) }}
+    </main>
+{% endblock %}
