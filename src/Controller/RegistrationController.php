@@ -98,15 +98,8 @@ class RegistrationController extends AbstractController
             //'encryption'=>'ssl',
         ]);
         $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
-        if ($ldap->bind('cn=admin,dc=artica,dc=com','azerty'))
-        {
-            var_dump("connected");
-        }
-        else
-        {
-            var_dump("erreur");
-        }
-        $entry = new Entry('cn=test,dc=artica,dc=com', array(
+
+       /* $entry = new Entry('cn=test,dc=artica,dc=com', array(
             'sn' => array('test'),
            'objectClass' => array('inetOrgPerson'),
         ));
@@ -114,7 +107,7 @@ class RegistrationController extends AbstractController
         $entryManager = $ldap->getEntryManager();
 
 // Creating a new entry
-        $entryManager->add($entry);
+        $entryManager->add($entry);*/
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
