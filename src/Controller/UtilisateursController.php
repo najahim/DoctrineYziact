@@ -55,7 +55,7 @@ class UtilisateursController extends AbstractController
             $roles[] = 'ROLE_ADMIN';
             //$admin=$form->getData();
             $admin->setRoles($roles);
-
+            $admin->setEmail(strtolower($admin->getEmail()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($admin);
             $entityManager->flush();
@@ -85,6 +85,7 @@ class UtilisateursController extends AbstractController
             $roles[] = 'ROLE_USER';
             //$admin=$form->getData();
             $manager->setRoles($roles);
+            $manager->setEmail(strtolower($manager->getEmail()));
             $manager->addFlotte($form->get('flotte')->getData());
 
             $entityManager = $this->getDoctrine()->getManager();

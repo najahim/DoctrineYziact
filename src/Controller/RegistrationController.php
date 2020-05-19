@@ -109,7 +109,7 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
-
+            var_dump($request->headers->get('User-Agent'));
             $message = (new \Swift_Message('Nouveau compte'))
                 // On attribue l'expéditeur
                 ->setFrom('testyziact@gmail.com')

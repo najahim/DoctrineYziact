@@ -9,6 +9,8 @@
 {% endblock %}
 
 {% block stylesheets %}
+    <script src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.4/mobile-detect.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/css/portail.css" />
     <link rel="stylesheet" type="text/css" href="/css/forms.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
@@ -109,6 +111,8 @@
             var macarte = null;
             var markerClusters;
 
+            var md = new MobileDetect(window.navigator.userAgent);
+            console.log(md);
 
 
 
@@ -150,6 +154,9 @@
 
                 initMap();
             };
+
+
+
         </script>
     </main>
 {% endblock %}

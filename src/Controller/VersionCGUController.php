@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Controller;
-
+use Symfony\Component\Ldap\Ldap;
+use Symfony\Component\Ldap\Entry;
 use App\Entity\Manager;
 use App\Entity\Utilisateur;
 use App\Entity\VersionCGU;
@@ -74,6 +75,11 @@ class VersionCGUController extends AbstractController
             ->findLast();
         $cgu = new MajCGUType();
         $form=$this->createForm(MajCGUType::class,$cgu);
+       /* $ldap=Ldap::create('ext_ldap', [
+            'host' => 'esisar-test04.123cigale.fr',
+            'port' => '389',
+        ]);*/
+
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //$user=new Utilisateur();
@@ -85,6 +91,9 @@ class VersionCGUController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            //$entry= new Entry()
+
             return $this->redirectToRoute('versioncgu');
         }
         return $this->render('/versioncgu/maj.html.twig', [
