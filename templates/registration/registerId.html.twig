@@ -9,8 +9,6 @@
 {% endblock %}
 
 {% block stylesheets %}
-    <script src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.4/mobile-detect.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="/css/portail.css" />
     <link rel="stylesheet" type="text/css" href="/css/forms.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css" integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ==" crossorigin="" />
@@ -56,6 +54,16 @@
                     <label for="{{ registrationForm.agreeTerms.vars.id }}">
                         J'ai lu et j'accepte les <a href='/cgu'>conditions d'utilisations</a>
                     </label>
+                </div>
+
+                <div style="display:none;">
+                    {{ form_widget(registrationForm.device.nom, { 'attr': {'class': 'device-nom'} }) }}
+                    {{ form_widget(registrationForm.device.p_type, { 'attr': {'class': 'device-p_type'} }) }}
+                    {{ form_widget(registrationForm.device.p_os, { 'attr': {'class': 'device-p_os'} }) }}
+                    {{ form_widget(registrationForm.device.p_brand, { 'attr': {'class': 'device-p_brand'} }) }}
+                    {{ form_widget(registrationForm.device.p_useragent, { 'attr': {'class': 'device-p_useragent'} }) }}
+                    {{ form_widget(registrationForm.device.p_lang, { 'attr': {'class': 'device-p_lang'} }) }}
+                    {{ form_widget(registrationForm.device.p_browser, { 'attr': {'class': 'device-p_browser'} }) }}
                 </div>
 
                 {# Newsletter
@@ -111,15 +119,7 @@
             var macarte = null;
             var markerClusters;
 
-            var md = new MobileDetect(window.navigator.userAgent);
-            console.log(md);
-
-
-
             var bornes ={{ test }};
-
-            console.log(bornes);
-
 
             var markers = [];
             var iconBase = 'https://www.google.com/url?sa=i&url=https%3A%2F%2Ftoppng.com%2Fmap-marker-icons-png-map-marker-icon-PNG-free-PNG-Images_167620&psig=AOvVaw2cx72pr8hanMQt8CNEYfXU&ust=1586263163907000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCJirwcLb0-gCFQAAAAAdAAAAABAD';
@@ -163,6 +163,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/mobile-detect@1.4.4/mobile-detect.min.js"></script>
 
     <script defer>
         $(document).ready(function(){
@@ -173,6 +174,25 @@
                 $('.form').show();
                 return false;
             });
+
+            var md = new MobileDetect(window.navigator.userAgent);
+
+            if(md.mobile()) {
+                $('.device-p_type').val('mobile');
+                $('.device-p_brand').val(md.mobile());
+            } else if (md.tablet()) {
+                $('.device-p_type').val('tablette');
+                $('.device-p_brand').val(md.tablet());
+            } else {
+                $('.device-p_type').val('ordinateur');
+                $('.device-p_brand').val("unknow");
+            }
+
+            $('.device-p_os').val(md.os());
+            $('.device-p_browser').val(md.userAgent());
+            $('.device-p_lang').val(navigator.language || navigator.userLanguage);
+            $('.device-p_useragent').val(window.navigator.userAgent);
+
         });
     </script>
 
