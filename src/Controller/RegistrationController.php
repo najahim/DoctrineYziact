@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -91,6 +92,29 @@ class RegistrationController extends AbstractController
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
+        $ldap=Ldap::create('ext_ldap', [
+            'host' => 'esisar-test01.123cigale.fr',
+            'port' => '389',
+            //'encryption'=>'ssl',
+        ]);
+        $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+        if ($ldap->bind('cn=admin,dc=artica,dc=com','azerty'))
+        {
+            var_dump("connected");
+        }
+        else
+        {
+            var_dump("erreur");
+        }
+        $entry = new Entry('cn=test,dc=artica,dc=com', array(
+            'sn' => array('test'),
+           'objectClass' => array('inetOrgPerson'),
+        ));
+
+        $entryManager = $ldap->getEntryManager();
+
+// Creating a new entry
+        $entryManager->add($entry);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -131,6 +155,7 @@ class RegistrationController extends AbstractController
                 )
             ;
             $mailer->send($message);
+
             $borne1=new Borne();
             $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
             $url=$borne1->getPortailUrl();
