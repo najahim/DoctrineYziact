@@ -22,7 +22,7 @@ class ApiController extends AbstractController
     /**
      * @Route("/api/url", name="api",methods={"POST"})
      */
-    public function index(Request $request)
+    public function indexurl(Request $request)
     {
         $data = json_decode(
             $request->getContent(),
