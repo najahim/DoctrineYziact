@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Borne;
+use App\Entity\Peripherique;
 use App\Entity\Personne;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
@@ -126,9 +127,23 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            //$d=new Peripherique();
+
 
            // var_dump($request->headers->get('User-Agent'));
             $device=$form->get('device')->getData();
+            /* Peripherique existe
+            $d=$this->getDoctrine()->getRepository('App:Peripherique')
+                ->findBy(array('adresse_mac'=>$mac));
+            $d->setNom($device->getNom);
+            $d->setPBrand($device->getPBrand);
+            $d->setPBrowser($device->getPBrowser);
+            $d->setPLang($device->getPLang);
+            $d->setPOs($device->getPOs);
+            $d->setPType($device->getPType);
+            $d->setPUseragent($device->getPUseragent);
+            */
+
             $device->setAdresseMac($idBorne);
             $device->setUtilisateur($user);
             $entityManager->persist($device);

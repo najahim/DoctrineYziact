@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Peripherique;
 use App\Entity\SessionWifi;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -59,6 +60,15 @@ class ApiController extends AbstractController
                     $session=new SessionWifi();
                     $device=$this->getDoctrine()->getRepository('App:Peripherique')
                         ->findBy(array('adresse_mac'=>$mac));
+                    // creer peripherique si n'existe pas
+                    if ($device == null)
+                    {
+                        $device=new Peripherique();
+                        $device->setAdresseMac($mac);
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($session);
+                        $entityManager->flush();
+                    }
                     $session->setPeripherique($device);
                     $session->setDateDebut(new \DateTime('now'));
                     $session->setOctetRx($rx);
@@ -79,6 +89,7 @@ class ApiController extends AbstractController
                 if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                     // fin de session pour la derniere session de $mac avec pour valeur $rx $tx et l'heure actuelle en heure de fin
                     $session=new SessionWifi();
+
                     $sessions=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($mac);
                     $session=$sessions[0];
