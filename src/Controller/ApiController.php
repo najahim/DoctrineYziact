@@ -90,4 +90,13 @@ class ApiController extends AbstractController
             JsonResponse::HTTP_CREATED
         );
     }
+
+    /**
+     * @Route("/api/QoS", name="api_QoS")
+     */
+    public function QoS(Request $request)
+    {
+        return $this->render('api/QoS.twig');
+    }
+
 }
