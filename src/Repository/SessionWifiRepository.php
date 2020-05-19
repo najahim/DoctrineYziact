@@ -91,6 +91,18 @@ class SessionWifiRepository extends ServiceEntityRepository
 
     }
 
+    public function findLast($value){
+
+        return $this->createQueryBuilder('s')
+            ->select("s")
+            ->where('s.peripherique = :valId')
+            ->setParameter('valId',$value)
+            ->orderBy('s.id','DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
     // /**
     //  * @return SessionWifi[] Returns an array of SessionWifi objects
     //  */

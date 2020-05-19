@@ -18,27 +18,27 @@ class SessionWifi
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=50,nullable=true)
      */
     private $adresse_ip;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $date_debut;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime",nullable=true)
      */
     private $date_fin;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint",nullable=true)
      */
     private $octet_rx;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint",nullable=true)
      */
     private $octet_tx;
 

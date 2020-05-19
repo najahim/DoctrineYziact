@@ -12,7 +12,6 @@ use Doctrine\Common\Persistence\ManagerRegistry;
  * @method Borne|null findOneBy(array $criteria, array $orderBy = null)
  * @method Borne[]    findAll()
  * @method Borne[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
- * @method borne[]    getBornes()
  */
 class BorneRepository extends ServiceEntityRepository
 {
