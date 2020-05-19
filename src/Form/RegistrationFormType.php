@@ -44,13 +44,17 @@ class RegistrationFormType extends AbstractType
                     ]),
                 ],
             ])
-            ->add('type',ChoiceType::class,[
+            /*->add('type',ChoiceType::class,[
                 'choices' => [
                     'tablet' => 'tablet',
                     'mobile' => 'mobile',
                     'ordinateur' => 'ordinateur',
                 ],
                 'mapped' => false,
+            ])*/
+
+            ->add('device',DeviceType::class,[
+                'mapped'=>false,
             ])
         ;
     }
