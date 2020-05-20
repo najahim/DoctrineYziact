@@ -41,43 +41,59 @@ class ApiController extends AbstractController
                     $tx = 0;
                     $d=$this->getDoctrine()->getRepository('App:Peripherique')
                         ->findBy(array('adresse_mac'=>$mac));
-                    $s=$this->getDoctrine()->getRepository('App:SessionWifi')
-                        ->findLast($d[0]->getId());
-                    if($s[0]->getDateFin()==null)
+                    if ($d ==null)
                     {
-                        $s[0]->setDateFin(new \DateTime('now'));
-                        $entityManager = $this->getDoctrine()->getManager();
-                        $entityManager->persist($s[0]);
-                        $entityManager->flush();
-
-                    }
-                    else{
-                    if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
-                        // nouvelle session avec $mac $rx $tx et l'heure actuelle en heure de début
                         $session=new SessionWifi();
-                        $device=$this->getDoctrine()->getRepository('App:Peripherique')
-                            ->findBy(array('adresse_mac'=>$mac));
-                        // creer peripherique si n'existe pas
-                        if ($device == null)
-                        {
-                            $device=new Peripherique();
-                            $device->setAdresseMac($mac);
-                            $entityManager = $this->getDoctrine()->getManager();
-                            $entityManager->persist($session);
-                            $entityManager->flush();
-                            $session->setPeripherique($device);
-                        }
-                        else
-                        {$session->setPeripherique($device[0]);}
+                        $device=new Peripherique();
+                        $device->setAdresseMac($mac);
+                        $entityManager = $this->getDoctrine()->getManager();
                         $session->setBorne($borne[0]);
                         $session->setDateDebut(new \DateTime('now'));
                         $session->setOctetRx($rx);
                         $session->setOctetTx($tx);
-                        $entityManager = $this->getDoctrine()->getManager();
+                        $session->setPeripherique($device);
                         $entityManager->persist($session);
                         $entityManager->flush();
 
-                    }}
+                    }
+                    else{
+
+                        $s=$this->getDoctrine()->getRepository('App:SessionWifi')
+                            ->findLast($d[0]->getId());
+                        if($s[0]->getDateFin()==null)
+                        {
+                            $s[0]->setDateFin(new \DateTime('now'));
+                            $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($s[0]);
+                            $entityManager->flush();
+
+                            $session=new SessionWifi();
+                            $session->setBorne($borne[0]);
+                            $session->setDateDebut(new \DateTime('now'));
+                            $session->setOctetRx($rx);
+                            $session->setOctetTx($tx);
+                            $session->setPeripherique($d[0]);
+                            $entityManager->persist($session);
+                            $entityManager->flush();
+
+                        }
+                        else
+                        {
+                            if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
+                                $session=new SessionWifi();
+                                $session->setBorne($borne[0]);
+                                $session->setDateDebut(new \DateTime('now'));
+                                $session->setOctetRx($rx);
+                                $session->setOctetTx($tx);
+                                $session->setPeripherique($d[0]);
+                                $entityManager = $this->getDoctrine()->getManager();
+                                $entityManager->persist($session);
+                                $entityManager->flush();
+                            }
+
+                    }
+
+
 
 
 
@@ -181,14 +197,14 @@ class ApiController extends AbstractController
                         $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                             ->findLast($d[0]->getId());
 
-                        if($s[0]->getDateDebut() == null or ($s[0]->getDateDebut() != null and $s[0]->getDateFin() != null))
+                        if($s[0]->getDateDebut() == null or  $s[0]->getDateFin() != null)
                         {
                             $ss=new SessionWifi();
                             $ss->setBorne($borne[0]);
                             $ss->setDateDebut(new \DateTime('now'));
                             $ss->setOctetRx($rx);
                             $ss->setOctetTx($tx);
-                            //$ss->setPeripherique($d[0]);
+                            $ss->setPeripherique($d[0]);
                             $entityManager = $this->getDoctrine()->getManager();
                             $entityManager->persist($ss);
                             $entityManager->flush();
