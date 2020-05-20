@@ -92,6 +92,7 @@ class ApiController extends AbstractController
 
                     $d=$this->getDoctrine()->getRepository('App:Peripherique')
                         ->findBy(array('adresse_mac'=>$mac));
+                    if($d != null)
                     $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($d[0]->getId());
                     if($d != null)
@@ -147,6 +148,7 @@ class ApiController extends AbstractController
                     $tx = $update['tx'];
                     $d=$this->getDoctrine()->getRepository('App:Peripherique')
                         ->findBy(array('adresse_mac'=>$mac));
+                    if($d != null)
                     $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($d[0]->getId());
                     if($d != null)
