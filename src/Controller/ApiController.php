@@ -89,6 +89,21 @@ class ApiController extends AbstractController
                     $rx = $deconnectes['rx'];
                     $tx = $deconnectes['tx'];
 
+                    $d=$this->getDoctrine()->getRepository('App:Peripherique')
+                        ->findBy(array('adresse_mac'=>$mac));
+                    $s=$this->getDoctrine()->getRepository('App:SessionWifi')
+                        ->findLast($d[0]->getId());
+                    if($s[0]->getDateFin() != null)
+                    {
+                        $s->setBorne($borne[0]);
+                        $s->setDateDebut(new \DateTime('now'));
+                        $s->setDateFin(new \DateTime('now'));
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($s);
+                        $entityManager->flush();
+
+                    }
+
                     if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                         // fin de session pour la derniere session de $mac avec pour valeur $rx $tx et l'heure actuelle en heure de fin
                         $session=new SessionWifi();
@@ -112,7 +127,19 @@ class ApiController extends AbstractController
                     $mac = $update['mac'];
                     $rx = $update['rx'];
                     $tx = $update['tx'];
+                    $d=$this->getDoctrine()->getRepository('App:Peripherique')
+                        ->findBy(array('adresse_mac'=>$mac));
+                    $s=$this->getDoctrine()->getRepository('App:SessionWifi')
+                        ->findLast($d[0]->getId());
+                    if($s[0]->setDateDebut() == null)
+                    {
+                        $s->setBorne($borne[0]);
+                        $s->setDateDebut(new \DateTime('now'));
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($s);
+                        $entityManager->flush();
 
+                    }
                     if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                         // actualiser pour la derniere session de $mac avec pour valeur $rx $tx
                         $device=$this->getDoctrine()->getRepository('App:Peripherique')
