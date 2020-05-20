@@ -102,7 +102,7 @@ class ApiController extends AbstractController
                         $ss->setDateFin(new \DateTime('now'));
                         $ss->setOctetRx($rx);
                         $ss->setOctetTx($tx);
-                        if ($device == null)
+                        if ($d == null)
                         {
                             $device=new Peripherique();
                             $device->setAdresseMac($mac);
@@ -112,7 +112,7 @@ class ApiController extends AbstractController
                             $ss->setPeripherique($device);
                         }
                         else
-                        {$ss->setPeripherique($device[0]);}
+                        {$ss->setPeripherique($d[0]);}
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($ss);
                         $entityManager->flush();
@@ -156,7 +156,7 @@ class ApiController extends AbstractController
                         $ss->setOctetRx($rx);
                         $ss->setOctetTx($tx);
 
-                        if ($device == null)
+                        if ($d == null)
                         {
                             $device=new Peripherique();
                             $device->setAdresseMac($mac);
@@ -166,7 +166,7 @@ class ApiController extends AbstractController
                             $ss->setPeripherique($device);
                         }
                         else
-                        {$ss->setPeripherique($device[0]);}
+                        {$ss->setPeripherique($d[0]);}
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($ss);
                         $entityManager->flush();
