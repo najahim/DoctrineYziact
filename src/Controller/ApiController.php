@@ -102,6 +102,10 @@ class ApiController extends AbstractController
                         $device=new Peripherique();
                         $device->setAdresseMac($mac);
                         $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($device);
+                        $entityManager->flush();
+                        $ss->setPeripherique($device);
+                        $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($ss);
                         $entityManager->flush();
                         }
@@ -162,6 +166,10 @@ class ApiController extends AbstractController
                         $ss->setOctetTx($tx);
                         $device=new Peripherique();
                         $device->setAdresseMac($mac);
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($device);
+                        $entityManager->flush();
+                        $ss->setPeripherique($device);
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($ss);
                         $entityManager->flush();
