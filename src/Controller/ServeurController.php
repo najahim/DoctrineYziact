@@ -37,6 +37,7 @@ class ServeurController extends AbstractController
         $form=$this->createForm(ServeurType::class,$serveur);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+            $serveur->setToken(md5(uniqid()));
 
             $serveur->setDerniereMAJ(new \DateTime('now'));
             $entityManager = $this->getDoctrine()->getManager();
@@ -104,5 +105,19 @@ class ServeurController extends AbstractController
             'serveur' => $serveur,
             'form'=>$form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/api/newToken/serveur/{id}", name="serveur.token")
+     */
+    public function token($id,Request $request)
+    {
+        $serveur=$this->getDoctrine()->getRepository('App:Serveur')
+            ->find($id);
+        $serveur->setToken(md5(uniqid()));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($serveur);
+        $entityManager->flush();
+        return $this->redirect('/serveur/modifier/'.$id);
     }
 }
