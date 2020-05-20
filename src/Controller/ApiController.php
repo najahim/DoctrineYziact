@@ -28,15 +28,7 @@ class ApiController extends AbstractController
     {
         $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('token'=>$token));
 
-        if (is_null($borne)) {
-            return new JsonResponse(
-                [
-                    'status' => 'ko',
-                    'error' => 'Mauvais token'
-                ],
-                JsonResponse::HTTP_CREATED
-            );
-        } else {
+        if ($borne) {
             $data = json_decode(
                 $request->getContent(),
                 true
@@ -131,6 +123,20 @@ class ApiController extends AbstractController
                 JsonResponse::HTTP_CREATED
             );
         }
+
+        else
+        {return new JsonResponse(
+            [
+                'status' => 'ko',
+                'error' => 'Mauvais token'
+            ],
+            JsonResponse::HTTP_CREATED
+        );}
+
+
+
+
+
     }
 
     /**
