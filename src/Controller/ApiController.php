@@ -143,10 +143,6 @@ class ApiController extends AbstractController
                                 $entityManager->flush();
                             }}
                     }
-
-
-
-
                 }
             }
 
@@ -181,14 +177,14 @@ class ApiController extends AbstractController
                         $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                             ->findLast($d[0]->getId());
 
-                        if($s[0]->getDateDebut() == null or ($s[0]->getDateDebut() != null and $s[0]->getDateFin() != null))
+                        if($s[0]->getDateDebut() == null or  $s[0]->getDateFin() != null)
                         {
                             $ss=new SessionWifi();
                             $ss->setBorne($borne[0]);
                             $ss->setDateDebut(new \DateTime('now'));
                             $ss->setOctetRx($rx);
                             $ss->setOctetTx($tx);
-                            //$ss->setPeripherique($d[0]);
+                            $ss->setPeripherique($d[0]);
                             $entityManager = $this->getDoctrine()->getManager();
                             $entityManager->persist($ss);
                             $entityManager->flush();
@@ -208,8 +204,6 @@ class ApiController extends AbstractController
                             $entityManager = $this->getDoctrine()->getManager();
                             $entityManager->persist($session);
                             $entityManager->flush();
-
-
                         }
 
                     }
