@@ -93,9 +93,10 @@ class ApiController extends AbstractController
                     $d=$this->getDoctrine()->getRepository('App:Peripherique')
                         ->findBy(array('adresse_mac'=>$mac));
                     if($d != null)
-                    $s=$this->getDoctrine()->getRepository('App:SessionWifi')
-                        ->findLast($d[0]->getId());
-                    if($d != null)
+                    {
+                        $s=$this->getDoctrine()->getRepository('App:SessionWifi')
+                            ->findLast($d[0]->getId());
+
                     if($s[0]->getDateFin() != null)
                     {
                         $ss=new SessionWifi();
@@ -120,7 +121,7 @@ class ApiController extends AbstractController
                         $entityManager->flush();
 
 
-                    }
+                    }}
                     else
                     {
                     if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
@@ -149,9 +150,10 @@ class ApiController extends AbstractController
                     $d=$this->getDoctrine()->getRepository('App:Peripherique')
                         ->findBy(array('adresse_mac'=>$mac));
                     if($d != null)
+                    {
                     $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($d[0]->getId());
-                    if($d != null)
+
                     if($s[0]->getDateDebut() == null )
                     {
                         $ss=new SessionWifi();
@@ -175,7 +177,7 @@ class ApiController extends AbstractController
                         $entityManager->persist($ss);
                         $entityManager->flush();
 
-                    }
+                    }}
 
                     if ($s[0]->getDateFin() == null and $s[0]->getDateDebut() != null)
                     {if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
