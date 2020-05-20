@@ -57,7 +57,7 @@ class ApiController extends AbstractController
                         }
                         else
                         {$session->setPeripherique($device[0]);}
-
+                        $session->setBorne($borne);
                         $session->setDateDebut(new \DateTime('now'));
                         $session->setOctetRx($rx);
                         $session->setOctetTx($tx);
