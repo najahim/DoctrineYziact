@@ -22,28 +22,22 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/url", name="api",methods={"POST"})
+     * @Route("api/monitor/{token}", name="api_monitor",methods={"POST"})
      */
-    public function indexurl(Request $request)
+    public function monitor($token, Request $request)
     {
-        $data = json_decode(
-            $request->getContent(),
-            true
-        );
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('token'=>$token));
 
-        return new JsonResponse(
-            [
-                'status' => 'ok',
-            ],
-            JsonResponse::HTTP_CREATED
-        );
-    }
+        if (is_null($borne)) {
+            return new JsonResponse(
+                [
+                    'status' => 'ko',
+                    'error' => 'Mauvais token'
+                ],
+                JsonResponse::HTTP_CREATED
+            );
+        }
 
-    /**
-     * @Route("api/monitor", name="api_monitor",methods={"POST"})
-     */
-    public function monitor(Request $request)
-    {
         $data = json_decode(
             $request->getContent(),
             true
@@ -133,10 +127,22 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/QoS", name="api_QoS")
+     * @Route("/api/QoS/{token}", name="api_QoS")
      */
     public function QoS(Request $request)
     {
+        $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
+
+        if (is_null($serveur)) {
+            return new JsonResponse(
+                [
+                    'status' => 'ko',
+                    'error' => 'Mauvais token'
+                ],
+                JsonResponse::HTTP_CREATED
+            );
+        }
+
         return $this->render('api/QoS.twig');
     }
 

@@ -126,6 +126,15 @@
         </div>
 	</article>
     <article>
+        <h2>API</h2>
+        <div class="submit">
+            Token de l'API :<br>
+            <b>{{ borne.token }}</b><br><br>
+            <a href="{{ path('bornes.token', {id : borne.id}) }}" class="button button-no">Générer une nouvelle clé <i class="fas fa-recycle"></i></a><br>
+            <i>En générant une nouvelle clé, vous allez redémarrer la borne</i>
+        </div>
+    </article>
+    <article>
 		<h2>Personalisation du portail</h2>
         <div class="form infos-bornes">
 			<div class="portail">
