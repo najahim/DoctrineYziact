@@ -39,7 +39,18 @@ class ApiController extends AbstractController
                     $mac = $nouveau['mac'];
                     $rx = 0;
                     $tx = 0;
+                    $d=$this->getDoctrine()->getRepository('App:Peripherique')
+                        ->findBy(array('adresse_mac'=>$mac));
+                    $s=$this->getDoctrine()->getRepository('App:SessionWifi')
+                        ->findLast($d[0]->getId());
+                    if($s[0]->getDateFin()==null)
+                    {
+                        $s->setDateFin(new \DateTime('now'));
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($s);
+                        $entityManager->flush();
 
+                    }
                     if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                         // nouvelle session avec $mac $rx $tx et l'heure actuelle en heure de début
                         $session=new SessionWifi();
