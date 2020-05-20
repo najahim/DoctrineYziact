@@ -177,7 +177,7 @@ class ApiController extends AbstractController
                         $entityManager->persist($ss);
                         $entityManager->flush();
 
-                    }}
+                    }
 
                     if ($s[0]->getDateFin() == null and $s[0]->getDateDebut() != null)
                     {if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
@@ -193,7 +193,7 @@ class ApiController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($session);
                         $entityManager->flush();
-                    }}
+                    }}}
                 }
             }
 
