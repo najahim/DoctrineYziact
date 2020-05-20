@@ -51,6 +51,7 @@ class ApiController extends AbstractController
                         $entityManager->flush();
 
                     }
+                    else{
                     if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                         // nouvelle session avec $mac $rx $tx et l'heure actuelle en heure de début
                         $session=new SessionWifi();
@@ -76,7 +77,7 @@ class ApiController extends AbstractController
                         $entityManager->persist($session);
                         $entityManager->flush();
 
-                    }
+                    }}
 
 
 
@@ -106,7 +107,8 @@ class ApiController extends AbstractController
                         $entityManager->flush();
 
                     }
-
+                    else
+                    {
                     if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                         // fin de session pour la derniere session de $mac avec pour valeur $rx $tx et l'heure actuelle en heure de fin
                         $session=new SessionWifi();
@@ -121,7 +123,7 @@ class ApiController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($session);
                         $entityManager->flush();
-                    }
+                    }}
                 }
             }
 
@@ -146,7 +148,8 @@ class ApiController extends AbstractController
                         $entityManager->flush();
 
                     }
-                    if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
+                    else
+                    {if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                         // actualiser pour la derniere session de $mac avec pour valeur $rx $tx
                         $device=$this->getDoctrine()->getRepository('App:Peripherique')
                             ->findBy(array('adresse_mac'=>$mac));
@@ -159,7 +162,7 @@ class ApiController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($session);
                         $entityManager->flush();
-                    }
+                    }}
                 }
             }
 
