@@ -62,8 +62,10 @@ class ApiController extends AbstractController
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($session);
                         $entityManager->flush();
+                        $session->setPeripherique($device);
                     }
-                    $session->setPeripherique($device);
+                    else
+                    {$session->setPeripherique($device[0]);}
                     $session->setDateDebut(new \DateTime('now'));
                     $session->setOctetRx($rx);
                     $session->setOctetTx($tx);
