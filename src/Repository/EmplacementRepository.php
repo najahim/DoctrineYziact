@@ -20,6 +20,7 @@ class EmplacementRepository extends ServiceEntityRepository
     }
 
 
+    //ordre decroissant des emplacements
      /**
       * @return Emplacement[] Returns an array of Emplacement objects
       */

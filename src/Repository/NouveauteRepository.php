@@ -19,6 +19,7 @@ class NouveauteRepository extends ServiceEntityRepository
         parent::__construct($registry, Nouveaute::class);
     }
 
+    //trouver nouveautes selon type (portail/admin)
     public function findbyType($value)
     {
         return $this->createQueryBuilder('n')
@@ -28,7 +29,7 @@ class NouveauteRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
-    //$user->getNomManager(),$user->getPrenomManager(),$nom,$prenom,
+    //trouver nouveaute par auteur
     public function findbyUser($nom,$prenom,$value)
     {
         return $this->createQueryBuilder('n')

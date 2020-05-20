@@ -19,7 +19,7 @@ class ServeurRepository extends ServiceEntityRepository
         parent::__construct($registry, Serveur::class);
     }
 
-
+    //nombre de bornes affectées à chaque serveur selon filtrage(active ou non)
     public function findByCountBorne($value)
     {
         $entityManager = $this->getEntityManager();

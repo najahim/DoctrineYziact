@@ -24,6 +24,7 @@ class BorneRepository extends ServiceEntityRepository
      * @return Borne[] Returns an array of Borne objects
      */
 
+    //retourner bornes selon l'etat
     public function getBornes()
     {
         return $this->createQueryBuilder('b')
@@ -34,6 +35,7 @@ class BorneRepository extends ServiceEntityRepository
             ->getResult()
         ;
     }
+
 
     public function findAllVisible(BorneSearch $search)
     {
@@ -50,6 +52,7 @@ class BorneRepository extends ServiceEntityRepository
         ->getResult();
     }
 
+    //retourner liste des bornes de chaque managers
     /**
      * @return Borne[] Returns an array of Borne objects
      */

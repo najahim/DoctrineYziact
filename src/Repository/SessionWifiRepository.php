@@ -21,6 +21,7 @@ class SessionWifiRepository extends ServiceEntityRepository
         parent::__construct($registry, SessionWifi::class);
     }
 
+    //nombre de peripherique par borne
     public function nbDeviceByBorne($value){
         return $this->createQueryBuilder('s')
             ->select('count(s.id)')
@@ -30,6 +31,7 @@ class SessionWifiRepository extends ServiceEntityRepository
             ->getResult();
 
     }
+    //nombre d'utilisateurs  par borne
     public function nbUsersByBorne($value){
         $entityManager = $this->getEntityManager();
 
@@ -43,6 +45,7 @@ class SessionWifiRepository extends ServiceEntityRepository
           return $query->getResult();
 
     }
+    //nombre de peripherique par borne par jour
     public function nbDeviceByBornePerDay($value){
 
         return $this->createQueryBuilder('s')
@@ -54,7 +57,7 @@ class SessionWifiRepository extends ServiceEntityRepository
             ->getResult();
 
     }
-
+    //nombre de peripherique par borne par mois
     public function nbDeviceByBornePerMonth($value){
 
         return $this->createQueryBuilder('s')
@@ -67,7 +70,7 @@ class SessionWifiRepository extends ServiceEntityRepository
 
     }
 
-
+    //nombre de peripherique par borne par an
     public function nbDeviceByBornePerYear($value){
 
         return $this->createQueryBuilder('s')

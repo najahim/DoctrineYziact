@@ -20,6 +20,7 @@ class ActivationRepository extends ServiceEntityRepository
     }
 
 
+    //retourner historique d'activation et de desactivation de chaque borne
     /**
      * @return Activation[] Returns an array of Activation objects
       */
@@ -33,6 +34,8 @@ class ActivationRepository extends ServiceEntityRepository
             ;
     }
 
+
+    //retourner derniere activation
     /**
      * @return Activation[] Returns an array of Activation objects
      */

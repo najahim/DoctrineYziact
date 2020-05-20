@@ -19,6 +19,8 @@ class DesactivationRepository extends ServiceEntityRepository
         parent::__construct($registry, Desactivation::class);
     }
 
+
+
      /**
       * @return Desactivation[] Returns an array of Desactivation objects
       */
