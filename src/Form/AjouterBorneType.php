@@ -48,8 +48,8 @@ class AjouterBorneType extends AbstractType
                 'required' => false
             ])
             ->add('portail_url')
-            ->add('upload_rate')
-            ->add('download_rate')
+            ->add('upload_rate',IntegerType::class)
+            ->add('download_rate',IntegerType::class)
             ->add('txpower',IntegerType::class)
             // ->add('ip_adress_vpn_admin')
             ->add('date_mise_en_service',DateTimeType::class, [

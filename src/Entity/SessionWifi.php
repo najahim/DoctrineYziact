@@ -43,7 +43,7 @@ class SessionWifi
     private $octet_tx;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Peripherique", inversedBy="sessionWifis")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Peripherique", inversedBy="sessionWifis",cascade={"persist"})
      */
     private $peripherique;
 
