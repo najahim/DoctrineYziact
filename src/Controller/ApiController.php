@@ -138,7 +138,7 @@ class ApiController extends AbstractController
                         ->findLast($d[0]->getId());
                     if($s[0]->getDateDebut() == null)
                     {
-                        $$ss=new SessionWifi();
+                        $ss=new SessionWifi();
                         $ss->setBorne($borne[0]);
                         $ss->setDateDebut(new \DateTime('now'));
                         $ss->setOctetRx($rx);
