@@ -94,6 +94,7 @@ class ApiController extends AbstractController
                         ->findBy(array('adresse_mac'=>$mac));
                     $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($d[0]->getId());
+                    if($d != null)
                     if($s[0]->getDateFin() != null)
                     {
                         $ss=new SessionWifi();
@@ -148,6 +149,7 @@ class ApiController extends AbstractController
                         ->findBy(array('adresse_mac'=>$mac));
                     $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($d[0]->getId());
+                    if($d != null)
                     if($s[0]->getDateDebut() == null )
                     {
                         $ss=new SessionWifi();
