@@ -148,7 +148,7 @@ class ApiController extends AbstractController
                         ->findBy(array('adresse_mac'=>$mac));
                     $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($d[0]->getId());
-                    if($s[0]->getDateDebut() == null)
+                    if($s[0]->getDateDebut() == null )
                     {
                         $ss=new SessionWifi();
                         $ss->setBorne($borne[0]);
@@ -172,7 +172,8 @@ class ApiController extends AbstractController
                         $entityManager->flush();
 
                     }
-                    else
+
+                    if ($s[0]->getDateFin() == null and $s[0]->getDateDebut() != null)
                     {if (is_string ($mac) && preg_match('/([a-fA-F0-9]{2}:?){6}/', $mac) && is_numeric($rx) && is_numeric($tx)) {
                         // actualiser pour la derniere session de $mac avec pour valeur $rx $tx
                         $device=$this->getDoctrine()->getRepository('App:Peripherique')
