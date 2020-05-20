@@ -95,11 +95,14 @@ class ApiController extends AbstractController
                         ->findLast($d[0]->getId());
                     if($s[0]->getDateFin() != null)
                     {
-                        $s[0]->setBorne($borne[0]);
-                        $s[0]->setDateDebut(new \DateTime('now'));
-                        $s[0]->setDateFin(new \DateTime('now'));
+                        $ss=new SessionWifi();
+                        $ss->setBorne($borne[0]);
+                        $ss->setDateDebut(new \DateTime('now'));
+                        $ss->setDateFin(new \DateTime('now'));
+                        $ss->setOctetRx($rx);
+                        $ss->setOctetTx($tx);
                         $entityManager = $this->getDoctrine()->getManager();
-                        $entityManager->persist($s[0]);
+                        $entityManager->persist($ss);
                         $entityManager->flush();
 
                     }
@@ -131,12 +134,15 @@ class ApiController extends AbstractController
                         ->findBy(array('adresse_mac'=>$mac));
                     $s=$this->getDoctrine()->getRepository('App:SessionWifi')
                         ->findLast($d[0]->getId());
-                    if($s[0]->setDateDebut() == null)
+                    if($s[0]->getDateDebut() == null)
                     {
-                        $s[0]->setBorne($borne[0]);
-                        $s[0]->setDateDebut(new \DateTime('now'));
+                        $$ss=new SessionWifi();
+                        $ss->setBorne($borne[0]);
+                        $ss->setDateDebut(new \DateTime('now'));
+                        $ss->setOctetRx($rx);
+                        $ss->setOctetTx($tx);
                         $entityManager = $this->getDoctrine()->getManager();
-                        $entityManager->persist($s[0]);
+                        $entityManager->persist($ss);
                         $entityManager->flush();
 
                     }
