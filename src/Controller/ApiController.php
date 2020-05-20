@@ -45,9 +45,9 @@ class ApiController extends AbstractController
                         ->findLast($d[0]->getId());
                     if($s[0]->getDateFin()==null)
                     {
-                        $s->setDateFin(new \DateTime('now'));
+                        $s[0]->setDateFin(new \DateTime('now'));
                         $entityManager = $this->getDoctrine()->getManager();
-                        $entityManager->persist($s);
+                        $entityManager->persist($s[0]);
                         $entityManager->flush();
 
                     }
@@ -95,11 +95,11 @@ class ApiController extends AbstractController
                         ->findLast($d[0]->getId());
                     if($s[0]->getDateFin() != null)
                     {
-                        $s->setBorne($borne[0]);
-                        $s->setDateDebut(new \DateTime('now'));
-                        $s->setDateFin(new \DateTime('now'));
+                        $s[0]->setBorne($borne[0]);
+                        $s[0]->setDateDebut(new \DateTime('now'));
+                        $s[0]->setDateFin(new \DateTime('now'));
                         $entityManager = $this->getDoctrine()->getManager();
-                        $entityManager->persist($s);
+                        $entityManager->persist($s[0]);
                         $entityManager->flush();
 
                     }
@@ -133,10 +133,10 @@ class ApiController extends AbstractController
                         ->findLast($d[0]->getId());
                     if($s[0]->setDateDebut() == null)
                     {
-                        $s->setBorne($borne[0]);
-                        $s->setDateDebut(new \DateTime('now'));
+                        $s[0]->setBorne($borne[0]);
+                        $s[0]->setDateDebut(new \DateTime('now'));
                         $entityManager = $this->getDoctrine()->getManager();
-                        $entityManager->persist($s);
+                        $entityManager->persist($s[0]);
                         $entityManager->flush();
 
                     }
