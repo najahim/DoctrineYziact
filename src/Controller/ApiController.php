@@ -102,9 +102,21 @@ class ApiController extends AbstractController
                         $ss->setDateFin(new \DateTime('now'));
                         $ss->setOctetRx($rx);
                         $ss->setOctetTx($tx);
+                        if ($device == null)
+                        {
+                            $device=new Peripherique();
+                            $device->setAdresseMac($mac);
+                            $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($session);
+                            $entityManager->flush();
+                            $session->setPeripherique($device);
+                        }
+                        else
+                        {$session->setPeripherique($device[0]);}
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($ss);
                         $entityManager->flush();
+
 
                     }
                     else
@@ -143,6 +155,18 @@ class ApiController extends AbstractController
                         $ss->setDateDebut(new \DateTime('now'));
                         $ss->setOctetRx($rx);
                         $ss->setOctetTx($tx);
+
+                        if ($device == null)
+                        {
+                            $device=new Peripherique();
+                            $device->setAdresseMac($mac);
+                            $entityManager = $this->getDoctrine()->getManager();
+                            $entityManager->persist($session);
+                            $entityManager->flush();
+                            $session->setPeripherique($device);
+                        }
+                        else
+                        {$session->setPeripherique($device[0]);}
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($ss);
                         $entityManager->flush();
