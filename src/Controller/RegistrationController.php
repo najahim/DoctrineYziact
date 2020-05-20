@@ -100,11 +100,12 @@ class RegistrationController extends AbstractController
         ]);
         $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
 
-       /* $entry = new Entry('cn=test,dc=artica,dc=com', array(
-            'sn' => array('test'),
+        /*$entry = new Entry('cn=yo,dc=artica,dc=com', array(
+            'sn' => array('yo'),
            'objectClass' => array('inetOrgPerson'),
         ));
-
+       // $entry->setAttribute('email', ['fabpot@symfony.com']);
+        //$entry->setAttribute('mac', ['11:11:11:11']);
         $entryManager = $ldap->getEntryManager();
 
 // Creating a new entry

@@ -113,6 +113,7 @@ class BornesController extends AbstractController
                     $s=$this->getDoctrine()->getRepository('App:Serveur')
                         ->find($serveur["id"]);
                     $borne->setServeur($s);
+                    $borne->setToken(md5(uniqid()));
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($borne);
                     $entityManager->flush();
@@ -292,6 +293,20 @@ class BornesController extends AbstractController
         ]);
     }
 
+
+
+    /**
+     * @Route("/api/newToken/borne/{id}", name="bornes.token")
+     */
+    public function token($id,Request $request)
+    {
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->find($id);
+        $borne->setToken(md5(uniqid()));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($borne);
+        $entityManager->flush();
+        return $this->redirect('/bornes/modifier/'.$id);
+    }
 
 
 }
