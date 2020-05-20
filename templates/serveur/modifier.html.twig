@@ -3,13 +3,13 @@
 {% set currentPath = path(app.request.attributes.get('_route'),
     app.request.attributes.get('_route_params')) %}
 
-{% block title %}Ajouter un serveur | Cigale{% endblock %}
+{% block title %}Modifier un serveur | Cigale{% endblock %}
 
 {% block main %}
     <section class="parametres">
         {{ form_start(form) }}
         <article>
-            <h2>Ajouter un serveur</h2>
+            <h2>Modifier un serveur</h2>
             <div class="form infos-bornes">
                 <div class="identification">
                     <div class="champ">
