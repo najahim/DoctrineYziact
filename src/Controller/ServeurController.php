@@ -118,6 +118,6 @@ class ServeurController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($serveur);
         $entityManager->flush();
-        return $this->redirect('/serveur/modifier/'.$id);
+        return $this->redirect('/serveurs/modifier/'.$id);
     }
 }
