@@ -27,12 +27,12 @@
                         {{ form_widget(form.nb_max_borne) }}
                     </div>
 
-                    <div class="champ">
-                        {{ form_label(form.etat, "Etat :") }}
+                    <div class="champ" style="display: none">
+                        {{ form_label(form.etat) }}
                         {{ form_widget(form.etat) }}
                     </div>
 
-                    <div class="champ-checkbox">
+                    <div class="champ-checkbox" style="display: none">
                         {{ form_label(form.filtrage, "Filtrage :") }}
                         {{ form_widget(form.filtrage) }}
                     </div>
