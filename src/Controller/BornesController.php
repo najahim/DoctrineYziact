@@ -114,9 +114,12 @@ class BornesController extends AbstractController
                         ->find($serveur["id"]);
                     $borne->setServeur($s);
                     $borne->setToken(md5(uniqid()));
+
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($borne);
                     $entityManager->flush();
+
+
                     return $this->redirectToRoute('bornes');
                     break;
                 }

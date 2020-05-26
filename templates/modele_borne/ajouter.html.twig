@@ -1,4 +1,67 @@
-<div>
-    <h1>Ajouter Serveur</h1>
-    {{ form(form) }}
-</div>
+
+{% extends 'base.html.twig' %}
+
+{% set currentPath = path(app.request.attributes.get('_route'),
+    app.request.attributes.get('_route_params')) %}
+
+{% block title %}Ajouter modele borne | Cigale{% endblock %}
+
+{% block main %}
+    <section class="parametres">
+        {{ form_start(form) }}
+        <article>
+            <h2>Ajouter un serveur</h2>
+            <div class="form infos-bornes">
+                <div class="identification">
+                    <div class="champ">
+                        {{ form_label(form.nom, "Nom :") }}
+                        {{ form_widget(form.nom) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.lan_interface, "Interface LAN :") }}
+                        {{ form_widget(form.lan_interface) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.wan_interface, "Interface WAN :") }}
+                        {{ form_widget(form.wan_interface) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.chemin_led_status, "Chemin led status :") }}
+                        {{ form_widget(form.chemin_led_status) }}
+                    </div>
+                    <div class="champ-checkbox">
+                        {{ form_label(form.chemin_led_ok, "Chemin led ok :") }}
+                        {{ form_widget(form.chemin_led_ok) }}
+                    </div>
+
+                    <div class="champ">
+                        {{ form_label(form.chemin_led_erreur, "Chemin led erreur :") }}
+                        {{ form_widget(form.chemin_led_erreur) }}
+                    </div>
+                    <div class="champ-checkbox">
+                        {{ form_label(form.gain_antenne, "Gain antenne :") }}
+                        {{ form_widget(form.gain_antenne) }}
+                    </div>
+                    <div class="champ">
+                        {{ form_label(form.radio_dev, "Radio dev :") }}
+                        {{ form_widget(form.radio_dev) }}
+                    </div>
+                    <div class="champ-checkbox">
+                        {{ form_label(form.ht_capab, "HT capab :") }}
+                        {{ form_widget(form.ht_capab) }}
+                    </div>
+
+                    <div class="submit">
+                        <input type="submit" name="" class="button button-ok" value="Valider">
+                        <a href="{{ currentPath }}" class="button button-no">Annuler</a>
+                    </div>
+                </div>
+            </div>
+        </article>
+
+        {{ form_end(form) }}
+    </section>
+{% endblock %}
