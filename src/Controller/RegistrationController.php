@@ -93,19 +93,13 @@ class RegistrationController extends AbstractController
         $user = new Utilisateur();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
-        $ldap=Ldap::create('ext_ldap', [
-            'host' => 'esisar-test01.123cigale.fr',
-            'port' => '389',
-            //'encryption'=>'ssl',
-        ]);
-        $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+
 
         /*$entry = new Entry('cn=yo,dc=artica,dc=com', array(
             'sn' => array('yo'),
            'objectClass' => array('inetOrgPerson'),
         ));
-       // $entry->setAttribute('email', ['fabpot@symfony.com']);
-        //$entry->setAttribute('mac', ['11:11:11:11']);
+
         $entryManager = $ldap->getEntryManager();
 
 // Creating a new entry
@@ -165,6 +159,27 @@ class RegistrationController extends AbstractController
             ;
             $mailer->send($message);
 
+            // Ldap
+            $ldap=Ldap::create('ext_ldap', [
+                'host' => 'esisar-test01.123cigale.fr',
+                'port' => '389',
+                //'encryption'=>'ssl',
+            ]);
+            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+            $cn='cn='.$idBorne.',dc=artica,dc=com';
+            $date=new \DateTime('now');
+            $date=$date->getTimestamp();
+            $entry = new Entry($cn, array(
+                'sn' => '0',
+                'uid'=>  strtolower($date),
+                'givenName'=>strtolower($cgu[0]->getId()),
+                'objectClass' => array('inetOrgPerson'),
+            ));
+
+            $entryManager = $ldap->getEntryManager();
+            $entryManager->add($entry);
+
+
             $borne1=new Borne();
             $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
             $url=$borne1->getPortailUrl();
@@ -211,7 +226,8 @@ class RegistrationController extends AbstractController
     public function activation($token, UtilisateurRepository $users)
     {
         $user = $users->findOneBy(['activation_token' => $token]);
-
+        $device=$this->getDoctrine()->getRepository('App:Peripherique')
+            ->findBy(array('utilisateur'=>$user->getId()));
         if(!$user){
             throw $this->createNotFoundException('Cet utilisateur n\'existe pas');
         }
@@ -229,7 +245,22 @@ class RegistrationController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            //update Ldap
+            $ldap=Ldap::create('ext_ldap', [
+                'host' => 'esisar-test01.123cigale.fr',
+                'port' => '389',
+                //'encryption'=>'ssl',
+            ]);
+            $mac=$device[0]->getAdresseMac();
+            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+            $query = $ldap->query('cn='.$mac.',dc=artica,dc=com', '(objectclass=inetOrgPerson)');
 
+            $result = $query->execute();
+            //var_dump($result);
+            $entry = $result[0];
+            $entry->setAttribute('sn', ['1']);
+            $entryManager = $ldap->getEntryManager();
+            $entryManager->update($entry);
         // On génère un message
             $this->addFlash('message', 'Utilisateur activé avec succès');
         // On retourne à l'accueil
@@ -280,4 +311,6 @@ class RegistrationController extends AbstractController
 
 
     }
+
+
 }
