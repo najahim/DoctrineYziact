@@ -43,7 +43,7 @@ class ModeleBorneController extends AbstractController
 
         }
 
-        return $this->render('serveur/ajouter.html.twig', [
+        return $this->render('modele_borne/ajouter.html.twig', [
             'modele' => $modele,
             'form'=>$form->createView(),
         ]);

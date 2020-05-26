@@ -165,6 +165,7 @@ class BornesController extends AbstractController
 
 
 
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($borne);
             $entityManager->flush();
