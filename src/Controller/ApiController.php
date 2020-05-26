@@ -6,6 +6,7 @@ use App\Entity\Peripherique;
 use App\Entity\SessionWifi;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -254,7 +255,9 @@ class ApiController extends AbstractController
     {
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
 
-        if (is_null($serveur)) {
+        if ($serveur) {
+            return $this->render('api/QoS.twig');
+        } else {
             return new JsonResponse(
                 [
                     'status' => 'ko',
@@ -262,8 +265,93 @@ class ApiController extends AbstractController
                 ],
                 JsonResponse::HTTP_CREATED
             );
+        }
+    }
+
+    /**
+     * @Route("/api/config_borne/{mac}", name="api_config_borne")
+     */
+    public function config_borne($mac, Request $request)
+    {
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
+
+        if ($borne) {
+
+            if ($borne[0]) {
+                $borne = $borne[0];
+                // Create new Zip Archive.
+                $zip = new \ZipArchive();
+
+                // The name of the Zip documents.
+                $zipName = 'config.zip';
+
+                $zip->open($zipName,  \ZipArchive::CREATE);
+
+                // liste des fichiers à rendre
+                $zip->addFromString("resolv.conf",  $this->renderView('api/config_borne/resolv.conf'));
+                $zip->addFromString("rc.local",  $this->renderView('api/config_borne/rc.local'));
+                $zip->addFromString("rc.local.bak",  $this->renderView('api/config_borne/rc.local.bak'));
+                $zip->addFromString("dnsmasq.conf",  $this->renderView('api/config_borne/dnsmasq.conf'));
+
+
+                $zip->addFromString("config/dhcp",  $this->renderView('api/config_borne/config/dhcp'));
+                $zip->addFromString("config/network",  $this->renderView('api/config_borne/config/network'));
+                $zip->addFromString("config/network.bridged",  $this->renderView('api/config_borne/config/network.bridged.twig', [
+                    'borne'=>$borne,
+                ]));
+                $zip->addFromString("config/prog_wifi",  $this->renderView('api/config_borne/config/prog_wifi.twig', [
+                    'prog_wifi'=>$borne->getProgWifi(),
+                ]));
+                $zip->addFromString("config/qos",  $this->renderView('api/config_borne/config/qos.twig', [
+                    'ul_rate'=>$borne->getUploadRate(),
+                    'dl_rate'=>$borne->getDownloadRate(),
+                ]));
+                $zip->addFromString("config/wireless",  $this->renderView('api/config_borne/config/wireless.twig', [
+                    'tx_power'=>$borne->getTxpower(),
+                    'ssid'=>$borne->getSsid(),
+                    'channel'=>$borne->getChannel(),
+                    'etat'=>$borne->getEtat(),
+                ]));
+
+
+                $zip->addFromString("openvpn/ca.crt",  $this->renderView('api/config_borne/openvpn/ca.crt'));
+                $zip->addFromString("openvpn/openvpn-admin.conf",  $this->renderView('api/config_borne/openvpn/openvpn-admin.conf.twig', [
+                    'ip_vpn_admin'=>$borne->getIpAdressVpnAdmin(),
+                    'hostname'=>$mac,
+                ]));
+                $zip->addFromString("openvpn/openvpn-wifi.conf",  $this->renderView('api/config_borne/openvpn/openvpn-wifi.conf.twig', [
+                    'hostname'=>$mac,
+                ]));
+                $zip->addFromString("openvpn/vpn-wifi-up.sh",  $this->renderView('api/config_borne/openvpn/vpn-wifi-up.sh'));
+
+
+                $zip->addFromString("yziact/cron_wifi.sh",  $this->renderView('api/config_borne/yziact/cron_wifi.sh'));
+                $zip->addFromString("yziact/init",  $this->renderView('api/config_borne/yziact/init.twig', [
+                    'token'=>$borne->getToken(),
+                ]));
+                $zip->addFromString("yziact/list-connected-sh",  $this->renderView('api/config_borne/yziact/list-connected-sh'));
+                $zip->addFromString("yziact/send-connected-sh",  $this->renderView('api/config_borne/yziact/send-connected-sh.twig', [
+                    'token'=>$borne->getToken(),
+                ]));
+                $zip->addFromString("yziact/test_co-sh_new",  $this->renderView('api/config_borne/yziact/test_co-sh_new'));
+
+                $zip->close();
+
+                $response = new Response(file_get_contents($zipName));
+                $response->headers->set('Content-Type', 'application/zip');
+                $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+                $response->headers->set('Content-length', filesize($zipName));
+
+                @unlink($zipName);
+
+                return $response;
+
+            } else {
+                return $this->redirectToRoute('erreur404');
+            }
+
         } else {
-            return $this->render('api/QoS.twig');
+            return $this->redirectToRoute('erreur404');
         }
     }
 

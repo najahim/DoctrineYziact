@@ -1,0 +1,11 @@
+# Put your custom commands here that should be executed once
+# the system init finished. By default this file does nothing.
+
+# Si c'est une borne primaine, on lance l'init de base, sinon on lance
+# l'init secondaire
+
+echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+
+/bin/sh -x /etc/yziact/init > /tmp/logBootYZ &
+
+exit 0

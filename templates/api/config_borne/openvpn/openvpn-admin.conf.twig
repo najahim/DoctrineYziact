@@ -1,0 +1,23 @@
+client
+dev tap0
+
+proto udp
+
+
+remote 54.38.234.80 3001
+
+ifconfig {{ ip_vpn_admin }} 255.255.0.0
+
+resolv-retry infinite
+nobind
+persist-key
+persist-tun
+
+ca /etc/openvpn/ca.crt
+cert /etc/openvpn/{{ hostname }}.crt
+key /etc/openvpn/{{ hostname }}.key
+
+comp-lzo
+verb 1
+script-security 2
+## up "/etc/yziact/vpn-admin-up.sh"

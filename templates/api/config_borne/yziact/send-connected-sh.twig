@@ -1,0 +1,153 @@
+#!/bin/bash
+
+# Toutes les ($5) secondes :
+# Lis dans le fichier en entrée ($1) les appareils connectés.
+# Si des appareils ne sont pas présents dans ($2), ajoute les mac à ($3).
+# Si des appareils sont présents dans ($2) mais pas ($1), ajoute les mac, rx et tx à ($4).
+# Concatene "Borne : $MAC_BORNE\nNew : \n" . ($3) . "\n\nEnd : \n" . ($4) puis les envoie au serveur via HTTP au format POST.
+
+# Tous les ($7) cycles :
+# Lis dans le fichier en entrée ($1) les appareils connectés.
+# Concatene "Borne : $MAC_BORNE\n\nUpdate : \n" . ($1) dans ()$5) puis envoie au serveur via HTTP au format POST.
+#Cycles de $2 secondes
+
+PID=$$
+PID_FILE="/var/run/send-connected.pid"
+API="{{ url('api_monitor', {token: token}) }}"
+
+# On verifie si le process juste avant s'est termine
+if [ -f $PID_FILE ]
+then
+	# Le fichier existe, un autre process tourne deja, on recupere son PID
+	PID_OLD=$(cat $PID_FILE)
+	# Et on le kille
+	kill -9 "$PID_OLD" 2&>1 > /dev/null
+fi
+
+
+MAC_BORNE=`ifconfig eth0 | grep "HWaddr" | cut -d' ' -f11`
+
+# Si le fichier d'historique n'existe pas on en cree un
+if [[ -f $2 ]]
+then
+    touch $2
+    echo "[]" > $2
+fi
+
+
+# Boucle principale
+CYCLES=0
+
+while true
+do
+
+	# Enregistrement des nouveaux appareils
+	# On commence le json
+	touch $3
+	echo "{\"Nouveaux\" : [ " > $3
+
+	# Verif des nouveaux appareils
+	LINES=0
+	TOTAL_LINES=`cat $1 | wc -l`
+	SEND=false
+
+	# On parcours pour chaque ligne
+	while [ $LINES -lt $TOTAL_LINES ]
+	do
+		LINES=`expr $LINES + 1`
+		CMD_SED="sed -n '"$LINES"p' "$1" | cut -d' ' -f1"
+		MAC=`eval $CMD_SED`
+		if ! grep -q $MAC $2 ; then
+			SEND=true
+			echo "{\"mac\": \""$MAC"\"}," >> $3
+		fi
+	done
+
+	# On finit le json
+	sed -i '$ s/.$/]}/' $3
+
+	if [ "$SEND" = true ]; then
+		curl -k --header "Content-Type: application/json" \
+			--request POST \
+			--data @"$3" \
+			"$API"
+	fi
+
+
+	# Enregistrement des deconnections
+    # On commence le json
+    touch $4
+    echo "{\"Deconnectes\" : [ " > $4
+
+    # Verif des nouveaux appareils
+    LINES=0
+    TOTAL_LINES=`cat $2 | wc -l`
+    SEND=false
+
+    # On parcours pour chaque ligne
+    while [ $LINES -lt $TOTAL_LINES ]
+    do
+        LINES=`expr $LINES + 1`
+		CMD_SED="sed -n '"$LINES"p' "$2" | cut -d' ' -f1"
+		MAC=`eval $CMD_SED`
+        if ! grep -q $MAC $1 ; then
+            SEND=true
+			CMD_SED="sed -n '"$LINES"p' "$2" | cut -d' ' -f2"
+			RX=`eval $CMD_SED`
+			CMD_SED="sed -n '"$LINES"p' "$2" | cut -d' ' -f3"
+			TX=`eval $CMD_SED`
+            echo "{\"mac\": \""$MAC"\", \"rx\": \""$RX"\", \"tx\": \""$TX"\"}," >> $4
+        fi
+    done
+
+    # On finit le json
+    sed -i '$ s/.$/]}/' $4
+
+    if [ "$SEND" = true ]; then
+        curl -k --header "Content-Type: application/json" \
+            --request POST \
+            --data @"$4" \
+            "$API"
+    fi
+
+
+    cp $1 $2
+
+    if [ $CYCLES -lt $7 ]; then
+        CYCLES=`expr $CYCLES + 1`
+    else
+        CYCLES=0
+
+		# Update des bornes
+		# On commence le json
+		touch $5
+		echo "{\"Update\" : [ " > $5
+
+		# Verif des nouveaux appareils
+		LINES=0
+		TOTAL_LINES=`cat $2 | wc -l`
+
+		# On parcours pour chaque ligne
+		while [ $LINES -lt $TOTAL_LINES ]
+		do
+			LINES=`expr $LINES + 1`
+			CMD_SED="sed -n '"$LINES"p' "$1" | cut -d' ' -f1"
+			MAC=`eval $CMD_SED`
+			CMD_SED="sed -n '"$LINES"p' "$1" | cut -d' ' -f2"
+			RX=`eval $CMD_SED`
+			CMD_SED="sed -n '"$LINES"p' "$1" | cut -d' ' -f3"
+			TX=`eval $CMD_SED`
+			echo "{\"mac\": \""$MAC"\", \"rx\": \""$RX"\", \"tx\": \""$TX"\"}," >> $5
+		done
+
+		# On finit le json
+		sed -i '$ s/.$/]}/' $5
+
+		curl -k --header "Content-Type: application/json" \
+			--request POST \
+			--data @"$5" \
+			"$API"
+    fi
+
+    sleep $6
+done
