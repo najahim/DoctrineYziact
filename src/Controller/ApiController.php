@@ -310,7 +310,7 @@ class ApiController extends AbstractController
                     'tx_power'=>$borne->getTxpower(),
                     'ssid'=>$borne->getSsid(),
                     'channel'=>$borne->getChannel(),
-                    // 'disabled'=>$borne->getProgWifi(),
+                    'etat'=>$borne->getEtat(),
                 ]));
 
 
