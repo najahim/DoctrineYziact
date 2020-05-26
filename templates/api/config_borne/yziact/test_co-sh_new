@@ -12,14 +12,14 @@ echo 100 > $LED_BLUE/delay_off
 
 COMPTEUR=$(cat /etc/yziact/test_co_flag)
 
-ping -I tap0 -c 5 172.18.0.254
+ping -I tap0 -c 5 172.18.0.1
 if [ $? == 0 ]
 then
 	echo 'default-on' > $LED_BLUE/trigger
 	echo 0 > $LED_ROSE/brightness
-	/sbin/wifi 
+	/sbin/wifi
 	echo 0 > /etc/yziact/test_co_flag
-	exit 1 
+	exit 1
 else
 	echo 'default-on' > $LED_ROSE/trigger
 	echo  0 > $LED_BLUE/brightness
@@ -27,7 +27,7 @@ else
 	let "COMPTEUR=$COMPTEUR+1"
 	echo $COMPTEUR > /etc/yziact/test_co_flag
 	if [ $COMPTEUR -eq 5 ]
-	then 
+	then
 		reboot
 	fi
 fi

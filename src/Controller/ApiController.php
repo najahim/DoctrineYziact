@@ -310,13 +310,13 @@ class ApiController extends AbstractController
                     'tx_power'=>$borne->getTxpower(),
                     'ssid'=>$borne->getSsid(),
                     'channel'=>$borne->getChannel(),
-                    'etat'=>$borne->getEtat(),
+                    'etat'=>$borne->getEtat()->getEtat(),
                 ]));
 
 
                 $zip->addFromString("openvpn/ca.crt",  $this->renderView('api/config_borne/openvpn/ca.crt'));
                 $zip->addFromString("openvpn/openvpn-admin.conf",  $this->renderView('api/config_borne/openvpn/openvpn-admin.conf.twig', [
-                    'ip_vpn_admin'=>$borne->getIpAdressVpnAdmin(),
+                    'ip_vpn_admin'=> "172.18." . intdiv($borne->getId() + 2, 255) . "." . ($borne->getId() + 2)%255,
                     'hostname'=>$borne->getAdresseMac(),
                 ]));
                 $zip->addFromString("openvpn/openvpn-wifi.conf",  $this->renderView('api/config_borne/openvpn/openvpn-wifi.conf.twig', [
