@@ -48,7 +48,8 @@ class ModifierBorneType extends AbstractType
             // ->add('date_mise_en_service',DateTimeType::class)
             // ->add('date_expiration_test',DateTimeType::class)
             ->add('commentaire', TextType::class, [
-                'required' => false
+                'required' => false,
+                'empty_data' => '',
             ])
             ->add('nom_portail')
             ->add('desc_portail')
