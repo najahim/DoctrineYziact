@@ -1,0 +1,181 @@
+#!/bin/sh
+
+LED_BLUE="/sys/devices/platform/leds-gpio/leds/ubnt:blue:dome"
+LED_ROSE="/sys/devices/platform/leds-gpio/leds/ubnt:white:dome"
+
+sleep 20
+echo 0 > $LED_BLUE/brightness
+echo 0 > $LED_ROSE/brightness
+echo 'timer' > $LED_ROSE/trigger
+
+echo "------------Debut de l'initialisation"
+
+echo "++++Installation et configuration"
+
+# Check si qos-scripts installe
+if [ "$(opkg list_installed | grep -c qos-scripts)" != "1" ]
+then
+    echo 'nameserver 8.8.8.8' > /etc/resolv.conf
+    opkg update
+    opkg install qos-scripts
+fi
+opkg update
+opkg install openvpn-openssl
+opkg install screen
+opkg install tar
+opkg install wget
+opkg install snmpd
+opkg install iptables
+opkg install curl
+
+sleep 5
+
+echo "++++Recuperation de la config"
+# Recuperation de la config sur le serveur central
+echo 1 > $LED_BLUE/brightness
+
+MAC_ADDRESS=$(ifconfig eth0 | grep "HWaddr" | cut -d' ' -f11)
+
+/usr/bin/wget --tries=1 http://config-test18.wifi43.fr:8080/generate.php?mac="$MAC_ADDRESS" -O /tmp/config.tar.gz 2>&1
+while [ ! -s /tmp/config.tar.gz ]
+do
+    sleep 2
+    # En cas d'echec de telechargement de la config, on est sur fond bleu / rose clignotant
+    /usr/bin/wget --tries=1 http://config-test18.wifi43.fr:8080/generate.php?mac="$MAC_ADDRESS" -O /tmp/config.tar.gz 2>&1
+done
+
+echo "++++Config recupere"
+
+cd /etc
+tar -xvmf /tmp/config.tar.gz
+rm /tmp/config.tar.gz
+
+echo "++++Redemarrage des services "
+# Mise en place de la config, et restart des services
+/etc/init.d/network restart
+/etc/init.d/firewall restart
+/etc/init.d/dropbear restart
+/etc/init.d/snmpd start
+
+sleep 10
+
+export TOKEN={{ token }}
+
+echo 0 > $LED_BLUE/brightness
+
+echo "++++Lancement des scripts"
+# Mise en place des bons droits pour les scripts openvpn : ################### Faire un script qui s'en occupe?
+chmod +x /etc/openvpn/*.sh
+chmod +x /etc/yziact/test_co-sh_new #Modif Ayoub: je rajoute les droits d'execution sur mon script qui ping le serveur
+chmod +x /etc/yziact/cron_wifi.sh
+chmod +x /etc/yziact/send-connected-sh
+chmod +x /etc/yziact/list-connected-sh
+
+# Et lancement des sh contenus dans /etc/yziact :
+
+/bin/sh cron_wifi.sh
+
+#On verifie que le wifi tourne, si oui, on continue, sinon on verifie qu'il est bien eteint. S'il n'est pas suppose etre eteint, on reboot
+
+while [ "$(pgrep hostapd | grep -c -v "grep")" = "0" ]
+do
+    if [ "$(wifi status | grep -c '"up": true')" = "0" ]
+    then
+        /sbin/wifi
+        sleep 5
+    else
+        /sbin/wifi down
+        sleep 2
+        /sbin/wifi
+    fi
+done
+
+sleep 10
+
+# Lancement des openvpns
+echo "++++Mise en places des tunnels VPN et element du network"
+service openvpn stop
+echo "Stop"
+sleep 2
+service openvpn disable #################### Vérifier que c'est suffisant
+
+echo "Disable"
+sleep 2
+
+
+#/usr/sbin/screen -dmS "VPN-WiFi" /usr/sbin/openvpn --config /etc/openvpn/openvpn-wifi.conf
+
+#/usr/sbin/screen -dmS "VPN-Admin" /usr/sbin/openvpn --config /etc/openvpn/openvpn-admin.conf
+# Et du moniteur Wifi
+
+
+
+if [ "$(brctl show | grep -c 'br-wifi')" = "0" ]
+then
+# Le bridge n'est pas la, on le cree
+/usr/sbin/brctl addbr br-wifi
+fi
+
+if [ "$(cat /sys/class/net/wlan0/operstate)" != "up" ]
+then
+# L'interface n'est pas up
+/sbin/ifconfig wlan0 up
+fi
+
+sleep 5
+
+/usr/sbin/screen -dmS "MON-Wifi" /etc/yziact/wifi_mon-sh # Ne marche pas si le wifi n'est pas up
+
+/usr/sbin/brctl addif br-wifi wlan0 2>&1 #Note: redirige ce qui sort dans STDERR vers STDOUT
+/sbin/ifconfig br-wifi up
+
+# Si on a du PoE, on l'active sur l'autre port => pour les nano stations => renvoyer le poe sur le deuxieme => jamais utilisé
+if [ -f /sys/class/gpio/export ]
+then
+	echo 8 > /sys/class/gpio/export
+fi
+if [ -f /sys/class/gpio/gpio8/direction ]
+then
+	echo out > /sys/class/gpio/gpio8/direction
+fi
+if [ -f /sys/class/gpio/gpio8/value ]
+then
+	echo 1 > /sys/class/gpio/gpio8/value
+fi
+
+# Et enfin MASQUERADE pour le VPN admin :
+sleep 5
+/usr/sbin/iptables -t nat -I POSTROUTING -o tap0 -j MASQUERADE
+
+
+echo "++++Mise en place de la programmation wifi"
+#TODO penser à faire un script de up down
+#Le serveur nous fournit des elements de la forme: 00 18 * * 1-7 off ; 59 23 * * 1-7 on ;
+# On doit le transformer en 00 18 * * 1-7 /bin/bash /etc/yziact/wifi_down.sh; 59 23 * * 1-7 /bin/bash /etc/yziact/wifi_up.sh ;
+#On rajoute aussi le test de connexion
+DATA=$(sed 's/;/\n/g' /etc/config/prog_wifi) #TODO: faire le passage de on et off a wifi_down et wifi_up
+DATA=$(echo "$DATA" | sed -e 's,on,/bin/bash /etc/yziact/wifi_up.sh,g')
+DATA=$(echo "$DATA" | sed -e 's,off,/bin/bash /etc/yziact/wifi_down.sh,g')
+echo -e "${DATA} */5 * * * * /bin/bash /etc/yziact/test_co-sh_new" >/etc/crontabs/root
+/etc/init.d/cron restart
+
+###### Attention: si la borne est allume alors que la wifi doit etre eteinte, aucun moyen de savoir qu'on doit l'eteindre
+
+# Le boot est termine, on allume la led wifi
+sleep 10
+
+echo "++++Test de connexion au serveur"
+echo 0 > $LED_ROSE/brightness
+echo 0 > $LED_BLUE/brightness
+
+echo 0 > /etc/yziact/test_co_flag #On initialise le flag
+# On lance un ping dans le tunnel, si cela reponds, on allume la led systeme en bleu :
+
+/bin/sh /etc/yziact/test_co-sh_new
+
+
+/bin/sh /etc/yziact/list-connected-sh /tmp/monitoring/list.mon 1 &
+/bin/sh /etc/yziact/send-connected-sh /tmp/monitoring/list.mon /tmp/monitoring/prev.mon /tmp/monitoring/new.json  /tmp/monitoring/old.json /tmp/monitoring/update.json 1 30 &
+
+
+echo "++++Fin du demarrage"
