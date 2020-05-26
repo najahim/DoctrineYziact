@@ -269,11 +269,11 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/config_borne/{mac}", name="api_config_borne")
+     * @Route("/api/config_borne/{token}", name="api_config_borne")
      */
-    public function config_borne($mac, Request $request)
+    public function config_borne($token, Request $request)
     {
-        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('token'=>$token));
 
         if ($borne) {
 
@@ -317,10 +317,10 @@ class ApiController extends AbstractController
                 $zip->addFromString("openvpn/ca.crt",  $this->renderView('api/config_borne/openvpn/ca.crt'));
                 $zip->addFromString("openvpn/openvpn-admin.conf",  $this->renderView('api/config_borne/openvpn/openvpn-admin.conf.twig', [
                     'ip_vpn_admin'=>$borne->getIpAdressVpnAdmin(),
-                    'hostname'=>$mac,
+                    'hostname'=>$borne->getAdresseMac(),
                 ]));
                 $zip->addFromString("openvpn/openvpn-wifi.conf",  $this->renderView('api/config_borne/openvpn/openvpn-wifi.conf.twig', [
-                    'hostname'=>$mac,
+                    'hostname'=>$borne->getAdresseMac(),
                 ]));
                 $zip->addFromString("openvpn/vpn-wifi-up.sh",  $this->renderView('api/config_borne/openvpn/vpn-wifi-up.sh'));
 
