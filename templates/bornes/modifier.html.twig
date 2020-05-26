@@ -183,15 +183,15 @@
                 {{ form_widget(form.quota_user_duree) }}
             </div>
             <div class="champ">
-                {{ form_label(form.quota_user_max_bytes, 'Débit maximal par utilisateur (en Mb/s) :') }}
+                {{ form_label(form.quota_user_max_bytes, 'Quantité maximale de données téléchargées (en Mb/s) :') }}
                 {{ form_widget(form.quota_user_max_bytes) }}
             </div>
             <div class="champ">
-                {{ form_label(form.upload_rate, 'Quantité maximum de data uploadées (en Mb):') }}
+                {{ form_label(form.upload_rate, 'Débit maximal par utilisateur en upload (en Kb/s):') }}
                 {{ form_widget(form.upload_rate) }}
             </div>
             <div class="champ">
-                {{ form_label(form.download_rate, 'Quantité maximum de data téléchargées (en Mb):') }}
+                {{ form_label(form.download_rate, 'Débit maximal par utilisateur en téléchargement (en Kb/s):') }}
                 {{ form_widget(form.download_rate) }}
             </div>
 			<div class="horaires">
