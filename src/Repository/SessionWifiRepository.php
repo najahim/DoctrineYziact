@@ -106,6 +106,19 @@ class SessionWifiRepository extends ServiceEntityRepository
 
     }
 
+    public function findLastOpen($value){
+
+        return $this->createQueryBuilder('s')
+            ->select("s")
+            ->where('s.peripherique = :valId')
+            ->setParameter('valId',$value)
+            ->andWhere("s.date_fin is NULL")
+            ->orderBy('s.id','DESC')
+            ->getQuery()
+            ->getResult();
+
+    }
+
     public function findByBorneDate($id,$date){
 
         return $this->createQueryBuilder('s')
