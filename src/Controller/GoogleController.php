@@ -3,6 +3,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Peripherique;
+use App\Entity\Utilisateur;
 use App\Repository\UtilisateurRepository;
 use KnpU\OAuth2ClientBundle\Client\ClientRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,7 +17,11 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 class GoogleController extends AbstractController
 {
 
-    public $device;
+    public $device ;
+    public function __construct()
+    {
+        $this->device=new Peripherique();
+    }
     /**
      * Link to this controller to start the "connect" process
      *
@@ -23,8 +29,20 @@ class GoogleController extends AbstractController
      * @param ClientRegistry $clientRegistry
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function connectAction(ClientRegistry $clientRegistry)
+    public function connectAction(ClientRegistry $clientRegistry,Request $request)
     {
+
+
+        $this->device->setAdresseMac($request->query->get('mac'));
+        $this->device->setPOs($request->query->get('os'));
+        $this->device->setPUseragent($request->query->get('useragent'));
+        $this->device->setPType($request->query->get('type'));
+        $this->device->setPLang($request->query->get('lang'));
+        $this->device->setPBrowser($request->query->get('browser'));
+        $this->device->setPBrand($request->query->get('brand'));
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($this->device);
+        $entityManager->flush();
         return $clientRegistry
             ->getClient('google')
             ->redirect();
@@ -42,7 +60,7 @@ class GoogleController extends AbstractController
         $user=$this->getUser();
         $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
             ->findLast();
-        $user->setVersionCgu($cgu[0]);
+
         if (!$user) {
             return new JsonResponse(array('status' => false, 'message' => "User not found!"));
         } else {
@@ -61,11 +79,38 @@ class GoogleController extends AbstractController
                 )
             ;
             $mailer->send($message);*/
-            return $this->redirect('http://www.cigale-hotspot.fr/qui-sommes-nous/');
+            $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
+                ->findLast();
+            $user->setVersionCgu($cgu[0]);
+            $uti=$this->getDoctrine()->getRepository('App:Utilisateur')
+                ->findBy(array('email'=>$user->getUsername()));
+            $this->device->setUtilisateur($uti);
+
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->persist($uti);
+            $entityManager->flush();
+
+            $entityManager->persist($this->device);
+            $entityManager->flush();
+            return $this->redirect('google/test');
 
         }
 
     }
+    /**
+     * @Route ("/google/test",name="google.test")
+     */
+    public function historiqueBorne($id,Request $request):Response
+    {
+        $borne= $this->getDoctrine()->getRepository('App:Activation')->findByBorne($id);
+        $user=$this->getUser();
+        var_dump($user);
+        return $this->render('google/test.html.twig', [
+            'borne' => $borne,
+        ]);
+    }
+
     /**
      * @Route("/activation/{token}", name="activation")
      */

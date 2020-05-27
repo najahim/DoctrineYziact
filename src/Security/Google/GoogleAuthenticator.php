@@ -108,6 +108,6 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
     {
-           return new RedirectResponse('/logout');
+           return new RedirectResponse('/connect/facebook/check');
     }
 }
