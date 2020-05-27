@@ -122,8 +122,8 @@ class SessionWifiRepository extends ServiceEntityRepository
     public function findByBorneDate($id,$date){
 
         return $this->createQueryBuilder('s')
-            ->select("s")
-            ->where("SUBSTRING(CONCAT(s.date_debut,''),1,11) = :valDate")
+            ->select("s,SUBSTRING(CONCAT(s.date_debut,''),1,11) as date")
+            ->where("date = :valDate")
             ->setParameter('valDate',$date)
             ->andWhere("s.borne = :valId")
             ->setParameter('valId',$id)

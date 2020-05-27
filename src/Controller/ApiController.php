@@ -282,6 +282,7 @@ class ApiController extends AbstractController
         $date=$date->format('yy-m-d');
         $sessions=$this->getDoctrine()->getRepository('App:SessionWifi')
             ->findByBorneDate($borne[0]->getId(),$date);
+
         if ($serveur) {
             if ($borne) {
                 return $this->render('api/qos/sessions.twig', [
