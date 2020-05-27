@@ -328,9 +328,7 @@ class ApiController extends AbstractController
 
 
                 $zip->addFromString("yziact/cron_wifi.sh",  $this->renderView('api/config_borne/yziact/cron_wifi.sh'));
-                $zip->addFromString("yziact/init",  $this->renderView('api/config_borne/yziact/init.twig', [
-                    'token'=>$borne->getToken(),
-                ]));
+                $zip->addFromString("yziact/init",  $this->renderView('api/config_borne/yziact/init'));
                 $zip->addFromString("yziact/list-connected-sh",  $this->renderView('api/config_borne/yziact/list-connected-sh'));
                 $zip->addFromString("yziact/send-connected-sh",  $this->renderView('api/config_borne/yziact/send-connected-sh.twig', [
                     'token'=>$borne->getToken(),
