@@ -249,31 +249,76 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/QoS/{token}", name="api_QoS")
+     * @Route("/api/qos/bornes/{token}", name="api_qos_bornes")
      */
-    public function QoS(Request $request)
+    public function qos_bornes($token, Request $request)
     {
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
 
         if ($serveur) {
-            return $this->render('api/QoS.twig');
+            return $this->render('api/qos/bornes.twig', [
+                "bornes"=>$serveur[0]->getBornes(),
+            ]);
         } else {
-            return new JsonResponse(
-                [
-                    'status' => 'ko',
-                    'error' => 'Mauvais token'
-                ],
-                JsonResponse::HTTP_CREATED
-            );
+            return $this->redirectToRoute('erreur404');
         }
     }
 
     /**
-     * @Route("/api/config_borne/{token}", name="api_config_borne")
+     * @Route("/api/qos/sessions/{mac_borne}/{token}", name="api_qos_sessions")
      */
-    public function config_borne($token, Request $request)
+    public function qos_sessions($mac_borne, $token, Request $request)
     {
-        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('token'=>$token));
+        $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
+
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
+
+        // Toutes les sessions ouvertes ou qui se sont terminées aujourd'hui associées à cette borne
+        // $sessions=
+
+        if ($serveur) {
+            if ($borne) {
+                return $this->render('api/qos/sessions.twig', [
+                    // "sessions"=>$sessions,
+                    "today"=> new \Date,
+                ]);
+            } else {
+                return $this->redirectToRoute('erreur404');
+            }
+        } else {
+            return $this->redirectToRoute('erreur404');
+        }
+    }
+
+    /**
+     * @Route("/api/qos/peripherique/{mac_peripherique}/{token}", name="api_qos_peripherique")
+     */
+    public function qos_peripherique($mac_peripherique, $token, Request $request)
+    {
+        $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
+
+        // ID de la borne de la derniere session ouverte du périphérique
+        // $idBorne=
+
+        if ($serveur) {
+            if ($borne) {
+                return $this->render('api/qos/peripherique.twig', [
+                    //"id_borne"=>$idBorne,
+                ]);
+            } else {
+                return $this->redirectToRoute('erreur404');
+            }
+        } else {
+            return $this->redirectToRoute('erreur404');
+        }
+    }
+
+    /**
+     * @Route("/api/config_borne/{mac}", name="api_config_borne")
+     */
+    public function config_borne($mac, Request $request)
+    {
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
 
         if ($borne) {
 
@@ -318,17 +363,17 @@ class ApiController extends AbstractController
                 $zip->addFromString("openvpn/openvpn-admin.conf",  $this->renderView('api/config_borne/openvpn/openvpn-admin.conf.twig', [
                     'ip_vpn_admin'=> "172.18." . intdiv($borne->getId() + 2, 255) . "." . ($borne->getId() + 2)%255,
                     'hostname'=>$borne->getAdresseMac(),
+                    'ip_server'=>$borne->getServeur()->getReseaux(),
                 ]));
                 $zip->addFromString("openvpn/openvpn-wifi.conf",  $this->renderView('api/config_borne/openvpn/openvpn-wifi.conf.twig', [
                     'hostname'=>$borne->getAdresseMac(),
+                    'ip_server'=>$borne->getServeur()->getReseaux(),
                 ]));
                 $zip->addFromString("openvpn/vpn-wifi-up.sh",  $this->renderView('api/config_borne/openvpn/vpn-wifi-up.sh'));
 
 
                 $zip->addFromString("yziact/cron_wifi.sh",  $this->renderView('api/config_borne/yziact/cron_wifi.sh'));
-                $zip->addFromString("yziact/init",  $this->renderView('api/config_borne/yziact/init.twig', [
-                    'token'=>$borne->getToken(),
-                ]));
+                $zip->addFromString("yziact/init",  $this->renderView('api/config_borne/yziact/init'));
                 $zip->addFromString("yziact/list-connected-sh",  $this->renderView('api/config_borne/yziact/list-connected-sh'));
                 $zip->addFromString("yziact/send-connected-sh",  $this->renderView('api/config_borne/yziact/send-connected-sh.twig', [
                     'token'=>$borne->getToken(),
