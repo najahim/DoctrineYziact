@@ -216,6 +216,7 @@ class RegistrationController extends AbstractController
             'emplacement'=>$locBorne,
             'nouveautes'=>$nouveautes,
             'borne' => $borne,
+            'mac' => $idBorne,
         ]);
     }
 
