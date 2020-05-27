@@ -104,17 +104,17 @@ sleep 10
 # Lancement des openvpns
 echo "++++Mise en places des tunnels VPN et element du network"
 service openvpn stop
-echo "Stop"
+echo "Disable"
 sleep 2
 service openvpn disable #################### Vérifier que c'est suffisant
 
-echo "Disable"
+echo "Stop"
 sleep 2
 
 
-#/usr/sbin/screen -dmS "VPN-WiFi" /usr/sbin/openvpn --config /etc/openvpn/openvpn-wifi.conf
+/usr/sbin/screen -dmS "VPN-WiFi" /usr/sbin/openvpn --config /etc/openvpn/openvpn-wifi.conf
 
-#/usr/sbin/screen -dmS "VPN-Admin" /usr/sbin/openvpn --config /etc/openvpn/openvpn-admin.conf
+/usr/sbin/screen -dmS "VPN-Admin" /usr/sbin/openvpn --config /etc/openvpn/openvpn-admin.conf
 # Et du moniteur Wifi
 
 
