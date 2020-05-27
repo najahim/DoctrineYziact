@@ -50,9 +50,13 @@ class GoogleAuthenticator extends SocialAuthenticator
             ->findOneBy(['email' => $email]);
         if (!$user) {
             $user = new Utilisateur();
+
             $user->setEmail($googleUser->getEmail());
             $user->setGoogleAccessToken($googleUser->getId());
             $user->setDateCreation(new \DateTime('now'));
+            $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
+                ->findLast();
+            $user->setVersionCgu($cgu[0]);
             $user->setActivationToken(md5(uniqid()));
             $user->setValidation(true);
 
@@ -108,6 +112,6 @@ class GoogleAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
     {
-           return new RedirectResponse('/connect/facebook/check');
+           return new RedirectResponse('/connect/google/check');
     }
 }

@@ -11,6 +11,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Ldap\Entry;
+use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -18,10 +20,26 @@ class GoogleController extends AbstractController
 {
 
     public $device ;
+    public $id;
+
+    public function setDevice(Peripherique $device)
+    {
+        $this->device=$device;
+
+    }
+    public function getDevice()
+    {
+        return $this->device;
+    }
+   /* public static function setId(string $id)
+    {
+        self::$id=$id;
+    }*/
     public function __construct()
     {
         $this->device=new Peripherique();
     }
+
     /**
      * Link to this controller to start the "connect" process
      *
@@ -40,9 +58,14 @@ class GoogleController extends AbstractController
         $this->device->setPLang($request->query->get('lang'));
         $this->device->setPBrowser($request->query->get('browser'));
         $this->device->setPBrand($request->query->get('brand'));
+        $this->setDevice($this->device);
+        $user=$this->getUser();
+        $this->device->setUtilisateur($user);
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($this->device);
         $entityManager->flush();
+        $this->id=($request->query->get('mac'));
+
         return $clientRegistry
             ->getClient('google')
             ->redirect();
@@ -79,21 +102,29 @@ class GoogleController extends AbstractController
                 )
             ;
             $mailer->send($message);*/
-            $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
-                ->findLast();
-            $user->setVersionCgu($cgu[0]);
+
             $uti=$this->getDoctrine()->getRepository('App:Utilisateur')
                 ->findBy(array('email'=>$user->getUsername()));
-            $this->device->setUtilisateur($uti);
+            $this->device->setUtilisateur($uti[0]);
 
+            $this->device->setAdresseMac($this->id);
             $entityManager = $this->getDoctrine()->getManager();
 
-            $entityManager->persist($uti);
-            $entityManager->flush();
 
             $entityManager->persist($this->device);
             $entityManager->flush();
-            return $this->redirect('google/test');
+
+
+            $entityManager->persist($uti[0]);
+            $entityManager->flush();
+
+
+
+
+
+
+
+            return $this->redirect('http://www.cigale-hotspot.fr/');
 
         }
 
