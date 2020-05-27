@@ -307,7 +307,7 @@ class ApiController extends AbstractController
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
         $device=$this->getDoctrine()->getRepository('App:Peripherique')->findBy(array('adresse_mac'=>$mac_peripherique));
         $session=$this->getDoctrine()->getRepository('App:SessionWifi')
-            ->findLastOpen($device->getId());
+            ->findLastOpen($device[0]->getId());
         // ID de la borne de la derniere session ouverte du périphérique
         $borne= $session[0]->getBorne();
         $idBorne=$borne->getId();
@@ -315,7 +315,7 @@ class ApiController extends AbstractController
         if ($serveur) {
             if ($borne) {
                 return $this->render('api/qos/peripherique.twig', [
-                    "id_borne"=>$idBorne,
+                    "idBorne"=>$idBorne,
                 ]);
             } else {
                 return $this->redirectToRoute('erreur404');
