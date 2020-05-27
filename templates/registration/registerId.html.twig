@@ -41,8 +41,8 @@
             </span>
             <div class="form">
                 <p>
-                    <a href="/connect/google" class="google-button"><i class="fab fa-google-plus-square"></i>Google</a>
-                    <a href="/connect/facebook" class="facebook-button"><i class="fab fa-facebook-square"></i>Facebook</a>
+                    <a href="" class="google-button"><i class="fab fa-google-plus-square"></i>Google</a>
+                    <a href="" class="facebook-button"><i class="fab fa-facebook-square"></i>Facebook</a>
                 </p>
                 <span class="hr">ou</span>
                 {{ form_start(registrationForm) }}
@@ -176,22 +176,31 @@
             });
 
             var md = new MobileDetect(window.navigator.userAgent);
+            var type = "";
+            var brand = "";
 
             if(md.mobile()) {
-                $('.device-p_type').val('mobile');
-                $('.device-p_brand').val(md.mobile());
+                type = 'mobile';
+                brand = md.mobile();
             } else if (md.tablet()) {
-                $('.device-p_type').val('tablette');
-                $('.device-p_brand').val(md.tablet());
+                type = 'tablet';
+                brand = md.tablet();
             } else {
-                $('.device-p_type').val('ordinateur');
-                $('.device-p_brand').val("unknow");
+                type = 'ordinateur';
+                brand = "unknow";
             }
+
+            $('.device-p_type').val(type);
+            $('.device-p_brand').val(brand);
 
             $('.device-p_os').val(md.os());
             $('.device-p_browser').val(md.userAgent());
             $('.device-p_lang').val(navigator.language || navigator.userLanguage);
             $('.device-p_useragent').val(window.navigator.userAgent);
+
+            $('.google-button').attr('href', encodeURI('{{ path('connect_google') }}' + '?mac={{ mac }}&type=' + type + '&brand=' + brand + '&os=' + md.os() + '&browser=' + md.userAgent() + '&lang=' + (navigator.language || navigator.userLanguage) + '&useragent=' + window.navigator.userAgent));
+
+            $('.facebook-button').attr('href', encodeURI('{{ path('connect_facebook') }}' + '?mac={{ mac }}&type=' + type + '&brand=' + brand + '&os=' + md.os() + '&browser=' + md.userAgent() + '&lang=' + (navigator.language || navigator.userLanguage) + '&useragent=' + window.navigator.userAgent));
 
         });
     </script>
