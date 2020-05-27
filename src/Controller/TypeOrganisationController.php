@@ -54,8 +54,9 @@ class TypeOrganisationController extends AbstractController
 
         $entryManager = $ldap->getEntryManager();
         $entryManager->add($entry);*/
-
-
+        $date=new \DateTime('now');
+        $date=$date->format('yy-m-d');
+        var_dump($date);
         $data=$this->getDoctrine()->getRepository('App:TypeOrganisation')
             ->findAll();
 

@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use function GuzzleHttp\Psr7\str;
 
 class ApiController extends AbstractController
 {
@@ -273,16 +274,19 @@ class ApiController extends AbstractController
         $mac_borne = implode(':', str_split($mac_borne, 2));
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
 
-        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac_borne));
 
         // Toutes les sessions ouvertes ou qui se sont terminées aujourd'hui associées à cette borne
         // $sessions=
-
+        $date=new \DateTime('now');
+        $date=$date->format('yy-m-d');
+        $sessions=$this->getDoctrine()->getRepository('App:SessionWifi')
+            ->findByBorneDate($borne[0]->getId(),$date);
         if ($serveur) {
             if ($borne) {
                 return $this->render('api/qos/sessions.twig', [
-                    // "sessions"=>$sessions,
-                    "today"=> new \Date,
+                    "sessions"=>$sessions,
+                    "today"=> $date,
                 ]);
             } else {
                 return $this->redirectToRoute('erreur404');
@@ -301,14 +305,17 @@ class ApiController extends AbstractController
         $mac_peripherique = implode(':', str_split($mac_peripherique, 2));
 
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
-
+        $device=$this->getDoctrine()->getRepository('App:Peripherique')->findBy(array('adresse_mac'=>$mac_peripherique));
+        $session=$this->getDoctrine()->getRepository('App:SessionWifi')
+            ->findLastOpen($device->getId());
         // ID de la borne de la derniere session ouverte du périphérique
-        // $idBorne=
+        $borne= $session[0]->getBorne();
+        $idBorne=$borne->getId();
 
         if ($serveur) {
             if ($borne) {
                 return $this->render('api/qos/peripherique.twig', [
-                    //"id_borne"=>$idBorne,
+                    "id_borne"=>$idBorne,
                 ]);
             } else {
                 return $this->redirectToRoute('erreur404');
