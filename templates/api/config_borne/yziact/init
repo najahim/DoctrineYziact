@@ -103,11 +103,12 @@ sleep 10
 
 # Lancement des openvpns
 echo "++++Mise en places des tunnels VPN et element du network"
-service openvpn stop
+
+service openvpn disable #################### Vérifier que c'est suffisant
 echo "Disable"
 sleep 2
-service openvpn disable #################### Vérifier que c'est suffisant
 
+service openvpn stop
 echo "Stop"
 sleep 2
 
