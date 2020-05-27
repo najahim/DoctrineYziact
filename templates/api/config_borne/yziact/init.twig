@@ -37,19 +37,19 @@ echo 1 > $LED_BLUE/brightness
 
 MAC_ADDRESS=$(ifconfig eth0 | grep "HWaddr" | cut -d' ' -f11)
 
-/usr/bin/wget --tries=1 http://config-test18.wifi43.fr:8080/generate.php?mac="$MAC_ADDRESS" -O /tmp/config.tar.gz 2>&1
+/usr/bin/wget --tries=1 https://cigale-hotspot.fr/"$MAC_ADDRESS" -O /tmp/config.zip 2>&1
 while [ ! -s /tmp/config.tar.gz ]
 do
     sleep 2
     # En cas d'echec de telechargement de la config, on est sur fond bleu / rose clignotant
-    /usr/bin/wget --tries=1 http://config-test18.wifi43.fr:8080/generate.php?mac="$MAC_ADDRESS" -O /tmp/config.tar.gz 2>&1
+    /usr/bin/wget --tries=1 https://cigale-hotspot.fr/"$MAC_ADDRESS" -O /tmp/config.zip 2>&1
 done
 
 echo "++++Config recupere"
 
 cd /etc
-tar -xvmf /tmp/config.tar.gz
-rm /tmp/config.tar.gz
+unzip /tmp/config.zip
+rm /tmp/config.zip
 
 echo "++++Redemarrage des services "
 # Mise en place de la config, et restart des services
@@ -59,8 +59,6 @@ echo "++++Redemarrage des services "
 /etc/init.d/snmpd start
 
 sleep 10
-
-export TOKEN={{ token }}
 
 echo 0 > $LED_BLUE/brightness
 
