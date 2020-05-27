@@ -36,21 +36,21 @@ echo "++++Recuperation de la config"
 echo 1 > $LED_BLUE/brightness
 
 MAC_ADDRESS=$(ifconfig eth0 | grep "HWaddr" | cut -d' ' -f11)
-API_REBOOT="https://192.168.0.32:8000/api/reboot_borne/"
-API_CONFIG="https://192.168.0.32:8000/api/config_borne/"
+API_REBOOT="https://esisar-test03.123cigale.fr:8000/api/reboot_borne/"
+API_CONFIG="https://esisar-test03.123cigale.fr:8000/api/config_borne/"
 
-/usr/bin/wget --tries=1 "$API_CONFIG""$MAC_ADDRESS" -O /tmp/config.zip 2>&1
-while [ ! -s /tmp/config.tar.gz ]
+/usr/bin/wget --no-check-certificate --tries=1 "$API_CONFIG""${MAC_ADDRESS//:}" -O /tmp/config.zip 2>&1
+while [ ! -s /tmp/config.zip ]
 do
     sleep 2
     # En cas d'echec de telechargement de la config, on est sur fond bleu / rose clignotant
-    /usr/bin/wget --tries=1 "$API_CONFIG""$MAC_ADDRESS" -O /tmp/config.zip 2>&1
+    /usr/bin/wget --no-check-certificate --tries=1 "$API_CONFIG""${MAC_ADDRESS//:}" -O /tmp/config.zip 2>&1
 done
 
 echo "++++Config recupere"
 
 cd /etc
-unzip /tmp/config.zip
+unzip -o /tmp/config.zip
 rm /tmp/config.zip
 
 echo "++++Annonce redémarrage"
@@ -86,8 +86,8 @@ chmod +x /etc/yziact/list-connected-sh
 
 #On verifie que le wifi tourne, si oui, on continue, sinon on verifie qu'il est bien eteint. S'il n'est pas suppose etre eteint, on reboot
 
-while [ "$(pgrep hostapd | grep -c -v "grep")" = "0" ]
-do
+if [ "$(pgrep hostapd | grep -c -v "grep")" = "0" ]
+then
     if [ "$(wifi status | grep -c '"up": true')" = "0" ]
     then
         /sbin/wifi
@@ -97,24 +97,24 @@ do
         sleep 2
         /sbin/wifi
     fi
-done
+fi
 
 sleep 10
 
 # Lancement des openvpns
 echo "++++Mise en places des tunnels VPN et element du network"
 service openvpn stop
-echo "Stop"
+echo "Disable"
 sleep 2
 service openvpn disable #################### Vérifier que c'est suffisant
 
-echo "Disable"
+echo "Stop"
 sleep 2
 
 
-#/usr/sbin/screen -dmS "VPN-WiFi" /usr/sbin/openvpn --config /etc/openvpn/openvpn-wifi.conf
+/usr/sbin/screen -dmS "VPN-WiFi" /usr/sbin/openvpn --config /etc/openvpn/openvpn-wifi.conf
 
-#/usr/sbin/screen -dmS "VPN-Admin" /usr/sbin/openvpn --config /etc/openvpn/openvpn-admin.conf
+/usr/sbin/screen -dmS "VPN-Admin" /usr/sbin/openvpn --config /etc/openvpn/openvpn-admin.conf
 # Et du moniteur Wifi
 
 
