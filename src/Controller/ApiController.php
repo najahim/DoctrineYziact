@@ -309,10 +309,7 @@ class ApiController extends AbstractController
 
         $session=$this->getDoctrine()->getRepository('App:SessionWifi')
             ->findLastOpen($device[0]->getId());
-<<<<<<< HEAD
 
-=======
->>>>>>> b102a220eb419480b6be76aad2d756fce431939e
         // ID de la borne de la derniere session ouverte du périphérique
         $borne= $session[0]->getBorne();
         $idBorne=$borne->getId();
