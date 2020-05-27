@@ -249,22 +249,67 @@ class ApiController extends AbstractController
     }
 
     /**
-     * @Route("/api/QoS/{token}", name="api_QoS")
+     * @Route("/api/qos/bornes/{token}", name="api_qos_bornes")
      */
-    public function QoS(Request $request)
+    public function qos_bornes($token, Request $request)
     {
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
 
         if ($serveur) {
-            return $this->render('api/QoS.twig');
+            return $this->render('api/qos/bornes.twig', [
+                "bornes"=>$serveur[0]->getBornes(),
+            ]);
         } else {
-            return new JsonResponse(
-                [
-                    'status' => 'ko',
-                    'error' => 'Mauvais token'
-                ],
-                JsonResponse::HTTP_CREATED
-            );
+            return $this->redirectToRoute('erreur404');
+        }
+    }
+
+    /**
+     * @Route("/api/qos/sessions/{mac_borne}/{token}", name="api_qos_sessions")
+     */
+    public function qos_sessions($mac_borne, $token, Request $request)
+    {
+        $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
+
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
+
+        // Toutes les sessions ouvertes ou qui se sont terminées aujourd'hui associées à cette borne
+        // $sessions=
+
+        if ($serveur) {
+            if ($borne) {
+                return $this->render('api/qos/sessions.twig', [
+                    // "sessions"=>$sessions,
+                    "today"=> new \Date,
+                ]);
+            } else {
+                return $this->redirectToRoute('erreur404');
+            }
+        } else {
+            return $this->redirectToRoute('erreur404');
+        }
+    }
+
+    /**
+     * @Route("/api/qos/peripherique/{mac_peripherique}/{token}", name="api_qos_peripherique")
+     */
+    public function qos_peripherique($mac_peripherique, $token, Request $request)
+    {
+        $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
+
+        // ID de la borne de la derniere session ouverte du périphérique
+        // $idBorne=
+
+        if ($serveur) {
+            if ($borne) {
+                return $this->render('api/qos/peripherique.twig', [
+                    //"id_borne"=>$idBorne,
+                ]);
+            } else {
+                return $this->redirectToRoute('erreur404');
+            }
+        } else {
+            return $this->redirectToRoute('erreur404');
         }
     }
 

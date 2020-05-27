@@ -36,13 +36,15 @@ echo "++++Recuperation de la config"
 echo 1 > $LED_BLUE/brightness
 
 MAC_ADDRESS=$(ifconfig eth0 | grep "HWaddr" | cut -d' ' -f11)
+API_REBOOT="https://192.168.0.32:8000/api/reboot_borne/"
+API_CONFIG="https://192.168.0.32:8000/api/config_borne/"
 
-/usr/bin/wget --tries=1 https://cigale-hotspot.fr/"$MAC_ADDRESS" -O /tmp/config.zip 2>&1
+/usr/bin/wget --tries=1 "$API_CONFIG""$MAC_ADDRESS" -O /tmp/config.zip 2>&1
 while [ ! -s /tmp/config.tar.gz ]
 do
     sleep 2
     # En cas d'echec de telechargement de la config, on est sur fond bleu / rose clignotant
-    /usr/bin/wget --tries=1 https://cigale-hotspot.fr/"$MAC_ADDRESS" -O /tmp/config.zip 2>&1
+    /usr/bin/wget --tries=1 "$API_CONFIG""$MAC_ADDRESS" -O /tmp/config.zip 2>&1
 done
 
 echo "++++Config recupere"
@@ -50,6 +52,14 @@ echo "++++Config recupere"
 cd /etc
 unzip /tmp/config.zip
 rm /tmp/config.zip
+
+echo "++++Annonce redémarrage"
+
+curl -k --header "Content-Type: application/json" \
+    --request POST \
+    --data '{"mac": "$MAC_ADDRESS", "raison": "Redémarrage de la borne"}' \
+    "$API_REBOOT"
+
 
 echo "++++Redemarrage des services "
 # Mise en place de la config, et restart des services
