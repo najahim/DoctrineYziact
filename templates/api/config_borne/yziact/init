@@ -86,8 +86,8 @@ chmod +x /etc/yziact/list-connected-sh
 
 #On verifie que le wifi tourne, si oui, on continue, sinon on verifie qu'il est bien eteint. S'il n'est pas suppose etre eteint, on reboot
 
-while [ "$(pgrep hostapd | grep -c -v "grep")" = "0" ]
-do
+if [ "$(pgrep hostapd | grep -c -v "grep")" = "0" ]
+then
     if [ "$(wifi status | grep -c '"up": true')" = "0" ]
     then
         /sbin/wifi
@@ -97,7 +97,7 @@ do
         sleep 2
         /sbin/wifi
     fi
-done
+fi
 
 sleep 10
 
