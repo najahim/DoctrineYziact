@@ -50,7 +50,7 @@ done
 echo "++++Config recupere"
 
 cd /etc
-unzip /tmp/config.zip
+unzip -o /tmp/config.zip
 rm /tmp/config.zip
 
 echo "++++Annonce redémarrage"
