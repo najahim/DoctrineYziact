@@ -269,6 +269,8 @@ class ApiController extends AbstractController
      */
     public function qos_sessions($mac_borne, $token, Request $request)
     {
+        // ajout des ':'
+        $mac_borne = implode(':', str_split($mac_borne, 2));
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
 
         $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
@@ -295,6 +297,9 @@ class ApiController extends AbstractController
      */
     public function qos_peripherique($mac_peripherique, $token, Request $request)
     {
+        // ajout des ':'
+        $mac_peripherique = implode(':', str_split($mac_peripherique, 2));
+
         $serveur= $this->getDoctrine()->getRepository('App:Serveur')->findBy(array('token'=>$token));
 
         // ID de la borne de la derniere session ouverte du périphérique
@@ -318,6 +323,9 @@ class ApiController extends AbstractController
      */
     public function config_borne($mac, Request $request)
     {
+        // ajout des ':'
+        $mac = implode(':', str_split($mac, 2));
+
         $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('adresse_mac'=>$mac));
 
         if ($borne) {
