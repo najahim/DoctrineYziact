@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Routing\Annotation\Route;
@@ -47,7 +48,7 @@ class GoogleController extends AbstractController
      * @param ClientRegistry $clientRegistry
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function connectAction(ClientRegistry $clientRegistry,Request $request)
+    public function connectAction(SessionInterface $session,ClientRegistry $clientRegistry,Request $request)
     {
 
 
@@ -65,7 +66,7 @@ class GoogleController extends AbstractController
         $entityManager->persist($this->device);
         $entityManager->flush();
         $this->id=($request->query->get('mac'));
-
+        $session->set('id',$request->query->get('mac'));
         return $clientRegistry
             ->getClient('google')
             ->redirect();
@@ -78,7 +79,7 @@ class GoogleController extends AbstractController
      * @param Request $request
      * @return JsonResponse|\Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function connectCheckAction(Request $request,\Swift_Mailer $mailer):Response
+    public function connectCheckAction(SessionInterface $session,Request $request,\Swift_Mailer $mailer):Response
     {
         $user=$this->getUser();
         $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
@@ -105,18 +106,38 @@ class GoogleController extends AbstractController
 
             $uti=$this->getDoctrine()->getRepository('App:Utilisateur')
                 ->findBy(array('email'=>$user->getUsername()));
-            $this->device->setUtilisateur($uti[0]);
 
-            $this->device->setAdresseMac($this->id);
+            $device=$this->getDoctrine()->getRepository('App:Peripherique')
+                ->findBy(array('adresse_mac'=>$session->get('id')));
+            $device[0]->setUtilisateur($uti[0]);
             $entityManager = $this->getDoctrine()->getManager();
 
 
-            $entityManager->persist($this->device);
+            $entityManager->persist($device[0]);
             $entityManager->flush();
 
 
             $entityManager->persist($uti[0]);
             $entityManager->flush();
+            // Ldap
+            $ldap=Ldap::create('ext_ldap', [
+                'host' => 'esisar-test01.123cigale.fr',
+                'port' => '389',
+                //'encryption'=>'ssl',
+            ]);
+            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+            $cn='cn='.$session->get('id').',dc=artica,dc=com';
+            $date=new \DateTime('now');
+            $date=$date->getTimestamp();
+            $entry = new Entry($cn, array(
+                'sn' => '0',
+                'uid'=>  strtolower($date),
+                'givenName'=>strtolower($cgu[0]->getId()),
+                'objectClass' => array('inetOrgPerson'),
+            ));
+
+            $entryManager = $ldap->getEntryManager();
+            $entryManager->add($entry);
 
 
 
