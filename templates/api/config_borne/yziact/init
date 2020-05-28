@@ -55,10 +55,7 @@ rm /tmp/config.zip
 
 echo "++++Annonce redémarrage"
 
-curl -k --header "Content-Type: application/json" \
-    --request POST \
-    --data '{"mac": "$MAC_ADDRESS", "raison": "Redémarrage de la borne"}' \
-    "$API_REBOOT"
+/usr/bin/wget --no-check-certificate --tries=1 "$API_REBOOT""${echo /etc/config/token}"
 
 
 echo "++++Redemarrage des services "

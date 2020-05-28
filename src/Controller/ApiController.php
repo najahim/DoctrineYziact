@@ -358,6 +358,9 @@ class ApiController extends AbstractController
 
 
                 $zip->addFromString("config/dhcp",  $this->renderView('api/config_borne/config/dhcp'));
+                $zip->addFromString("config/token.conf",  $this->renderView('api/config_borne/config/token.conf.twig', [
+                    'token'=>$borne->getToken(),
+                ]));
                 $zip->addFromString("config/network",  $this->renderView('api/config_borne/config/network'));
                 $zip->addFromString("config/network.bridged",  $this->renderView('api/config_borne/config/network.bridged.twig', [
                     'borne'=>$borne,
@@ -413,6 +416,22 @@ class ApiController extends AbstractController
                 return $this->redirectToRoute('erreur404');
             }
 
+        } else {
+            return $this->redirectToRoute('erreur404');
+        }
+    }
+
+    /**
+     * @Route("/api/reboot_borne/{token}", name="api_reboot_borne")
+     */
+    public function reboot_borne($token, Request $request)
+    {
+        $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('token'=>$token));
+
+        if ($borne) {
+            $borne = $borne[0];
+            // persister un état désactivation avec pour raison un redémmarrage de la borne
+            return $this->render('api/reboot.twig');
         } else {
             return $this->redirectToRoute('erreur404');
         }
