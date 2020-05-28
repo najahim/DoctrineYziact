@@ -51,7 +51,9 @@ class GoogleController extends AbstractController
     public function connectAction(SessionInterface $session,ClientRegistry $clientRegistry,Request $request)
     {
 
-
+        $this->device=$this->getDoctrine()->getRepository('App:Peripherique')
+            ->findBy(array('adresse_mac'=>$request->query->get('mac')));
+        $this->device=$this->device[0];
         $this->device->setAdresseMac($request->query->get('mac'));
         $this->device->setPOs($request->query->get('os'));
         $this->device->setPUseragent($request->query->get('useragent'));
