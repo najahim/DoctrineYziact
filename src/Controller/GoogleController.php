@@ -143,7 +143,7 @@ class GoogleController extends AbstractController
             ));
 
             $entryManager = $ldap->getEntryManager();
-           // $entryManager->add($entry);
+            $entryManager->add($entry);
 
 
 
