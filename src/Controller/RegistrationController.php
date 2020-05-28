@@ -132,18 +132,6 @@ class RegistrationController extends AbstractController
 
            // var_dump($request->headers->get('User-Agent'));
             $device=$form->get('device')->getData();
-            /* Peripherique existe
-            $d=$this->getDoctrine()->getRepository('App:Peripherique')
-                ->findBy(array('adresse_mac'=>$mac));
-            $d->setNom($device->getNom);
-            $d->setPBrand($device->getPBrand);
-            $d->setPBrowser($device->getPBrowser);
-            $d->setPLang($device->getPLang);
-            $d->setPOs($device->getPOs);
-            $d->setPType($device->getPType);
-            $d->setPUseragent($device->getPUseragent);
-            */
-            //$session=$this->
             $device->setAdresseMac($mac);
             $device->setUtilisateur($user);
             $entityManager->persist($device);
@@ -339,7 +327,7 @@ class RegistrationController extends AbstractController
         $form = $this->createForm(UserspaceType::class, $user);
         $form->handleRequest($request);
 
-
+        $mac=str_replace('-',':',$idBorne);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
@@ -349,6 +337,7 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
             $mail= $form->get('email')->getData();
             $currentUser=$this->getDoctrine()->getRepository('App:Utilisateur')
                 ->findBy(array('email'=>$mail));
@@ -356,7 +345,7 @@ class RegistrationController extends AbstractController
             if ($currentUser and $passwordEncoder->isPasswordValid($currentUser[0],$form->get('plainPassword')->getData()))
             {
                 $entityManager = $this->getDoctrine()->getManager();
-                $device=$form->get('device')->getData();
+               /* $device=$form->get('device')->getData();
                 $device->setAdresseMac($idBorne);
                 $device->setUtilisateur($currentUser[0]);
                 $entityManager->persist($device);
@@ -369,6 +358,31 @@ class RegistrationController extends AbstractController
                 ]);
                 $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
                 $cn='cn='.$idBorne.',dc=artica,dc=com';
+                $date=new \DateTime('now');
+                $date=$date->getTimestamp();
+                $entry = new Entry($cn, array(
+                    'sn' => '0',
+                    'uid'=>  strtolower($date),
+                    'givenName'=>strtolower($currentUser[0]->getVersionCgu()->getId()),
+                    'objectClass' => array('inetOrgPerson'),
+                ));
+
+                $entryManager = $ldap->getEntryManager();
+                //$entryManager->add($entry);*/
+                $device=$form->get('device')->getData();
+                $device->setAdresseMac($mac);
+                $device->setUtilisateur($currentUser[0]);
+                $entityManager->persist($device);
+                $entityManager->flush();
+
+                // Ldap
+                $ldap=Ldap::create('ext_ldap', [
+                    'host' => 'esisar-test01.123cigale.fr',
+                    'port' => '389',
+                    //'encryption'=>'ssl',
+                ]);
+                $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+                $cn='cn='.$mac.',dc=artica,dc=com';
                 $date=new \DateTime('now');
                 $date=$date->getTimestamp();
                 $entry = new Entry($cn, array(
@@ -393,17 +407,24 @@ class RegistrationController extends AbstractController
         }
 
         $test = $this->jsonLocalisation();
-        $borne=new Borne();
-        $borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
-        $locBorne=$borne->getEmplacement();
-        $nouveautes=$borne->getNouveautes();
+        //$borne=new Borne();
+        $dev=$this->getDoctrine()->getRepository('App:Peripherique')
+            ->findBy(array('adresse_mac'=>$mac));
+        //$borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
+        $s = $this->getDoctrine()->getRepository('App:SessionWifi')
+            ->findLast($dev[0]->getId());
+        $session=$s[0];
+        $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($session->getBorne());
+
+        $locBorne=$borne1->getEmplacement();
+        $nouveautes=$borne1->getNouveautes();
         //var_dump($nouveautes[0]->getId());
         return $this->render('registration/userspace.html.twig', [
             'registrationForm' => $form->createView(),
             'test'=> $test,
             'emplacement'=>$locBorne,
             'nouveautes'=>$nouveautes,
-            'borne' => $borne,
+            'borne' => $borne1,
             'mac' => $idBorne,
         ]);
     }
