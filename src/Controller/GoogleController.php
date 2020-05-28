@@ -103,6 +103,8 @@ class GoogleController extends AbstractController
                 )
             ;
             $mailer->send($message);*/
+            $cgu=$this->getDoctrine()->getRepository('App:VersionCGU')
+                ->findLast();
 
             $uti=$this->getDoctrine()->getRepository('App:Utilisateur')
                 ->findBy(array('email'=>$user->getUsername()));
@@ -115,7 +117,7 @@ class GoogleController extends AbstractController
 
             $entityManager->persist($device[0]);
             $entityManager->flush();
-
+            $uti[0]->setVersionCgu($cgu[0]);
 
             $entityManager->persist($uti[0]);
             $entityManager->flush();

@@ -7,6 +7,7 @@ use App\Entity\Peripherique;
 use App\Entity\Personne;
 use App\Entity\Utilisateur;
 use App\Form\RegistrationFormType;
+use App\Form\UserspaceType;
 use App\Repository\UtilisateurRepository;
 use App\Security\CustomAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,10 +15,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Ldap\Entry;
 use Symfony\Component\Ldap\Ldap;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Guard\GuardAuthenticatorHandler;
 
 class RegistrationController extends AbstractController
@@ -314,4 +317,94 @@ class RegistrationController extends AbstractController
     }
 
 
+
+    /**
+     * @Route("/userspace/{idBorne}", name="app_userspace")
+     */
+    public function Userspace(SessionInterface $session,$idBorne,Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, CustomAuthenticator $authenticator,\Swift_Mailer $mailer): Response
+    {
+        $user = new Utilisateur();
+        $form = $this->createForm(UserspaceType::class, $user);
+        $form->handleRequest($request);
+
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $pass=(
+                $passwordEncoder->encodePassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+            $mail= $form->get('email')->getData();
+            $currentUser=$this->getDoctrine()->getRepository('App:Utilisateur')
+                ->findBy(array('email'=>$mail));
+            //var_dump($currentUser[0]);
+            if ($currentUser and $passwordEncoder->isPasswordValid($currentUser[0],$form->get('plainPassword')->getData()))
+            {
+                $entityManager = $this->getDoctrine()->getManager();
+                $device=$form->get('device')->getData();
+                $device->setAdresseMac($idBorne);
+                $device->setUtilisateur($currentUser[0]);
+                $entityManager->persist($device);
+                $entityManager->flush();
+                // Ldap
+                $ldap=Ldap::create('ext_ldap', [
+                    'host' => 'esisar-test01.123cigale.fr',
+                    'port' => '389',
+                    //'encryption'=>'ssl',
+                ]);
+                $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+                $cn='cn='.$idBorne.',dc=artica,dc=com';
+                $date=new \DateTime('now');
+                $date=$date->getTimestamp();
+                $entry = new Entry($cn, array(
+                    'sn' => '0',
+                    'uid'=>  strtolower($date),
+                    'givenName'=>strtolower($currentUser[0]->getVersionCgu()->getId()),
+                    'objectClass' => array('inetOrgPerson'),
+                ));
+
+                $entryManager = $ldap->getEntryManager();
+                //$entryManager->add($entry);
+                $session->set('id',$currentUser[0]->getId());
+                return $this->redirect('https://127.0.0.1:8000/userspace/devices/'.$idBorne);
+
+            }
+
+
+            else
+                throw new CustomUserMessageAuthenticationException('Email could not be found.');
+
+
+        }
+
+        $test = $this->jsonLocalisation();
+        $borne=new Borne();
+        $borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
+        $locBorne=$borne->getEmplacement();
+        $nouveautes=$borne->getNouveautes();
+        //var_dump($nouveautes[0]->getId());
+        return $this->render('registration/userspace.html.twig', [
+            'registrationForm' => $form->createView(),
+            'test'=> $test,
+            'emplacement'=>$locBorne,
+            'nouveautes'=>$nouveautes,
+            'borne' => $borne,
+            'mac' => $idBorne,
+        ]);
+    }
+
+    /**
+     * @Route("/userspace/devices/{idBorne}", name="app_devices")
+     */
+    public function UserspaceDevices(SessionInterface $session,$idBorne,Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, CustomAuthenticator $authenticator,\Swift_Mailer $mailer): Response
+    {
+        $data=$this->getDoctrine()->getRepository('App:Utilisateur')
+            ->find($session->get('id'));
+        return $this->render('registration/devices.html.twig', [
+            'data'=>$data
+        ]);
+    }
 }
