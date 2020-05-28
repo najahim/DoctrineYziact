@@ -18,6 +18,8 @@ then
 	echo 'default-on' > $LED_BLUE/trigger
 	echo 0 > $LED_ROSE/brightness
 	/sbin/wifi up
+	sleep 2
+	/usr/sbin/brctl addif br-wifi wlan0
 	echo 0 > /etc/yziact/test_co_flag
 	exit 1
 else

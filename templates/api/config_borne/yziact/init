@@ -113,8 +113,6 @@ fi
 
 sleep 5
 
-/usr/sbin/screen -dmS "MON-Wifi" /etc/yziact/wifi_mon-sh # Ne marche pas si le wifi n'est pas up
-
 /usr/sbin/brctl addif br-wifi wlan0 2>&1 #Note: redirige ce qui sort dans STDERR vers STDOUT
 /sbin/ifconfig br-wifi up
 

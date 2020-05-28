@@ -381,6 +381,7 @@ class ApiController extends AbstractController
                 ]));
 
 
+
                 $zip->addFromString("openvpn/ca.crt",  $this->renderView('api/config_borne/openvpn/ca.crt'));
                 $zip->addFromString("openvpn/openvpn-admin.conf",  $this->renderView('api/config_borne/openvpn/openvpn-admin.conf.twig', [
                     'ip_vpn_admin'=> "172.18." . intdiv($borne->getId() + 2, 255) . "." . ($borne->getId() + 2)%255,
@@ -394,6 +395,7 @@ class ApiController extends AbstractController
                 $zip->addFromString("openvpn/vpn-wifi-up.sh",  $this->renderView('api/config_borne/openvpn/vpn-wifi-up.sh'));
 
 
+
                 $zip->addFromString("yziact/cron_wifi.sh",  $this->renderView('api/config_borne/yziact/cron_wifi.sh'));
                 $zip->addFromString("yziact/init",  $this->renderView('api/config_borne/yziact/init'));
                 $zip->addFromString("yziact/list-connected-sh",  $this->renderView('api/config_borne/yziact/list-connected-sh'));
@@ -401,6 +403,10 @@ class ApiController extends AbstractController
                     'token'=>$borne->getToken(),
                 ]));
                 $zip->addFromString("yziact/test_co-sh_new",  $this->renderView('api/config_borne/yziact/test_co-sh_new'));
+                $zip->addFromString("yziact/wifi_down.sh",  $this->renderView('api/config_borne/yziact/wifi_down.sh'));
+                $zip->addFromString("yziact/wifi_up.sh",  $this->renderView('api/config_borne/yziact/wifi_up.sh'));
+
+
 
                 $zip->close();
 
