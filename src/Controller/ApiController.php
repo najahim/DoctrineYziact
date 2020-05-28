@@ -385,11 +385,11 @@ class ApiController extends AbstractController
                 $zip->addFromString("openvpn/ca.crt",  $this->renderView('api/config_borne/openvpn/ca.crt'));
                 $zip->addFromString("openvpn/openvpn-admin.conf",  $this->renderView('api/config_borne/openvpn/openvpn-admin.conf.twig', [
                     'ip_vpn_admin'=> "172.18." . intdiv($borne->getId() + 2, 255) . "." . ($borne->getId() + 2)%255,
-                    'hostname'=>$borne->getAdresseMac(),
+                    'hostname'=>$borne->getId(),
                     'ip_server'=>$borne->getServeur()->getReseaux(),
                 ]));
                 $zip->addFromString("openvpn/openvpn-wifi.conf",  $this->renderView('api/config_borne/openvpn/openvpn-wifi.conf.twig', [
-                    'hostname'=>$borne->getAdresseMac(),
+                    'hostname'=>$borne->getId(),
                     'ip_server'=>$borne->getServeur()->getReseaux(),
                 ]));
                 $zip->addFromString("openvpn/vpn-wifi-up.sh",  $this->renderView('api/config_borne/openvpn/vpn-wifi-up.sh'));
