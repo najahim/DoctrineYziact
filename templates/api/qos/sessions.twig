@@ -1,4 +1,3 @@
 {% for s in sessions %}
-{{ session.peripherique.adressMac }} {{ date(session.dateFin).diff(date(max(today, session.dateDebut))).seconds }}
-
+{{ s.peripherique.adressMac }} {{ date(s.dateFin).diff(date(max(today, s.dateDebut))).seconds }}
 {% endfor %}

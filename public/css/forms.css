@@ -79,6 +79,7 @@ button {
     text-align: center;
     -webkit-appearance: none;
     -moz-appearance: none;
+	outline: none;
 }
 
 .button, a.button, a:visited.button, input[type="submit"].button {
@@ -91,6 +92,10 @@ button {
 	color: var(--button-text);
 	cursor: pointer;
 	font-weight: 300;
+}
+
+.button:focus, button:focus, input[type="submit"]:focus {
+	outline: none;
 }
 
 .button-no, input[type="submit"].button-no {
@@ -115,7 +120,6 @@ button {
 
 .button:hover, a.google-button:hover, a.facebook-button:hover, a.twitter-button:hover {
 	filter: brightness(110%);
-	font-weight: 300;
 }
 
 a.google-button, a.facebook-button, a.twitter-button {

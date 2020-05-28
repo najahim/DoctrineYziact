@@ -346,7 +346,7 @@ footer a, footer a:visited, footer a:hover {
 a.title:visited, a.title:hover, a.img:visited, a.img:hover ,a.button:visited, a.button:hover {
 	color: inherit;
 	text-decoration: none;
-	font-weight: 400;
+	font-weight: 300;
 }
 
 .menu a.menu-item-link:hover {
