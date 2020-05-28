@@ -55,11 +55,7 @@ rm /tmp/config.zip
 
 echo "++++Annonce redémarrage"
 
-curl -k --header "Content-Type: application/json" \
-    --request POST \
-    --data '{"mac": "$MAC_ADDRESS", "raison": "Redémarrage de la borne"}' \
-    "$API_REBOOT"
-
+# /usr/bin/wget --no-check-certificate --tries=1 "$API_REBOOT""$(cat /etc/config/token.conf)"
 
 echo "++++Redemarrage des services "
 # Mise en place de la config, et restart des services
@@ -104,22 +100,8 @@ sleep 10
 # Lancement des openvpns
 echo "++++Mise en places des tunnels VPN et element du network"
 
-service openvpn disable #################### Vérifier que c'est suffisant
-echo "Disable"
-sleep 2
 
-service openvpn stop
-echo "Stop"
-sleep 2
-
-
-/usr/sbin/screen -dmS "VPN-WiFi" /usr/sbin/openvpn --config /etc/openvpn/openvpn-wifi.conf
-
-/usr/sbin/screen -dmS "VPN-Admin" /usr/sbin/openvpn --config /etc/openvpn/openvpn-admin.conf
 # Et du moniteur Wifi
-
-
-
 if [ "$(brctl show | grep -c 'br-wifi')" = "0" ]
 then
 # Le bridge n'est pas la, on le cree
@@ -172,6 +154,22 @@ echo -e "${DATA} */5 * * * * /bin/bash /etc/yziact/test_co-sh_new" >/etc/crontab
 ###### Attention: si la borne est allume alors que la wifi doit etre eteinte, aucun moyen de savoir qu'on doit l'eteindre
 
 # Le boot est termine, on allume la led wifi
+sleep 20
+
+# Connexion au serveur vpn
+service openvpn disable #################### Vérifier que c'est suffisant
+echo "Disable"
+sleep 2
+
+service openvpn stop
+echo "Stop"
+sleep 2
+
+
+/usr/sbin/screen -dmS "VPN-WiFi" /usr/sbin/openvpn --config /etc/openvpn/openvpn-wifi.conf
+/usr/sbin/screen -dmS "VPN-Admin" /usr/sbin/openvpn --config /etc/openvpn/openvpn-admin.conf
+echo "Tunnel vpn ok"
+
 sleep 10
 
 echo "++++Test de connexion au serveur"
