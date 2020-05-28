@@ -1,3 +1,18 @@
-{% for d in data.Peripheriques %}
-    {{ d.id }}
-{% endfor %}
+
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des versions des CGU | Cigale{% endblock %}
+
+{% block main %}
+
+    <main>
+        <article>
+            <h2>Peripherique</h2>
+            {% for d in data.Peripheriques %}
+                <p>
+                    <b>{{ d.id }} - {{ d.adresseMAc  }}- {{ d.pType }} - {{ d.pLang }} </b> &nbsp;&nbsp;&nbsp; <a class="button button-no" href="{{ path('device.supprimer', {id: d.id}) }}" >Supprimer</a>
+                </p>
+            {% endfor %}
+        </article>
+    </main>
+{% endblock %}

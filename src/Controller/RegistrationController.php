@@ -369,7 +369,7 @@ class RegistrationController extends AbstractController
                 $entryManager = $ldap->getEntryManager();
                 //$entryManager->add($entry);
                 $session->set('id',$currentUser[0]->getId());
-                return $this->redirect('https://127.0.0.1:8000/userspace/devices/'.$idBorne);
+                return $this->redirect('https://127.0.0.1:8000/userspaces/devices');
 
             }
 
@@ -396,10 +396,28 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+
+
+
     /**
-     * @Route("/userspace/devices/{idBorne}", name="app_devices")
+     * @Route ("/userspaces/devices/supprimer/{id}",name="device.supprimer")
      */
-    public function UserspaceDevices(SessionInterface $session,$idBorne,Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, CustomAuthenticator $authenticator,\Swift_Mailer $mailer): Response
+    public function supprimerdevice(SessionInterface $session,$id,Request $request):Response
+    {
+        $device= $this->getDoctrine()->getRepository('App:Peripherique')->find($id);
+
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($device);
+        $entityManager->flush();
+        var_dump($session->get('id'));
+        $session->set('id',$session->get('id'));
+        return $this->redirect('https://127.0.0.1:8000/userspaces/devices');
+    }
+    /**
+     * @Route("/userspaces/devices", name="app_devices")
+     */
+    public function UserspaceDevices(SessionInterface $session): Response
     {
         $data=$this->getDoctrine()->getRepository('App:Utilisateur')
             ->find($session->get('id'));
