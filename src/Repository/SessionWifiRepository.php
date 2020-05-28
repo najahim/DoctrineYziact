@@ -119,21 +119,23 @@ class SessionWifiRepository extends ServiceEntityRepository
 
     }
 
+   // à refaire
     public function findByBorneDate($id,$date){
 
         return $this->createQueryBuilder('s')
-            ->select("borne, date_fin, SUBSTRING(CONCAT(s.date_debut,''),1,11) as date")
-            ->where("date = :valDate")
+            ->select("s")
+            ->where("SUBSTRING(CONCAT(s.date_debut,''),1,10)  = :valDate")
             ->setParameter('valDate',$date)
-            ->andWhere("borne = :valId")
+            ->andWhere("s.borne = :valId")
             ->setParameter('valId',$id)
-            ->andWhere("date_fin is NULL")
-
+            ->orWhere("s.date_fin is NULL")
+            ->andWhere("s.borne = :valId")
+            ->setParameter('valId',$id)
             ->getQuery()
             ->getResult();
 
     }
-
+    //
     // /**
     //  * @return SessionWifi[] Returns an array of SessionWifi objects
     //  */
