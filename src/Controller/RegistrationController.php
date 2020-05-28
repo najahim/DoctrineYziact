@@ -188,7 +188,7 @@ class RegistrationController extends AbstractController
             ));
 
             $entryManager = $ldap->getEntryManager();
-            //$entryManager->add($entry);
+            $entryManager->add($entry);
 
 
 
@@ -433,7 +433,7 @@ class RegistrationController extends AbstractController
                 ));
 
                 $entryManager = $ldap->getEntryManager();
-                //$entryManager->add($entry);
+                $entryManager->add($entry);
                 $session->set('id',$currentUser[0]->getId());
                 return $this->redirect('https://127.0.0.1:8000/userspaces/devices');
 
@@ -450,6 +450,7 @@ class RegistrationController extends AbstractController
         //$borne=new Borne();
         $dev=$this->getDoctrine()->getRepository('App:Peripherique')
             ->findBy(array('adresse_mac'=>$mac));
+        //var_dump($dev);
         //$borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
         $s = $this->getDoctrine()->getRepository('App:SessionWifi')
             ->findLast($dev[0]->getId());
