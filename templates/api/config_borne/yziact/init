@@ -86,12 +86,12 @@ if [ "$(pgrep hostapd | grep -c -v "grep")" = "0" ]
 then
     if [ "$(wifi status | grep -c '"up": true')" = "0" ]
     then
-        /sbin/wifi
+        /sbin/wifi up
         sleep 5
     else
         /sbin/wifi down
         sleep 2
-        /sbin/wifi
+        /sbin/wifi up
     fi
 fi
 

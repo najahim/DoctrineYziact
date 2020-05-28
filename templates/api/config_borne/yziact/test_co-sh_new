@@ -17,7 +17,7 @@ if [ $? == 0 ]
 then
 	echo 'default-on' > $LED_BLUE/trigger
 	echo 0 > $LED_ROSE/brightness
-	/sbin/wifi
+	/sbin/wifi up
 	echo 0 > /etc/yziact/test_co_flag
 	exit 1
 else
