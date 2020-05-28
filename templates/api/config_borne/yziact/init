@@ -86,19 +86,16 @@ if [ "$(pgrep hostapd | grep -c -v "grep")" = "0" ]
 then
     if [ "$(wifi status | grep -c '"up": true')" = "0" ]
     then
-        /sbin/wifi
+        /sbin/wifi up
         sleep 5
     else
         /sbin/wifi down
         sleep 2
-        /sbin/wifi
+        /sbin/wifi up
     fi
 fi
 
 sleep 10
-
-# Lancement des openvpns
-echo "++++Mise en places des tunnels VPN et element du network"
 
 
 # Et du moniteur Wifi
@@ -115,8 +112,6 @@ then
 fi
 
 sleep 5
-
-/usr/sbin/screen -dmS "MON-Wifi" /etc/yziact/wifi_mon-sh # Ne marche pas si le wifi n'est pas up
 
 /usr/sbin/brctl addif br-wifi wlan0 2>&1 #Note: redirige ce qui sort dans STDERR vers STDOUT
 /sbin/ifconfig br-wifi up
@@ -135,9 +130,7 @@ then
 	echo 1 > /sys/class/gpio/gpio8/value
 fi
 
-# Et enfin MASQUERADE pour le VPN admin :
 sleep 5
-/usr/sbin/iptables -t nat -I POSTROUTING -o tap0 -j MASQUERADE
 
 
 echo "++++Mise en place de la programmation wifi"
@@ -156,6 +149,9 @@ echo -e "${DATA} */5 * * * * /bin/bash /etc/yziact/test_co-sh_new" >/etc/crontab
 # Le boot est termine, on allume la led wifi
 sleep 20
 
+# Lancement des openvpns
+echo "++++Mise en places des tunnels VPN et element du network"
+
 # Connexion au serveur vpn
 service openvpn disable #################### Vérifier que c'est suffisant
 echo "Disable"
@@ -171,6 +167,9 @@ sleep 2
 echo "Tunnel vpn ok"
 
 sleep 10
+
+# Et enfin MASQUERADE pour le VPN admin :
+/usr/sbin/iptables -t nat -I POSTROUTING -o tap0 -j MASQUERADE
 
 echo "++++Test de connexion au serveur"
 echo 0 > $LED_ROSE/brightness
