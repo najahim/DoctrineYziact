@@ -131,10 +131,28 @@ class RegistrationController extends AbstractController
 
 
            // var_dump($request->headers->get('User-Agent'));
+            $devic=$this->getDoctrine()->getRepository('App:Peripherique')
+                ->findBy(array('adresse_mac'=>$mac));
+            $devic=$devic[0];
             $device=$form->get('device')->getData();
-            $device->setAdresseMac($mac);
-            $device->setUtilisateur($user);
-            $entityManager->persist($device);
+
+            $devic->setAdresseMac($mac);
+
+            $devic->setUtilisateur($user);
+            if ($device->getPType())
+            $devic->setPType($device->getPType());
+            if ($device->getPOs())
+            $devic->setPOs($device->getPOs());
+            if ($device->getPBrand())
+            $devic->setPBrand($device->getPBrand());
+            if ($device->getPUseragent())
+            $devic->setPUseragent($device->getPUseragent());
+            if ($device->getPLang())
+            $devic->setPLang($device->getPLang());
+            if ($device->getPBrowser())
+            $devic->setPBrowser($device->getPBrowser());
+
+            $entityManager->persist($devic);
             $entityManager->flush();
             $message = (new \Swift_Message('Nouveau compte'))
                 // On attribue l'expéditeur
@@ -175,7 +193,7 @@ class RegistrationController extends AbstractController
 
 
             $s = $this->getDoctrine()->getRepository('App:SessionWifi')
-                ->findLast($device->getId());
+                ->findLast($devic->getId());
             $session=$s[0];
             $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($session->getBorne());
             $url=$borne1->getPortailUrl();
@@ -369,10 +387,32 @@ class RegistrationController extends AbstractController
 
                 $entryManager = $ldap->getEntryManager();
                 //$entryManager->add($entry);*/
+
+
+                //
+                $devic=$this->getDoctrine()->getRepository('App:Peripherique')
+                    ->findBy(array('adresse_mac'=>$mac));
+                $devic=$devic[0];
                 $device=$form->get('device')->getData();
-                $device->setAdresseMac($mac);
-                $device->setUtilisateur($currentUser[0]);
-                $entityManager->persist($device);
+
+                $devic->setAdresseMac($mac);
+
+                $devic->setUtilisateur($currentUser[0]);
+                if ($device->getPType())
+                    $devic->setPType($device->getPType());
+                if ($device->getPOs())
+                    $devic->setPOs($device->getPOs());
+                if ($device->getPBrand())
+                    $devic->setPBrand($device->getPBrand());
+                if ($device->getPUseragent())
+                    $devic->setPUseragent($device->getPUseragent());
+                if ($device->getPLang())
+                    $devic->setPLang($device->getPLang());
+                if ($device->getPBrowser())
+                    $devic->setPBrowser($device->getPBrowser());
+
+                //
+                $entityManager->persist($devic);
                 $entityManager->flush();
 
                 // Ldap
