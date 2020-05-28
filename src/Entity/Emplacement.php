@@ -25,12 +25,12 @@ class Emplacement
     private $nom_etablissement;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=2)
+     * @ORM\Column(type="decimal", precision=20, scale=10)
      */
     private $latitude;
 
     /**
-     * @ORM\Column(type="decimal", precision=20, scale=2)
+     * @ORM\Column(type="decimal", precision=20, scale=10)
      */
     private $longitude;
 
