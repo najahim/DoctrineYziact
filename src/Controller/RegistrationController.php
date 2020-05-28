@@ -94,10 +94,12 @@ class RegistrationController extends AbstractController
     public function registerBorne($idBorne,Request $request, UserPasswordEncoderInterface $passwordEncoder, GuardAuthenticatorHandler $guardHandler, CustomAuthenticator $authenticator,\Swift_Mailer $mailer): Response
     {
         $user = new Utilisateur();
+        $borne1 =new Borne();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
-
+        $mac=str_replace('-',':',$idBorne);
+        //var_dump($mac);
         /*$entry = new Entry('cn=yo,dc=artica,dc=com', array(
             'sn' => array('yo'),
            'objectClass' => array('inetOrgPerson'),
@@ -141,8 +143,8 @@ class RegistrationController extends AbstractController
             $d->setPType($device->getPType);
             $d->setPUseragent($device->getPUseragent);
             */
-
-            $device->setAdresseMac($idBorne);
+            //$session=$this->
+            $device->setAdresseMac($mac);
             $device->setUtilisateur($user);
             $entityManager->persist($device);
             $entityManager->flush();
@@ -169,7 +171,7 @@ class RegistrationController extends AbstractController
                 //'encryption'=>'ssl',
             ]);
             $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
-            $cn='cn='.$idBorne.',dc=artica,dc=com';
+            $cn='cn='.$mac.',dc=artica,dc=com';
             $date=new \DateTime('now');
             $date=$date->getTimestamp();
             $entry = new Entry($cn, array(
@@ -180,11 +182,14 @@ class RegistrationController extends AbstractController
             ));
 
             $entryManager = $ldap->getEntryManager();
-            $entryManager->add($entry);
+            //$entryManager->add($entry);
 
 
-            $borne1=new Borne();
-            $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
+
+            $s = $this->getDoctrine()->getRepository('App:SessionWifi')
+                ->findLast($device->getId());
+            $session=$s[0];
+            $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($session->getBorne());
             $url=$borne1->getPortailUrl();
             if($url)
             {
@@ -208,17 +213,24 @@ class RegistrationController extends AbstractController
         }
 
         $test = $this->jsonLocalisation();
-        $borne=new Borne();
-        $borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
-        $locBorne=$borne->getEmplacement();
-        $nouveautes=$borne->getNouveautes();
+        //$borne=new Borne();
+        $dev=$this->getDoctrine()->getRepository('App:Peripherique')
+            ->findBy(array('adresse_mac'=>$mac));
+        //$borne=$this->getDoctrine()->getRepository('App:Borne')->find($idBorne);
+        $s = $this->getDoctrine()->getRepository('App:SessionWifi')
+            ->findLast($dev[0]->getId());
+        $session=$s[0];
+        $borne1=$this->getDoctrine()->getRepository('App:Borne')->find($session->getBorne());
+
+        $locBorne=$borne1->getEmplacement();
+        $nouveautes=$borne1->getNouveautes();
         //var_dump($nouveautes[0]->getId());
         return $this->render('registration/registerId.html.twig', [
             'registrationForm' => $form->createView(),
             'test'=> $test,
             'emplacement'=>$locBorne,
             'nouveautes'=>$nouveautes,
-            'borne' => $borne,
+            'borne' => $borne1,
             'mac' => $idBorne,
         ]);
     }

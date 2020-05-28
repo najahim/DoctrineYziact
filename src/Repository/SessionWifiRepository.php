@@ -106,6 +106,10 @@ class SessionWifiRepository extends ServiceEntityRepository
 
     }
 
+
+
+
+
     public function findLastOpen($value){
 
         return $this->createQueryBuilder('s')
