@@ -55,8 +55,7 @@ rm /tmp/config.zip
 
 echo "++++Annonce redémarrage"
 
-/usr/bin/wget --no-check-certificate --tries=1 "$API_REBOOT""${echo /etc/config/token}"
-
+/usr/bin/wget --no-check-certificate --tries=1 "$API_REBOOT""${cat /etc/config/token.conf}"
 
 echo "++++Redemarrage des services "
 # Mise en place de la config, et restart des services
