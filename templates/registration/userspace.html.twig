@@ -198,9 +198,9 @@
             $('.device-p_lang').val(navigator.language || navigator.userLanguage);
             $('.device-p_useragent').val(window.navigator.userAgent);
 
-            $('.google-button').attr('href', encodeURI('{{ path('connect_google') }}' + '?mac={{ mac }}&type=' + type + '&brand=' + brand + '&os=' + md.os() + '&browser=' + md.userAgent() + '&lang=' + (navigator.language || navigator.userLanguage) + '&useragent=' + window.navigator.userAgent));
+            $('.google-button').attr('href', encodeURI('{{ path('connect_google') }}' + '?mac={{ mac }}&type=' + type + '&brand=' + brand + '&os=' + md.os() + '&browser=' + md.userAgent() + '&lang=' + (navigator.language || navigator.userLanguage) + '&useragent=' + window.navigator.userAgent + '&new=0'));
 
-            $('.facebook-button').attr('href', encodeURI('{{ path('connect_facebook') }}' + '?mac={{ mac }}&type=' + type + '&brand=' + brand + '&os=' + md.os() + '&browser=' + md.userAgent() + '&lang=' + (navigator.language || navigator.userLanguage) + '&useragent=' + window.navigator.userAgent));
+            $('.facebook-button').attr('href', encodeURI('{{ path('connect_facebook') }}' + '?mac={{ mac }}&type=' + type + '&brand=' + brand + '&os=' + md.os() + '&browser=' + md.userAgent() + '&lang=' + (navigator.language || navigator.userLanguage) + '&useragent=' + window.navigator.userAgent + '&new=0'));
 
         });
     </script>

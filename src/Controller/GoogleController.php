@@ -67,6 +67,7 @@ class GoogleController extends AbstractController
         $entityManager->flush();
         $this->id=($request->query->get('mac'));
         $session->set('id',$request->query->get('mac'));
+        $session->set('new',$request->query->get('new'));
         return $clientRegistry
             ->getClient('google')
             ->redirect();
@@ -139,15 +140,19 @@ class GoogleController extends AbstractController
             ));
 
             $entryManager = $ldap->getEntryManager();
-            $entryManager->add($entry);
+           // $entryManager->add($entry);
 
 
 
 
 
-
-
+            if ($session->get('new')==0)
+            {
+                $session->set('id',$uti[0]->getId());
+                return $this->redirect('https://127.0.0.1:8000/userspaces/devices');
+            }
             return $this->redirect('http://www.cigale-hotspot.fr/');
+
 
         }
 
