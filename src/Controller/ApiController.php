@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Activation;
 use App\Entity\Peripherique;
 use App\Entity\SessionWifi;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -430,6 +431,18 @@ class ApiController extends AbstractController
 
         if ($borne) {
             $borne = $borne[0];
+            $etat= $this->getDoctrine()->getRepository('App:Etat')->findBy(array('etat'=>'Inactive'));
+            $etat=$etat[0];
+            $activation=new Activation();
+            $activation->setBorne($borne);
+            $activation->setType($etat);
+            $activation->setRaison('redémmarrage de la borne');
+            $activation->setDate(new \DateTime('now'));
+            $borne->setEtat($etat);
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($borne);
+            $entityManager->persist($activation);
+            $entityManager->flush();
             // persister un état désactivation avec pour raison un redémmarrage de la borne
             return $this->render('api/reboot.twig');
         } else {
