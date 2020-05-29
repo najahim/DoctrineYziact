@@ -36,8 +36,8 @@ echo "++++Recuperation de la config"
 echo 1 > $LED_BLUE/brightness
 
 MAC_ADDRESS=$(ifconfig eth0 | grep "HWaddr" | cut -d' ' -f11)
-API_REBOOT="https://esisar-test03.123cigale.fr:8000/api/reboot_borne/"
-API_CONFIG="https://esisar-test03.123cigale.fr:8000/api/config_borne/"
+API_REBOOT="https://fantasia.123cigale.fr/api/reboot_borne/"
+API_CONFIG="https://fantasia.123cigale.fr/api/config_borne/"
 
 /usr/bin/wget --no-check-certificate --tries=1 "$API_CONFIG""${MAC_ADDRESS//:}" -O /tmp/config.zip 2>&1
 while [ ! -s /tmp/config.zip ]
