@@ -151,12 +151,12 @@ sleep 20
 echo "++++Mise en places des tunnels VPN et element du network"
 
 # Connexion au serveur vpn
-service openvpn disable #################### Vérifier que c'est suffisant
-echo "Disable"
-sleep 2
-
 service openvpn stop
 echo "Stop"
+sleep 2
+
+service openvpn disable
+echo "Disable"
 sleep 2
 
 
