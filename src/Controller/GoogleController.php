@@ -132,7 +132,7 @@ class GoogleController extends AbstractController
                 //'encryption'=>'ssl',
             ]);
             $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
-            $cn='cn='.$session->get('id').',dc=artica,dc=com';
+            $cn='cn='.$session->get('id').',dc=yziact,dc=com';
             $date=new \DateTime('now');
             $date=$date->getTimestamp();
             $entry = new Entry($cn, array(

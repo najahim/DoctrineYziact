@@ -278,7 +278,7 @@ class RegistrationController extends AbstractController
 
 
             $mac=$device[0]->getAdresseMac();
-            $query = $ldap->query('cn='.$mac.',dc=artica,dc=com', '(objectclass=inetOrgPerson)');
+            $query = $ldap->query('cn='.$mac.',dc=yziact,dc=com', '(objectclass=inetOrgPerson)');
 
             $result = $query->execute();
             //var_dump($result);
@@ -378,7 +378,7 @@ class RegistrationController extends AbstractController
                     //'encryption'=>'ssl',
                 ]);
                 $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
-                $cn='cn='.$idBorne.',dc=artica,dc=com';
+                $cn='cn='.$idBorne.',dc=yziact,dc=com';
                 $date=new \DateTime('now');
                 $date=$date->getTimestamp();
                 $entry = new Entry($cn, array(
@@ -425,7 +425,7 @@ class RegistrationController extends AbstractController
                     //'encryption'=>'ssl',
                 ]);
                 $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
-                $cn='cn='.$mac.',dc=artica,dc=com';
+                $cn='cn='.$mac.',dc=yziact,dc=com';
                 $date=new \DateTime('now');
                 $date=$date->getTimestamp();
                 $entry = new Entry($cn, array(

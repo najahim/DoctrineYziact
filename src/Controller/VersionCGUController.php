@@ -115,7 +115,7 @@ class VersionCGUController extends AbstractController
             ]);
 
             $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
-            $query = $ldap->query('cn='.$id.',dc=artica,dc=com', '(objectclass=inetOrgPerson)');
+            $query = $ldap->query('cn='.$id.',dc=yziact,dc=com', '(objectclass=inetOrgPerson)');
 
             $result = $query->execute();
             //var_dump($result);
