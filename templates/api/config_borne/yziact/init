@@ -53,10 +53,6 @@ cd /etc
 unzip -o /tmp/config.zip
 rm /tmp/config.zip
 
-echo "++++Annonce redémarrage"
-
-# /usr/bin/wget --no-check-certificate --tries=1 "$API_REBOOT""$(cat /etc/config/token.conf)"
-
 echo "++++Redemarrage des services "
 # Mise en place de la config, et restart des services
 /etc/init.d/network restart
@@ -71,10 +67,12 @@ echo 0 > $LED_BLUE/brightness
 echo "++++Lancement des scripts"
 # Mise en place des bons droits pour les scripts openvpn : ################### Faire un script qui s'en occupe?
 chmod +x /etc/openvpn/*.sh
-chmod +x /etc/yziact/test_co-sh_new #Modif Ayoub: je rajoute les droits d'execution sur mon script qui ping le serveur
+chmod +x /etc/yziact/test_co.sh #Modif Ayoub: je rajoute les droits d'execution sur mon script qui ping le serveur
 chmod +x /etc/yziact/cron_wifi.sh
-chmod +x /etc/yziact/send-connected-sh
-chmod +x /etc/yziact/list-connected-sh
+chmod +x /etc/yziact/send-connected.sh
+chmod +x /etc/yziact/list-connected.sh
+chmod +x /etc/yziact/wifi_up.sh
+chmod +x /etc/yziact/wifi_down.sh
 
 # Et lancement des sh contenus dans /etc/yziact :
 
@@ -141,7 +139,7 @@ echo "++++Mise en place de la programmation wifi"
 DATA=$(sed 's/;/\n/g' /etc/config/prog_wifi) #TODO: faire le passage de on et off a wifi_down et wifi_up
 DATA=$(echo "$DATA" | sed -e 's,on,/bin/bash /etc/yziact/wifi_up.sh,g')
 DATA=$(echo "$DATA" | sed -e 's,off,/bin/bash /etc/yziact/wifi_down.sh,g')
-echo -e "${DATA} */5 * * * * /bin/bash /etc/yziact/test_co-sh_new" >/etc/crontabs/root
+echo -e "${DATA} \n*/5 * * * * /bin/bash /etc/yziact/test_co.sh" >/etc/crontabs/root
 /etc/init.d/cron restart
 
 ###### Attention: si la borne est allume alors que la wifi doit etre eteinte, aucun moyen de savoir qu'on doit l'eteindre
@@ -178,11 +176,14 @@ echo 0 > $LED_BLUE/brightness
 echo 0 > /etc/yziact/test_co_flag #On initialise le flag
 # On lance un ping dans le tunnel, si cela reponds, on allume la led systeme en bleu :
 
-/bin/sh /etc/yziact/test_co-sh_new
+/bin/sh /etc/yziact/test_co.sh
 
 
-/bin/sh /etc/yziact/list-connected-sh /tmp/monitoring/list.mon 1 &
-/bin/sh /etc/yziact/send-connected-sh /tmp/monitoring/list.mon /tmp/monitoring/prev.mon /tmp/monitoring/new.json  /tmp/monitoring/old.json /tmp/monitoring/update.json 1 30 &
+/bin/sh /etc/yziact/list-connected.sh /tmp/monitoring/list.mon 1 &
+/bin/sh /etc/yziact/send-connected.sh /tmp/monitoring/list.mon /tmp/monitoring/prev.mon /tmp/monitoring/new.json  /tmp/monitoring/old.json /tmp/monitoring/update.json 1 30 &
 
+echo "++++Annonce redémarrage"
+
+/usr/bin/wget --no-check-certificate --tries=1 "$API_REBOOT"$(cat /etc/config/token.conf)
 
 echo "++++Fin du demarrage"
