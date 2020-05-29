@@ -52,6 +52,7 @@ class FacebookAuthenticator extends SocialAuthenticator
             $user = new Utilisateur();
             $user->setEmail($facebookUser->getEmail());
             $user->setGoogleAccessToken($facebookUser->getId());
+            $user->setValidation(true);
             //$user->setResponse($googleUser->getHostedDomain());
             // $user->setFullname($googleUser->getName());
             $user->setDateCreation(new \DateTime('now'));
@@ -106,6 +107,6 @@ class FacebookAuthenticator extends SocialAuthenticator
      */
     public function onAuthenticationSuccess(Request $request, \Symfony\Component\Security\Core\Authentication\Token\TokenInterface $token, $providerKey)
     {
-           return new RedirectResponse('/logout');
+           return new RedirectResponse('/connect/facebook/check');
     }
 }
