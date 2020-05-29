@@ -288,9 +288,9 @@ class RegistrationController extends AbstractController
         // On retourne à l'accueil
             return $this->redirectToRoute('/bornes');
         }
-        $this->addFlash('message', 'lien a expiré');
+        //$this->addFlash('message', 'lien a expiré');
         // On retourne à l'accueil
-        return $this->redirect('https://127.0.0.1:8000/logout');
+        return $this->redirect('/erreur404');
     }
     public function jsonLocalisation(){
         $Locs = [];

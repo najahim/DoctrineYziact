@@ -55,7 +55,7 @@ class GoogleController extends AbstractController
             ->findBy(array('adresse_mac'=>$mac));
         //var_dump($device);
         $this->device=$device[0];
-        $this->device->setAdresseMac($request->query->get('mac'));
+        $this->device->setAdresseMac($mac);
         $this->device->setPOs($request->query->get('os'));
         $this->device->setPUseragent($request->query->get('useragent'));
         $this->device->setPType($request->query->get('type'));
@@ -69,7 +69,7 @@ class GoogleController extends AbstractController
         $entityManager->persist($this->device);
         $entityManager->flush();
         $this->id=($request->query->get('mac'));
-        $session->set('id',$request->query->get('mac'));
+        $session->set('id',$mac);
         $session->set('new',$request->query->get('new'));
         return $clientRegistry
             ->getClient('google')
