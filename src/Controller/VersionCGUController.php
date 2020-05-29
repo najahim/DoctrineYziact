@@ -105,11 +105,11 @@ class VersionCGUController extends AbstractController
             //$user=new Utilisateur();
             //$device=$this->getDoctrine()->getRepository('App:Peripherique')
             //    ->findBy(array('adresse_mac'=>$id));
-            $user=$this->getDoctrine()->getRepository('App:Utilisateur')
-                ->find($id);
-
+            $device=$this->getDoctrine()->getRepository('App:Peripherique')
+                ->findBy(array('adresse_mac',$id));
+            $user=$device[0]->getUtilisateur();
             //update Ldap
-        /*    $ldap=Ldap::create('ext_ldap', [
+            $ldap=Ldap::create('ext_ldap', [
                 'host' => 'esisar-test01.123cigale.fr',
                 'port' => '389',
                 //'encryption'=>'ssl',
@@ -122,11 +122,11 @@ class VersionCGUController extends AbstractController
             //var_dump($result);
             $entry = $result[0];
              $arrayCgu= [];
-            array_push($arrayCgu,$version->getId());
+            array_push($arrayCgu,$version[0]->getId());
             $entry->setAttribute('givenName', $arrayCgu);
             $entryManager = $ldap->getEntryManager();
             $entryManager->update($entry);
-        */
+
             $user->setVersionCgu($version[0]);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
