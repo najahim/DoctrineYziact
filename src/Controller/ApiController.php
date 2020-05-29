@@ -398,11 +398,11 @@ class ApiController extends AbstractController
 
                 $zip->addFromString("yziact/cron_wifi.sh",  $this->renderView('api/config_borne/yziact/cron_wifi.sh'));
                 $zip->addFromString("yziact/init",  $this->renderView('api/config_borne/yziact/init'));
-                $zip->addFromString("yziact/list-connected-sh",  $this->renderView('api/config_borne/yziact/list-connected-sh'));
-                $zip->addFromString("yziact/send-connected-sh",  $this->renderView('api/config_borne/yziact/send-connected-sh.twig', [
+                $zip->addFromString("yziact/list-connected.sh",  $this->renderView('api/config_borne/yziact/list-connected.sh'));
+                $zip->addFromString("yziact/send-connected.sh",  $this->renderView('api/config_borne/yziact/send-connected.sh.twig', [
                     'token'=>$borne->getToken(),
                 ]));
-                $zip->addFromString("yziact/test_co-sh_new",  $this->renderView('api/config_borne/yziact/test_co-sh_new'));
+                $zip->addFromString("yziact/test_co.sh",  $this->renderView('api/config_borne/yziact/test_co.sh'));
                 $zip->addFromString("yziact/wifi_down.sh",  $this->renderView('api/config_borne/yziact/wifi_down.sh'));
                 $zip->addFromString("yziact/wifi_up.sh",  $this->renderView('api/config_borne/yziact/wifi_up.sh'));
 
@@ -433,23 +433,24 @@ class ApiController extends AbstractController
      */
     public function reboot_borne($token, Request $request)
     {
+        // persister un état Activation avec pour raison un redémarrage de la borne
         $borne= $this->getDoctrine()->getRepository('App:Borne')->findBy(array('token'=>$token));
 
         if ($borne) {
             $borne = $borne[0];
-            $etat= $this->getDoctrine()->getRepository('App:Etat')->findBy(array('etat'=>'Inactive'));
+            $etat= $this->getDoctrine()->getRepository('App:Etat')->findBy(array('etat'=>'Active'));
             $etat=$etat[0];
             $activation=new Activation();
             $activation->setBorne($borne);
             $activation->setType($etat);
-            $activation->setRaison('redémmarrage de la borne');
+            $activation->setRaison('Redémarrage de la borne');
             $activation->setDate(new \DateTime('now'));
             $borne->setEtat($etat);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($borne);
             $entityManager->persist($activation);
             $entityManager->flush();
-            // persister un état désactivation avec pour raison un redémmarrage de la borne
+
             return $this->render('api/reboot.twig');
         } else {
             return $this->redirectToRoute('erreur404');
