@@ -47,14 +47,13 @@ class VersionCGUController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($version);
             $entityManager->flush();
-                $ldap=Ldap::create('ext_ldap', [
-                'host' => 'esisar-test01.123cigale.fr',
+            $ldap=Ldap::create('ext_ldap', [
+                'host' => 'lane3.123cigale.fr',
                 'port' => '389',
                 //'encryption'=>'ssl',
             ]);
-
-            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
-            $query = $ldap->query('cn=cgu,dc=artica,dc=com', '(objectclass=inetOrgPerson)');
+            $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
+            $query = $ldap->query('cn=cgu,dc=yziact,dc=com', '(objectclass=inetOrgPerson)');
 
             $result = $query->execute();
             //var_dump($result);
@@ -110,12 +109,12 @@ class VersionCGUController extends AbstractController
             $user=$device[0]->getUtilisateur();
             //update Ldap
             $ldap=Ldap::create('ext_ldap', [
-                'host' => 'esisar-test01.123cigale.fr',
+                'host' => 'lane3.123cigale.fr',
                 'port' => '389',
                 //'encryption'=>'ssl',
             ]);
 
-            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+            $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
             $query = $ldap->query('cn='.$id.',dc=artica,dc=com', '(objectclass=inetOrgPerson)');
 
             $result = $query->execute();

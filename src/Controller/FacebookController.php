@@ -122,11 +122,11 @@ class FacebookController extends AbstractController
             $entityManager->flush();
             // Ldap
             $ldap=Ldap::create('ext_ldap', [
-                'host' => 'esisar-test01.123cigale.fr',
+                'host' => 'lane3.123cigale.fr',
                 'port' => '389',
                 //'encryption'=>'ssl',
             ]);
-            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+            $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
             $cn='cn='.$session->get('id').',dc=artica,dc=com';
             $date=new \DateTime('now');
             $date=$date->getTimestamp();

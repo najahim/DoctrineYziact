@@ -172,11 +172,11 @@ class RegistrationController extends AbstractController
 
             // Ldap
             $ldap=Ldap::create('ext_ldap', [
-                'host' => 'esisar-test01.123cigale.fr',
+                'host' => 'lane3.123cigale.fr',
                 'port' => '389',
                 //'encryption'=>'ssl',
             ]);
-            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+            $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
             $cn='cn='.$mac.',dc=artica,dc=com';
             $date=new \DateTime('now');
             $date=$date->getTimestamp();
@@ -268,13 +268,16 @@ class RegistrationController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             //update Ldap
+
             $ldap=Ldap::create('ext_ldap', [
-                'host' => 'esisar-test01.123cigale.fr',
+                'host' => 'lane3.123cigale.fr',
                 'port' => '389',
                 //'encryption'=>'ssl',
             ]);
+            $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
+
+
             $mac=$device[0]->getAdresseMac();
-            $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
             $query = $ldap->query('cn='.$mac.',dc=artica,dc=com', '(objectclass=inetOrgPerson)');
 
             $result = $query->execute();
@@ -363,18 +366,18 @@ class RegistrationController extends AbstractController
             if ($currentUser and $passwordEncoder->isPasswordValid($currentUser[0],$form->get('plainPassword')->getData()))
             {
                 $entityManager = $this->getDoctrine()->getManager();
-               /* $device=$form->get('device')->getData();
+                $device=$form->get('device')->getData();
                 $device->setAdresseMac($idBorne);
                 $device->setUtilisateur($currentUser[0]);
                 $entityManager->persist($device);
                 $entityManager->flush();
                 // Ldap
                 $ldap=Ldap::create('ext_ldap', [
-                    'host' => 'esisar-test01.123cigale.fr',
+                    'host' => 'lane3.123cigale.fr',
                     'port' => '389',
                     //'encryption'=>'ssl',
                 ]);
-                $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+                $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
                 $cn='cn='.$idBorne.',dc=artica,dc=com';
                 $date=new \DateTime('now');
                 $date=$date->getTimestamp();
@@ -386,7 +389,7 @@ class RegistrationController extends AbstractController
                 ));
 
                 $entryManager = $ldap->getEntryManager();
-                //$entryManager->add($entry);*/
+                $entryManager->add($entry);
 
 
                 //
@@ -417,11 +420,11 @@ class RegistrationController extends AbstractController
 
                 // Ldap
                 $ldap=Ldap::create('ext_ldap', [
-                    'host' => 'esisar-test01.123cigale.fr',
+                    'host' => 'lane3.123cigale.fr',
                     'port' => '389',
                     //'encryption'=>'ssl',
                 ]);
-                $ldap->bind('cn=admin,dc=artica,dc=com','azerty');
+                $ldap->bind('cn=admin,dc=yziact,dc=com','c1g@l0uX');
                 $cn='cn='.$mac.',dc=artica,dc=com';
                 $date=new \DateTime('now');
                 $date=$date->getTimestamp();
